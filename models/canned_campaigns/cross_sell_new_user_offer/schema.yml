@@ -1,0 +1,39 @@
+version: 2
+
+models:
+  - name: cross_sell_new_user_offer_ghs
+    config:
+      tags: ["4_hourly"]
+    description: "A model for new user offers in GHS"
+  - name: cross_sell_new_user_offer_ngn
+    config:
+      tags: ["4_hourly"]
+    description: "A model for new user offers in NGN"
+  - name: cross_sell_new_user_offer_tzs
+    config:
+      tags: ["4_hourly"]
+    description: "A model for new user offers in TZS"
+  - name: cross_sell_new_user_offer_usd
+    config:
+      tags: ["4_hourly"]
+    description: "A model for new user offers in USD"
+  - name: cross_sell_new_user_offer_zmw
+    config:
+      tags: ["4_hourly"]
+    description: "A model for new user offers in ZMW"
+  - name: cross_sell_new_user_offer_kes
+    config:
+      tags: ["4_hourly"]
+    description: "A model for new user offers in KES"
+  - name: cross_sell_new_user_offer_rwf
+    config:
+      tags: ["4_hourly"]
+    description: "A model for new user offers in RWF"
+  - name: cross_sell_new_user_offer_ugx
+    config:
+      tags: ["4_hourly"]
+    description: "A model for new user offers in UGX"
+  - name: cross_sell_new_user_offer_zar
+    config:
+      tags: ["4_hourly"]
+    description: "A model for new user offers in ZAR"

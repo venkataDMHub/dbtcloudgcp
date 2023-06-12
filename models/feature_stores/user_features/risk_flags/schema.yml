@@ -1,0 +1,24 @@
+version: 2
+
+models:
+  - name: risk_flags
+    config:
+      tags: ['hourly']
+    description: "A centralized table for flags that indicate fraudulant or risky users"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - not_null
+          
+      - name: risk_type
+        description: "the type of the risk a fraudulant/risky user is identified with"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["REFERRAL", "DEVICE", "LRC_BLOCKING","LRC_BAD_ASSETS", "NYSM", "TRANSACTION_FRAUD_ACTIVITIES"]
+
+      - name: risk_reason
+        description: "the exact reason a fraudulant/risky user is flagged for"
+        tests:
+          - not_null

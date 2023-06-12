@@ -1,0 +1,41 @@
+version: 2
+
+models:
+  - name: uvs_timing_feature_quantiles
+    description: "A transformation to precompute quantile based statistics for timing features for User Verification Scoring model. Statistics will be used for feature standardization "
+    columns:
+      - name: os
+        description: "Operating system"  
+        tests:
+          - accepted_values:
+              values: ["Android", "iOS"]
+
+      - name: app_version
+        description: "App version of chipper app"  
+
+      - name: onboarding_time_sec_25_percentile
+        description: "The value for 25th percentile of users onboarding time for the specific combination of os and app version"
+
+      - name: onboarding_time_sec_50_percentile
+        description: "The value for 50th percentile of users onboarding time for the specific combination of os and app version"
+
+      - name: onboarding_time_sec_75_percentile
+        description: "The value for 75th percentile of users onboarding time for the specific combination of os and app version"
+
+      - name: time_creation_to_first_kyc_submission_25_percentile
+        description: "The value for 25th percentile of time from users creation to the first kyc submission timestamp for the specific combination of os and app version"
+
+      - name: time_creation_to_first_kyc_submission_50_percentile
+        description: "The value for 50th percentile of time from users creation to the first kyc submission timestamp for the specific combination of os and app version"
+
+      - name: time_creation_to_first_kyc_submission_75_percentile
+        description: "The value for 75th percentile of time from users creation to the first kyc submission timestamp for the specific combination of os and app version"
+
+      - name: time_creation_to_verified_sec_25_percentile
+        description: "The value for 25th percentile of time from users creation to the tier 2 verified timestamp for the specific combination of os and app version"
+
+      - name: time_creation_to_verified_sec_50_percentile
+        description: "The value for 50th percentile of time from users creation to the tier 2 verified timestamp for the specific combination of os and app version"
+
+      - name: time_creation_to_verified_sec_75_percentile
+        description: "The value for 75th percentile of time from users creation to the tier 2 verified timestamp for the specific combination of os and app version"

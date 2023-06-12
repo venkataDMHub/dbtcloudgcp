@@ -1,0 +1,151 @@
+version: 2
+
+models:
+    - name: time_filtered_settled_transfers
+      config:
+        tags: ['daily']
+      description: "All settled referrals from the last 6 months. The idea is to keep this flexible so that we can change the time frame with minimal impact on modeling the User Engagment Score"
+
+    - name: ues_transaction_aggregates
+      config:
+        tags: ['daily']
+      description: "User Engagment features from the transaction activity of the user. "
+      columns: 
+      - name: user_id 
+        description: "user_id of the user"
+        tests: 
+          - unique 
+          - not_null 
+
+      - name: purchases_transaction_count
+        description: 'Total number of transactions that were Purchases. The _purchases_ product line consists of transfers of the type airtime purchases, data bundles and bill payments'
+
+      - name: purchases_transaction_value_in_usd
+        description: 'The sum of the absolute value of all transactions that were Purchases. The _purchases_ product line consists of transfers of the type airtime purchases, data bundles and bill payments'
+
+      - name: investments_transaction_count
+        description: 'Total number of transactions that were Investments. The _Investments_ product line consists of transfers of the type asset trades and stocks'
+
+      - name: investments_transaction_value_in_usd
+        description: 'The sum of the absolute value of all transactions that were Investments. The _Investments_ product line consists of transfers of the type asset trades and stocks'
+
+      - name: p2p_transaction_count
+        description: 'Total number of transactions that were P2P Payments. The _P2P Payments_ product line consists of transfers of the type p2p payments, requests and payment invitations completed.' 
+
+      - name: p2p_transaction_value_in_usd
+        description: 'The sum of the absolute value of all transactions that were _P2P Payments_. The _P2P Payments_ product line consists of transfers of the type p2p payments, requests and payment invitations completed.'
+
+      - name: deposits_transaction_count
+        description: 'Total number of transactions that were Deposits.'
+
+      - name: deposits_transaction_value_in_usd
+        description: 'The sum of the absolute value of all transactions that were Deposits.'
+
+    
+    - name: ues_user_transaction_timings
+      config:
+        tags: ['daily']
+      description: "User transaction timing related features for the modeling of User Engagement Score."
+      columns: 
+        - name: user_id 
+          description: "user_id of the user"
+          tests: 
+            - unique 
+            - not_null       
+
+        - name: user_kyc_tier 
+          description: "kyc_tier of the user"
+          tests:
+            - accepted_values:
+                values: ["TIER_0", "TIER_1", "TIER_2", "TIER_3", "UNVERIFIED"]         
+
+        - name: days_since_last_transfer
+          description: "Days since the user made a transfer. For user who never made any transaction will have a value of -1"
+
+        - name: days_since_last_purchases
+          description: "Days since the user made a purchase. For user who never made any purchase will have a value of -1"
+
+        - name: days_since_last_p2p
+          description: "Days since the user made a p2p payment. For user who never made any p2p payment will have a value of -1"
+
+        - name: days_since_last_investments
+          description: "Days since the user made a investment. For user who never made any investment will have a value of -1"
+
+        - name: days_since_last_deposits
+          description: "Days since the user made a deposit. For user who never made any deposit will have a value of -1"
+                              
+        - name: account_age_in_days
+          description: "Age of the user's account in days"
+          tests:
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+          
+
+    - name: ues_amp_features
+      config:
+        tags: ['daily']
+      description: "Amplitude features for the modeling of User Engagement Score"
+      columns: 
+        - name: user_id 
+          description: "user_id of the user"
+          tests: 
+            - unique 
+            - not_null 
+
+        - name: investments_amp_count
+          description: "Total number of events a user click to view the page of crypto prices and stocks prices"
+
+
+    - name: ues_latest_bucket
+      config:
+        tags: ['daily']
+      description: "Users latest updated engagement buckets and scores"
+      columns: 
+        - name: user_id 
+          description: "user_id of the user"
+          tests: 
+            - unique 
+            - not_null 
+
+        - name: last_bucket
+          description: "Lastest user engagement bucket"
+
+        - name: last_score
+          description: "Lastest user engagement score"
+          tests:
+            - dbt_expectations.expect_column_values_to_be_between:
+                min_value: 0
+                max_value: 1
+        
+        - name: updated_at
+          description: "The timestamp of the latest ues update in the database"
+
+
+    - name: ues_most_recent_transaction_by_product
+      config:
+        tags: ['daily']
+      description: "Users most recent transfer for each product line"
+      columns:
+        - name: user_id 
+          description: "user_id of the user"
+          tests: 
+            - unique 
+            - not_null 
+
+        - name: days_since_last_purchases
+          description: "Days since the user made a purchase. For user who never made any purchase will have a null value"
+
+        - name: days_since_last_p2p
+          description: "Days since the user made a p2p payment. For user who never made any p2p payment will have a null value"
+
+        - name: days_since_last_investments
+          description: "Days since the user made a investment. For user who never made any investment will have a null value"
+
+        - name: days_since_last_deposits
+          description: "Days since the user made a deposit. For user who never made any deposit will have a null value"
+
+
+    - name: ues_v3_all_features 
+      config:
+        tags: ['daily']
+      description: "All factors for calculating the User Engagment Score (V3). The table is essentially a join of the ues_user_behavior_features, ues_transaction_features and ues_amp_features with an additioanl column is_active to indicate whether the user is active in the time horizon."

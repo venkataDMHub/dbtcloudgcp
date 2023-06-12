@@ -1,0 +1,106 @@
+version: 2
+
+models:
+  - name: kyc_flags
+    config:
+      tags: ['4_hourly']
+    description: "A centralized table for KYC issue analysis within LRC" 
+    columns:
+      - name: user_id
+        description: "user id of the user"
+
+      - name: user_first_name
+        description: "user first name"
+
+      - name: user_last_name
+        description: "user last name"
+
+      - name: account_open_date
+        description: "date the user is acquired"  
+
+      - name: user_primary_currency
+        description: "primary currency of the user" 
+
+      - name: user_tag
+        description: "user tag or user name" 
+
+      - name: user_kyc_tier
+        description: "KYC verification status of the user"
+        tests:
+          - accepted_values:
+              values: ["TIER_0", "TIER_1", "TIER_2", "TIER_3"]
+
+      - name: is_valid_user
+        description: "boolean flag indicating whether the user is a valid user or not"
+
+      - name: is_blocked_by_flag
+        description: "boolean flag indicating whether the user is flagged by LRC"  
+
+      - name: user_dob
+        description: "exact date of birth of the user"
+
+      - name: user_age
+        description: "age of the user"
+
+      - name: user_birth_country
+        description: "birth country of the user"
+
+      - name: user_last_txn_date
+        description: "last transaction date of user" 
+
+      - name: user_street
+        description: "street address of the user"
+
+      - name: blank_info_address
+        description: "indicates the user_street data is blank"
+
+      - name: pii_data_source
+        description: "source of kyc data: i.e. self or external provider"
+
+      - name: user_change_dob_mismatch
+        description: "indicates that other kyc tables have mismatched dob"
+
+      - name: dob_error
+        description: "indicates if dob is invalid"
+
+      - name: blank_info_birthplace
+        description: "country of birth data is blank"
+
+      - name: gibberish_flag
+        description: "indicates the user name may be invalid i.e. blank, special characters"
+
+      - name: latest_fiat_balance_usd
+        description: "user's most recent fiat balance in usd"
+
+      - name: latest_crypto_wallet_balance_usd
+        description: "user's last crypto balance in usd"
+
+      - name: latest_stock_balance_usd
+        description: "user's latest stock balance in usd"
+
+      - name: latest_card_balance_usd
+        description: "user's latest card balance in usd" 
+
+      - name: total_user_balance
+        description: "sum of fiat, crypto, stock, and card balance in usd"
+
+      - name: months_since_last_txn
+        description: "number of months since last activity"
+
+      - name: activity_status
+        description: "range of less than 6 months, 6-12 months, or more than 12 months since activity"
+
+      - name: balance_status_usd
+        description: "indicates whether total user balance is zero, negative, <=$5, or $5<"
+
+      - name: uos_fake_name_generator
+        description: "indicates if user is flag in fake name generator"       
+
+      - name: sequenced_tags
+        description: "indicates whether user created user tags with similar names or in sequence"
+
+      - name: tier_2_flutterwave_verification
+        description: "subjected to tier 2 verification by flutterwave"
+
+      - name: total_lpv_usd
+        description: "lifetime amount (USD) that has been processed for each user"    

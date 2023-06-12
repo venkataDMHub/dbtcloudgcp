@@ -1,0 +1,17 @@
+[sqlfluff]
+dialect = snowflake
+template = dbt
+; Rule 31 is about disabling aliasing in FROM, but it does not work well.
+; Rule 43 converts simple CASE..WHEN statements to a NOT COALESCE statement. This was harder to read + changes the core SQL
+exclude_rules = L031, L043
+
+[sqlfluff:rules]
+tab_space_size = 4
+max_line_length = 100
+indent_unit = space
+
+# dbt template
+[sqlfluff:templater:dbt]
+project_dir = /workspace/ChipperIntelligence/dbt
+profiles_dir = /workspace/ChipperIntelligence/dbt
+profile = /workspace/ChipperIntelligence/dbt/profiles.yml

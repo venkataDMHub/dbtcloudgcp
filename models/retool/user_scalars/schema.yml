@@ -1,0 +1,129 @@
+version: 2
+
+models:
+  - name: user_scalars
+    config:
+      tags: ['4_hourly']
+    description: "Consolidated scalar values returned for user-level investigation"
+    columns:
+      - name: user_id
+        description: "Chipper user UUID"
+        tests:
+          - not_null
+
+      - name: avatar
+        description: ""
+
+      - name: display_first_name
+        description: ""
+
+      - name: display_last_name
+        description: ""
+
+      - name: legal_first_name
+        description: ""
+
+      - name: legal_last_name
+        description: ""
+
+      - name: is_admin
+        description: ""
+
+      - name: primary_currency
+        description: ""
+
+      - name: acquisition_source
+        description: ""
+
+      - name: kyc_tier
+        description: ""
+
+      - name: pin
+        description: ""
+
+      - name: created_at
+        description: ""
+
+      - name: updated_at
+        description: ""
+
+      - name: tag
+        description: ""
+
+      - name: phone_number
+        description: ""
+
+      - name: email_address
+        description: ""
+
+      - name: is_internal
+        description: ""
+
+      - name: is_deleted
+        description: ""
+
+      - name: is_business
+        description: ""
+
+      - name: invalid_user_reasons
+        description: ""
+
+      - name: flag
+        description: ""
+
+      - name: all_active_flags
+        description: ""
+
+      - name: num_flags
+        description: ""
+
+      - name: is_valid_user
+        description: ""
+
+      - name: is_blocked_by_flag
+        description: ""
+
+      - name: has_risk_flag
+        description: ""
+
+      - name: business_name
+        description: ""
+
+      - name: doing_business_as
+        description: ""
+
+      - name: business_country
+        description: ""
+
+      - name: industry
+        description: ""
+
+      - name: business_registration_status
+        description: ""
+
+      - name: business_registration_type
+        description: ""
+
+      - name: chipper_business_account_status
+        description: ""
+
+      - name: num_of_chipper_devices
+        description: ""
+
+      - name: num_of_ip_addresses
+        description: ""
+
+      - name: num_of_devices
+        description: ""
+
+      - name: num_of_payment_methods
+        description: ""
+
+      - name: num_of_email_identifiers
+        description: ""
+
+      - name: num_of_phone_identifiers
+        description: ""
+
+      - name: num_of_referrals
+        description: ""

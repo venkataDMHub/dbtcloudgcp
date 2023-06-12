@@ -1,0 +1,19 @@
+# connecting to chipper's snowflake
+default:
+  target: slots
+  outputs:
+    ondemand:
+      type: bigquery
+      method: service-account
+      project: dbt-on-demand-test
+      dataset: dbt_transformations
+      threads: 8
+      keyfile: "{{ env_var('DBT_BQ_ONDEMAND_KEYFILE') }}"
+
+    slots:
+      type: bigquery
+      method: service-account
+      project: dbt-capacity-slots-test
+      dataset: dbt_transformations
+      threads: 8
+      keyfile: "{{ env_var('DBT_BQ_SLOTS_KEYFILE') }}"

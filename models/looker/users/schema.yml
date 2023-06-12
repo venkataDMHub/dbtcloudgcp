@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: monthly_user_balances
+    config:
+      tags: ['4_hourly']
+    description: "Calculates each user's balances at the beginning of the month"
+    columns:
+      - name: ledger_entry_id
+        description: "Primary Key (id) from the ledger entries table"
+
+      - name: beginning_of_month
+        description: "Month"    
+
+      - name: Total_BoM_Balance_in_USD
+        description: "The total sum of all ledger activity up to the first day of the month "  
+
+  - name: quarterly_user_balances
+    config:
+      tags: ['4_hourly']
+    description: "Calculates each user's balances at the beginning of each quarter"
+    columns:
+      - name: ledger_entry_id
+        description: "Primary Key (id) from the ledger entries table"
+
+      - name: quarter
+        description: "Querter" 
+
+      - name: beginning_of_quarter
+        description: "quarter"    
+
+      - name: Total_BoQ_Balance_in_USD
+        description: "The total sum of all ledger activity up to the first day of the quarter"  
+
+  - name: discounted_users
+    config:
+      tags: ['4_hourly']
+    description: "Aggregates all the reasons a user may be discounted with the flag reason. Can be multiple rows per users if they have multiple flags"
+    columns:
+      - name: user_id
+        description: "Distinct id to identify the user"
+
+      - name: discount_category
+        description: "The category decribing why a user is discounted"
+      
+      - name: flag_reason
+        description: "The specific reason a user is discounted"
+

@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: cross_sell_ngn_airtime
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: cross_sell_ugx_airtime
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"

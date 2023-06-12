@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: alert_data_points
+    config:
+      tags: ['4_hourly']
+    description: "All users with their profile info accepted/ requested by LRC on Hummingbird"
+    columns:
+      - name: legal_name
+        description: "legal name of the user"
+
+      - name: user_id
+        description: "User id of the user"
+        tests:
+          - not_null
+
+      - name: date_created_at
+        description: "User account creation date"
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+
+      - name: issuing_state
+        description: "KYC doc - Issuing state"
+
+      - name: user_creation_time
+        description: "User creation time"
+
+      - name: first_ip_address
+        description: "First IP address of the user on the App"
+
+      - name: date_of_birth
+        description: "Date of Birth of the user"
+
+      - name: phone_number
+        description: "phone number of the User"
+
+      - name: email
+        description: "Email of the User"
+
+      - name: doc_expiration_date
+        description: "KYC doc expiration date"
+
+      - name: Doc_number
+        description: "doc number of the kyc doc"
+
+      - name: doc_type
+        description: "Doc type of the KYC doc submitted by the User"
+
+      - name: issuing _country
+        description: "issuing country of the kyc doc"
+
+      - name: doc_issued_on
+        description: "Doc issued on date"
+
+      - name: doc_url
+        description: "URL of the kyc doc submitted"
+
+      - name: ownership_proof_url
+        description: "Link to the selfie"
+
+      - name: location_at_registration_time
+        description: "Location of the user during registration/onboarding"
+
+      - name: user_tier
+        description: "KYC tier of the user"
+
+
+
+
+
+
+
+

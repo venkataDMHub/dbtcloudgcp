@@ -1,0 +1,567 @@
+version: 2
+
+models:
+  - name: expanded_users
+    config:
+      tags: ['hourly']
+    description: "User table appended with additional info about the user"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+ 
+      - name: display_first_name
+        description: "first name of the user from the user table"
+        tests:
+          - not_null
+
+      - name: display_last_name
+        description: "last name of the user from the user table"
+        tests:
+          - not_null
+
+      - name: legal_first_name
+        description: "first name of the user from user_info table"
+
+      - name: legal_last_name
+        description: "last name of the user from user_info table"
+
+      - name: is_admin
+        description: "boolena flag indicating whether the user is an admin"
+
+      - name: primary_currency
+        description: "primary currency of the user"
+        tests:
+          - not_null
+
+      - name: acquisition_source
+        description: "acquisition source of the user"
+        tests:
+          - not_null
+
+      - name: kyc_tier
+        description: "KYC Verification status of the user"        
+        tests:
+          - accepted_values:
+              values: ["TIER_0", "TIER_1", "TIER_2", "TIER_3", "UNVERIFIED"]
+
+      - name: pin
+        description: "pin of the user"
+
+      - name: created_at
+        description: "Timestamp indicating when the user was created at"
+        tests:
+          - not_null
+
+      - name: updated_at
+        description: "Timestamp indicating when the user was last updated at"
+        tests:
+          - not_null
+
+      - name: phone_number
+        description: "User's latest phone number"
+
+      - name: email_address
+        description: "User's latest email address"
+
+      - name: tag
+        description: "Chipper tag of the user"
+
+      - name: is_internal
+        description: "Boolean flag indicating whether the user is an internal user"
+        tests:
+          - not_null
+
+      - name: is_deleted
+        description: "Boolean flag indicating whether the user is deleted"
+        tests:
+          - not_null
+
+      - name: is_business
+        description: "Boolean flag indicating whether the user is a business user"
+        tests:
+          - not_null
+
+      - name: is_valid_user
+        description: "Boolean flag indicating whether the user is a valid user or not"
+        tests:
+          - not_null
+
+      - name: invalid_user_reasons
+        description: "Concatenated list of all the reasons why the user is invalid. This is null for valid users"
+
+      - name: all_active_flags
+        description: "List of all active flags on the user"
+
+      - name: num_flags
+        description: "The number of active flags on the user"
+
+  - name: user_lifetime_processed_volume
+    config:
+      tags: ['daily']
+    description: "aggregated the lifetime processed volume and total transfers for each user over the course of their chipper tenure"
+    columns:
+      - name: USER_ID
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: is_business
+        description: "Boolean for whether or not the user is a known business user"
+
+      - name: IS_VALID_USER
+        description: "Boolean for whether or not the user is excluded from growth metrics"
+
+      - name: TOTAL_AIRTIME_PURCHASES_USD
+        description: "Total amount (USD) of airtime purchased by a user throughout their Chipper tenure."
+
+      - name: TOTAL_ASSET_TRADES_BUY_USD
+        description: "Total amount (USD) of crypto purchased by a user throughout their Chipper tenure."
+
+      - name: TOTAL_ASSET_TRADES_SELL_USD
+        description: "Total amount (USD) of crypto sold by a user throughout their Chipper tenure."
+
+      - name: TOTAL_B2C_RECEIVED_USD
+        description: "Total amount (USD) received by a customer from a business throughout their Chipper tenure."
+
+      - name: TOTAL_B2C_SENT_USD
+        description: "Total amount (USD) sent by a business user to their customer throughout their Chipper tenure."
+
+      - name: TOTAL_BILL_PAYMENTS_USD
+        description: "Total amount (USD) used to pay bills by a user throughout their Chipper tenure."
+
+      - name: TOTAL_C2B_RECEIVED_USD
+        description: "Total amount (USD) received by a business from a customer throughout their Chipper tenure."
+
+      - name: TOTAL_C2B_SENT_USD
+        description: "Total amount (USD) sent by a customer to a business throughout their Chipper tenure."
+
+      - name: TOTAL_CHIPPER_REWARDS_PAYOUT_USD
+        description: "Any amount(USD) a user received from Chipper promotions (includes rewards, referral payouts, reimbursements, etc.)."
+
+      - name: TOTAL_CRYPTO_DEPOSITS_USD
+        description: "Total amount (USD) deposited by a user into their crypto wallet throughout their Chipper tenure."
+
+      - name: TOTAL_CRYPTO_WITHDRAWALS_USD
+        description: "Total amount (USD) withdrawn by a user from their crypto wallet throughout their Chipper tenure."
+
+      - name: TOTAL_DATA_PURCHASES_USD
+        description: "Total amount (USD) used to purchase data by a user throughout their Chipper tenure."
+
+      - name: + TOTAL_DEPOSITS_USD
+        description: "Total amount (USD) deposited by a user into their fiat wallet throughout their Chipper tenure."
+
+      - name: TOTAL_ISSUED_CARD_TRANSACTIONS_FUNDING_USD
+        description: "Total amount (USD) moved by a user onto their Chipper debit card throughout their Chipper tenure."
+
+      - name: TOTAL_ISSUED_CARD_TRANSACTIONS_WITHDRAWAL_USD
+        description: "Total amount (USD) removed by a user from their Chipper debit card throughout their Chipper tenure."
+
+      - name: TOTAL_P2P_RECEIVED_CROSS_BORDER_USD
+        description: "Total amount (USD) received by a user from someone in another country throughout their Chipper tenure."
+
+      - name: TOTAL_P2P_RECEIVED_LOCAL_USD
+        description: "Total amount (USD) received by a user from someone in the same country throughout their Chipper tenure."
+
+      - name: TOTAL_P2P_SENT_CROSS_BORDER_USD
+        description: "Total amount (USD) sent by a user to someone in another country throughout their Chipper tenure."
+
+      - name: TOTAL_P2P_SENT_LOCAL_USD
+        description: "Total amount (USD) sent by a user to someone in the same country throughout their Chipper tenure."
+
+      - name: TOTAL_STOCK_TRADES_BUY_USD
+        description: "Total amount (USD) of stocks purchased by a user throughout their Chipper tenure."
+
+      - name: TOTAL_STOCK_TRADES_DIV_USD
+        description: "Total amount (USD) of stock dividends received by a user throughout their Chipper tenure."
+
+      - name: TOTAL_STOCK_TRADES_DIVTAX_USD
+        description: "Total amount (USD) used to pay stock dividend taxes by a user throughout their Chipper tenure."
+
+      - name: TOTAL_STOCK_TRADES_SELL_USD
+        description: "Total amount (USD) of stocks sold by a user throughout their Chipper tenure."
+
+      - name: TOTAL_WITHDRAWALS_USD
+        description: "Total amount (USD) withdrawn by a user from their fiat wallet throughout their Chipper tenure."
+
+      - name: TOTAL_AIRTIME_PURCHASES_TRANSFERS
+        description: "Total number of transfers by a user to buying airtime throughout their Chipper tenure."
+
+      - name: TOTAL_ASSET_TRADES_BUY_TRANSFERS
+        description: "Total number of transfers by a user to buy crypto throughout their Chipper tenure."
+
+      - name: TOTAL_ASSET_TRADES_SELL_TRANSFERS
+        description: "Total number of transfers by a user to sell crypto throughout their Chipper tenure."
+
+      - name: TOTAL_B2C_RECEIVED_TRANSFERS
+        description: "Total number of transfers where money was received by a customer from a business throughout their Chipper tenure."
+
+      - name: TOTAL_B2C_SENT_TRANSFERS
+        description: "Total number of transfers where money was sent by a business user to their customer throughout their Chipper tenure."
+
+      - name: TOTAL_BILL_PAYMENTS_TRANSFERS
+        description: "Total number of transfers by a user to pay bills throughout their Chipper tenure."
+
+      - name: TOTAL_C2B_RECEIVED_TRANSFERS
+        description: "Total number of transfers where money was received by a business from their customer throughout their Chipper tenure."
+
+      - name: TOTAL_C2B_SENT_TRANSFERS
+        description: "Total number of transfers where money was sent by a customer to a business throughout their Chipper tenure."
+
+      - name: TOTAL_CHIPPER_REWARDS_PAYOUT_TRANSFERS
+        description: "All transfers a user received from Chipper promotions (includes rewards, referral payouts, reimbursements, etc.)."
+
+      - name: TOTAL_CRYPTO_DEPOSITS_TRANSFERS
+        description: "Total number of transfers where a user deposits money into their crypto wallet throughout their Chipper tenure."
+
+      - name: TOTAL_CRYPTO_WITHDRAWALS_TRANSFERS
+        description: "Total number of transfers where a user withdraws money from their crypto wallet throughout their Chipper tenure."
+
+      - name: TOTAL_DATA_PURCHASES_TRANSFERS
+        description: "Total number of transfers by a user to purchase data throughout their Chipper tenure."
+
+      - name: TOTAL_DEPOSITS_TRANSFERS
+        description: "Total number of transfers by a user to deposit money into their fiat wallet throughout their Chipper tenure."
+
+      - name: TOTAL_ISSUED_CARD_TRANSACTIONS_FUNDING_TRANSFERS
+        description: "Total number of transfers by a user to move money onto their Chipper debit card throughout their Chipper tenure."
+
+      - name: TOTAL_ISSUED_CARD_TRANSACTIONS_WITHDRAWAL_TRANSFERS
+        description: "Total number of transfers by a user to remove money from their Chipper debit card throughout their Chipper tenure."
+
+      - name: TOTAL_P2P_RECEIVED_CROSS_BORDER_TRANSFERS
+        description: "Total number of transfers by a user to receive money from someone in another country throughout their Chipper tenure."
+
+      - name: TOTAL_P2P_RECEIVED_LOCAL_TRANSFERS
+        description: "Total number of transfers by a user to receive money from someone in the same country throughout their Chipper tenure."
+
+      - name: TOTAL_P2P_SENT_CROSS_BORDER_TRANSFERS
+        description: "Total number of transfers by a user to send money to someone in another country throughout their Chipper tenure."
+
+      - name: TOTAL_P2P_SENT_LOCAL_TRANSFERS
+        description: "Total number of transfers by a user to send money to someone in the same country throughout their Chipper tenure."
+
+      - name: TOTAL_STOCK_TRADES_BUY_TRANSFERS
+        description: "Total number of transfers by a user to buy stock throughout their Chipper tenure."
+
+      - name: TOTAL_STOCK_TRADES_DIV_TRANSFERS
+        description: "Total number of transfers receiving stock dividends throughout their Chipper tenure."
+
+      - name: TOTAL_STOCK_TRADES_DIVTAX_TRANSFERS
+        description: "Total number of transfers paying stock dividends throughout their Chipper tenure."
+
+      - name: TOTAL_STOCK_TRADES_SELL_TRANSFERS
+        description: "Total number of transfers by a user to sell stock throughout their Chipper tenure."
+
+      - name: TOTAL_WITHDRAWALS_TRANSFERS
+        description: "Total number of transfers where a user withdraws money from their fiat wallet throughout their Chipper tenure."
+
+      - name: TOTAL_LPV_USD
+        description: "The lifetime amount (USD) that has been processed for each user"
+
+      - name: TOTAL_LIFETIME_TRANSFERS
+        description: "The total number of transfers involving each user"
+
+  - name: user_lpv_groups
+    config:
+      tags: ['daily']
+    description: "calculates LPV quantiles and assigns users to LPV groups"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: TOTAL_LPV_USD
+        description: "users lifetime processed volume in USDr"
+        tests:
+          - not_null
+
+      - name: PERCENT_LPV_FROM_REWARDS
+        description: "pecernt of lifetime processed volume generated via Chipper rewards payouts"
+        tests:
+          - not_null
+          - dbt_utils.expression_is_true:
+              expression: ">= 0"
+          - dbt_utils.expression_is_true:
+              expression: "<= 100"
+
+      - name: LPV_GROUP
+        description: "Grouping of users based on the distribution of LPV"
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                [
+                  "Non-activated User",
+                  "Slight Outlier",
+                  "Tier_0 User",
+                  "Middle Base",
+                  "Outlier Base",
+                  "Invalid User",
+                  "Top User",
+                  "Low Value",
+                  High Base,
+                ]
+
+      - name: LPV_RANGE_MIN
+        description: "The minimum LPV for a users in the given LPV group"
+        tests:
+          - not_null
+
+      - name: LPV_RANGE_MAX
+        description: "The minimum LPV for a users in the given LPV group"
+        tests:
+          - not_null
+
+  - name: latest_wallet_balances_usd
+    config:
+      tags: ['hourly']
+    
+    description: "A centralized table for users most recent crypto and fiat wallet balances in USD."
+    columns:
+      - name: USER_ID
+        description: "user_id of the user"
+        tests:
+          - not_null
+
+      - name: LATEST_NGN_BALANCE_USD
+        description: "Total current balance in USD for the user's NGN wallet"
+
+      - name: LATEST_GBP_BALANCE_USD
+        description: "Total current balance in USD for the user's GBP wallet"
+
+      - name: LATEST_UGX_BALANCE_USD
+        description: "Total current balance in USD for the user's UGX wallet"
+
+      - name: LATEST_EUR_BALANCE_USD
+        description: "Total current balance in USD for the user's EUR wallet"
+
+      - name: LATEST_MWK_BALANCE_USD
+        description: "Total current balance in USD for the user's MWK wallet"
+
+      - name: LATEST_MATIC_BALANCE_USD
+        description: "Total current balance in USD for the user's MATIC wallet"         
+
+      - name: LATEST_ADA_BALANCE_USD
+        description: "Total current balance in USD for the user's ADA wallet"
+
+      - name: LATEST_SOL_BALANCE_USD
+        description: "Total current balance in USD for the user's SOL wallet"
+
+      - name: LATEST_GHS_BALANCE_USD
+        description: "Total current balance in USD for the user's GHS wallet"
+
+      - name: LATEST_RWF_BALANCE_USD
+        description: "Total current balance in USD for the user's RWF wallet"
+
+      - name: LATEST_TZS_BALANCE_USD
+        description: "Total current balance in USD for the user's TZS wallet"
+
+      - name: LATEST_ETB_BALANCE_USD
+        description: "Total current balance in USD for the user's ETB wallet"
+
+      - name: LATEST_ETH_BALANCE_USD
+        description: "Total current balance in USD for the user's ETH wallet"
+
+      - name: LATEST_KES_BALANCE_USD
+        description: "Total current balance in USD for the user's KES wallet"         
+
+      - name: LATEST_XOF_BALANCE_USD
+        description: "Total current balance in USD for the user's XOF wallet"
+
+      - name: LATEST_ZMW_BALANCE_USD
+        description: "Total current balance in USD for the user's ZMW wallet"
+
+      - name: LATEST_DOGE_BALANCE_USD
+        description: "Total current balance in USD for the user's DOGE wallet"
+
+      - name: LATEST_ZAR_BALANCE_USD
+        description: "Total current balance in USD for the user's ZAR wallet"
+
+      - name: LATEST_AVAX_BALANCE_USD
+        description: "Total current balance in USD for the user's AVAX wallet"
+
+      - name: LATEST_LUNA_BALANCE_USD
+        description: "Total current balance in USD for the user's LUNA wallet"
+
+      - name: LATEST_BTC_BALANCE_USD
+        description: "Total current balance in USD for the user's BTC wallet"                        
+
+      - name: LATEST_USD_BALANCE_USD
+        description: "Total current balance in USD for the user's USD wallet"
+
+      - name: LATEST_USDC_BALANCE_USD
+        description: "Total current balance in USD for the user's USDC wallet"
+
+      - name: LATEST_DOT_BALANCE_USD
+        description: "Total current balance in USD for the user's DOT wallet"        
+
+      - name: LATEST_SLL_BALANCE_USD
+        description: "Total current balance in USD for the user's SLL wallet"
+
+      - name: TOTAL_BALANCE_USD
+        description: "The Total current balance in USD across all of a user's wallets"
+
+      - name: TOTAL_FIAT_BALANCE_USD
+        description:  "The Total current balance in USD across all of a user's fiat wallets"      
+
+      - name: TOTAL_CRYPTO_BALANCE_USD
+        description:  "The Total current balance in USD across all of a user's crypto wallets"
+
+  - name: latest_wallet_balances_local
+    config:
+      tags: ['hourly']
+    description: "A centralized table for users most recent crypto and fiat wallet balances in the local currency."
+    columns:
+      - name: USER_ID
+        description: "user_id of the user"
+        tests:
+          - not_null
+
+      - name: LATEST_NGN_BALANCE
+        description: "Total current balance in NGN for the user's NGN wallet"
+
+      - name: LATEST_GBP_BALANCE
+        description: "Total current balance in GBP for the user's GBP wallet"
+
+      - name: LATEST_UGX_BALANCE
+        description: "Total current balance in UGX for the user's UGX wallet"
+
+      - name: LATEST_EUR_BALANCE
+        description: "Total current balance in EUR for the user's EUR wallet"
+
+      - name: LATEST_MWK_BALANCE
+        description: "Total current balance in MWK for the user's MWK wallet"
+
+      - name: LATEST_MATIC_BALANCE
+        description: "Total current balance for the user's MATIC wallet"         
+
+      - name: LATEST_ADA_BALANCE
+        description: "Total current balance for the user's ADA wallet"
+
+      - name: LATEST_SOL_BALANCE
+        description: "Total current balance for the user's SOL wallet"
+
+      - name: LATEST_GHS_BALANCE
+        description: "Total current balance in GHS for the user's GHS wallet"
+
+      - name: LATEST_RWF_BALANCE
+        description: "Total current balance in RWF for the user's RWF wallet"
+
+      - name: LATEST_TZS_BALANCE
+        description: "Total current balance in TZS for the user's TZS wallet"
+
+      - name: LATEST_ETB_BALANCE
+        description: "Total current balance for the user's ETB wallet"
+
+      - name: LATEST_ETH_BALANCE
+        description: "Total current balance for the user's ETH wallet"
+
+      - name: LATEST_KES_BALANCE
+        description: "Total current balance in KES for the user's KES wallet"         
+
+      - name: LATEST_XOF_BALANCE
+        description: "Total current balance in XOF for the user's XOF wallet"
+
+      - name: LATEST_ZMW_BALANCE
+        description: "Total current balance in ZMW for the user's ZMW wallet"
+
+      - name: LATEST_DOGE_BALANCE
+        description: "Total current balance for the user's DOGE wallet"
+
+      - name: LATEST_ZAR_BALANCE
+        description: "Total current balance in ZAR for the user's ZAR wallet"
+
+      - name: LATEST_AVAX_BALANCE
+        description: "Total current balance for the user's AVAX wallet"
+
+      - name: LATEST_LUNA_BALANCE
+        description: "Total current balance for the user's LUNA wallet"
+
+      - name: LATEST_BTC_BALANCE
+        description: "Total current balance for the user's BTC wallet"                        
+
+      - name: LATEST_USD_BALANCE
+        description: "Total current balance in USD for the user's USD wallet"
+
+      - name: LATEST_USDC_BALANCE
+        description: "Total current balance for the user's USDC wallet"
+
+      - name: LATEST_DOT_BALANCE
+        description: "Total current balance for the user's DOT wallet"        
+
+      - name: LATEST_SLL_BALANCE
+        description: "Total current balance in SLL for the user's SLL wallet"
+
+      - name: has_risk_flag
+        description: "Boolean used if the user exists in the risk_flags table"
+        
+  - name: bod_user_base
+    config:
+      tags: ['daily']
+    description: "Subset of the entire user base that is considered as the official user base in reports for the Board of Directors and investors"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+
+      - name: acquisition_source
+        description: "Acquisition source of the user"
+
+      - name: kyc_tier
+        description: "KYC tier of the user"
+
+      - name: acquisition_date
+        description: "Timestamp when the user account was acquired or created"
+
+      - name: is_monetized_user
+        description: "Boolean column indicating whether the user has been monetized or not"
+
+      - name: is_transacting_user
+        description: "Boolean column indicating whether the user has made a valid, successful and unreversed transaction or not"
+
+      - name: is_deposit_user
+        description: "Boolean column indicating whether the user has deposited or not"
+
+      - name: is_withdrawal_user
+        description: "Boolean column indicating whether the user has withdrawn or not"
+
+      - name: is_crypto_user
+        description: "Boolean column indicating whether the user has made any crypto transaction (i.e. buy, sell, deposit or withdraw) or not"
+
+      - name: is_crypto_trade_user
+        description: "Boolean column indicating whether the user has made a crypto trade transaction (i.e. buy or sell) or not"
+
+      - name: is_stock_trade_user
+        description: "Boolean column indicating whether the user has made any stock trade transaction (i.e. buy, sell, dividend, dividend tax) or not"
+
+      - name: is_p2p_user
+        description: "Boolean column indicating whether the user has made any P2P transaction (i.e. P2P send, payment invitation or request) or not"
+
+      - name: is_p2p_send_user
+        description: "Boolean column indicating whether the user has made a P2P send transaction (i.e. P2P send or payment invitation) or not"
+
+      - name: is_p2p_request_user
+        description: "Boolean column indicating whether the user has made a P2P request transaction or not"
+
+      - name: is_airtime_and_data_user
+        description: "Boolean column indicating whether the user has made an airtime or data purchase transaction or not"
+
+      - name: is_airtime_user
+        description: "Boolean column indicating whether the user has made an airtime purchase transaction or not"
+
+      - name: is_bill_pay_user
+        description: "Boolean column indicating whether the user has made a bill payment transaction or not"
+
+      - name: is_s2nc_user
+        description: "Boolean column indicating whether the user has made a Send-to-Non-Chipper transaction or not"

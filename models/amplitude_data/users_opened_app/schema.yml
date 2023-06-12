@@ -1,0 +1,67 @@
+version: 2
+
+models:
+  - name: users_opened_app
+    description: "A transformation that lists all users' unique Amplitude events every unique date, so that the team can easily know when users opened the app and which Chipper Native events were recorded for every user per unique date"
+
+    columns:
+      - name: user_id
+        description: "The Chipper User ID"
+
+      - name: unique_event_type
+        description: "Primary currency of user sending events from their Chipper app"
+
+      - name: event_date
+        description: "The unique date when the event type happened"
+
+  - name: monthly_retention_opened_app
+    description: "A transformation that makes it easier to know every user's monthly retention. A retained user in a month is defined as someone who opened the app in a certain month"
+
+    columns:
+      - name: user_id
+        description: "The Chipper User ID"
+        tests:
+          - unique
+          - not_null
+
+      - name: acquisition_month
+        description: "The month when the user's account was created (synonymous to when the user was acquired by Chipper)"
+
+      - name: month_0
+        description: "Either 1 or 0, but is always 1 for Month 0, the account creation (or acquisition) month"
+
+      - name: month_1
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 1. Else, 0"
+
+      - name: month_2
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 2. Else, 0"
+
+      - name: month_3
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 3. Else, 0"
+
+      - name: month_4
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 4. Else, 0"
+
+      - name: month_5
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 5. Else, 0"
+
+      - name: month_6
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 6. Else, 0"
+
+      - name: month_7
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 7. Else, 0"
+
+      - name: month_8
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 8. Else, 0"
+
+      - name: month_9
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 9. Else, 0"
+
+      - name: month_10
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 10. Else, 0"
+
+      - name: month_11
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 11. Else, 0"
+
+      - name: month_12
+        description: "Either 1 or 0. 1 if user has at least one Amplitude event in Month 12. Else, 0"

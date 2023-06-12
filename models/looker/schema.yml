@@ -1,0 +1,2056 @@
+version: 2
+
+models:
+  - name: stock_qualified_users
+    config:
+      tags: ['4_hourly']
+    description: "A centralized table for all qualified stock users with information on their stocks onboardings progress." 
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+      - name: nationality
+        description: "nationality of the user"
+
+      - name: dob
+        description: "exact date of birth of the user"
+
+      - name: user_age
+        description: "age of the user"
+
+      - name: primary_currency
+        description: "primary currency of the user"    
+
+      - name: acquisition_source
+        description: "acquisition source of the user"
+
+      - name: acquisition_date
+        description: "date the user is acquired"  
+
+      - name: kyc_tier
+        description: "KYC verification status of the user"
+        tests:
+          - accepted_values:
+              values: ["TIER_0", "TIER_1", "TIER_2", "TIER_3"]
+
+      - name: purpose_of_account
+        description: "user-selected purpose of the account at signup."
+
+      - name: account_age_days
+        description: "account age of the user in days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+      
+      - name: gender
+        description: "self-selected gender of the user"
+
+      - name: is_internal
+        description: "boolean flag indicating whether the user is an internal user"
+
+      - name: is_business
+        description: "boolean flag indicating whether the user is a business user"
+      
+      - name: is_valid_user
+        description: "boolean flag indicating whether the user is a valid user or not"
+
+      - name: is_blocked_by_flag
+        description: "boolean flag indicating whether the user is flagged by LRC"  
+
+      - name: invalid_user_reasons
+        description: "concatenated list of all the reasons why the user is invalid. This is null for valid users"
+
+      - name: all_active_flags
+        description: "list of all active flags on the user"
+
+      - name: num_flags
+        description: "the number of active flags on the user"
+
+      - name: postal_code_latest
+        description: "postal code of the user's latest address"
+
+      - name: uos_score
+        description: "onboarding score of the user from UOS model"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
+      - name: risk_bucket
+        description: "onboarding score of the user from UOS model grouped into high risk, low risk and medium risk."
+       
+      - name: total_lpv_usd
+        description:  "lifetime amount (USD) that has been processed for each user"  
+
+      - name: lpv_group
+        description: "grouping of users based on the distribution of LPV"   
+
+      - name: lpv_range_min
+        description: "minimum LPV for a users in the given LPV group"
+
+      - name: lpv_range_max
+        description: "maximum LPV for a users in the given LPV group"
+
+      - name: percent_lpv_from_rewards
+        description: "pecernt of lifetime processed volume generated via Chipper rewards payouts"
+
+      - name: latest_engagement_bucket
+        description: "lastest user engagement bucket"
+
+      - name: latest_engagement_score
+        description: "kastest user engagement score"
+
+      - name: STOCK_USER_STATUS
+        description: "current status of the user's stock onboarding process. Accepted Values include:'null' (has not started onboarding), 'New' (has started onboarding), 'Accepted' (has completed onboarding). " 
+
+      - name: HAS_STARTED_STOCK_ONBOARDING
+        description: "boolean value indicating whether a user has started stocks onboarding."      
+
+      - name: HAS_COMPLETED_STOCK_ONBOARDING
+        description: "boolean value indicating whether a user has completed stocks onboarding."   
+
+      - name: STOCK_ONBOARDING_STARTED_AT
+        description: "date stocks onboarding was started."   
+
+      - name: STOCK_ONBOARDING_COMPLETED_AT
+        description: "date stocks onboarding was completed."     
+
+      - name: TOTAL_FIAT_BALANCE_USD
+        description: "user's current fiat balance in USD" 
+
+      - name: TOTAL_CRYPTO_BALANCE_USD
+        description: "user's current crypto balance in USD"      
+
+      - name: TOTAL_BALANCE_USD
+        description: "sum of user's fiat and crypto balance in USD"   
+
+      - name: STOCK_TRADES_BUY_TRANSACTIONS
+        description: "user's total number transactions to buy stocks across lifetime"   
+
+      - name: FIRST_STOCK_BOUGHT_AT
+        description: "date user's first stock buy transaction was complete" 
+
+      - name: LAST_STOCK_BOUGHT_AT
+        description: "date user's last stock buy transaction was complete"      
+
+      - name: STOCK_TRADES_SELL_TRANSACTIONS
+        description: "user's total number transactions to sell stocks across lifetime"     
+
+      - name: FIRST_STOCK_SOLD_AT
+        description: "date user's first stock sell transaction was complete"   
+
+      - name: LAST_STOCK_SOLD_AT
+        description: "date user's last stock sell transaction was complete" 
+
+      - name: STOCK_TRADES_DIV_TRANSACTIONS
+        description: "user's total number transactions to recieve stocks dividends across lifetime"      
+
+      - name: STOCK_TRADES_REWARD_TRANSACTIONS
+        description: "user's total number transactions to recieve stock rewards across lifetime"   
+
+      - name: STOCK_TRADES_DIVTAX_TRANSACTIONS
+        description: "user's total number transactions to pay stock divident transactions across lifetime"   
+
+      - name: LEDGER_TRANSACTIONS_BEFORE_STOCK_ONBOARDING_STARTED 
+        description: "number of complete/settled and non-reversed transactions a user completed prior to starting stocks onboarding. Note, this should be null for users who have not started stocks onboarding" 
+
+      - name: LEDGER_ACTIVITIES_BEFORE_STOCK_ONBOARDING_STARTED
+        description: "distinct list of complete/settled and non-reversed ledger activities a user completed prior to starting stocks onboarding. Note, this should be null for users who have not started stocks onboarding"      
+
+      - name: TOTAL_LPV_PRIOR_TO_STOCK_ONBOARDING_STARTED
+        description: "lifetime amount (USD) that has been processed for the user prior to starting stocks onboarding"   
+
+      - name: LEDGER_TRANSACTIONS_AFTER_STOCK_ONBOARDING_STARTED 
+        description: "number of complete/settled and non-reversed transactions a user completed after starting stocks onboarding. Note, this should be null for users who have not started stocks onboarding"   
+
+      - name: LEDGER_ACTIVITIES_AFTER_STOCK_ONBOARDING_STARTED
+        description: "distinct list of complete/settled and non-reversed ledger activities a user completed after starting stocks onboarding. Note, this should be null for users who have not started stocks onboarding" 
+
+      - name: TOTAL_LPV_AFTER_STOCK_ONBOARDING_STARTED
+        description: "lifetime amount (USD) that has been processed for the user after starting stocks onboarding"      
+
+  - name: revenue_details
+    config:
+      tags: ['4_hourly']
+    description: "Combines revenue data with other details from expanded transfers, expanded users and parallel rates."
+    columns:
+      - name: row_number
+        description: "Row number to uniquely identify each row"
+        tests:
+          - unique
+          - not_null
+      - name: transfer_id
+        description: "Primary key (ID) from the transfers table"
+
+      - name: journal_id
+        description: "The journal ID of the transaction from the HLO table"
+
+      - name: external_provider
+        description: "Chipper's third-party external provider for processing and settling a transaction (if necessary - null value if not applicable)"
+
+      - name: external_provider_transaction_id
+        description: "The transaction ID from the third-party external provider"
+
+      - name: transaction_created_at
+        description: "The created_at timestamp from the HLO table"
+
+      - name: transaction_updated_at
+        description: "The updated_at timestamp from the HLO table. For debit card revenues, it's the timestamp in UTC from the issued_cards_transaction table"
+
+      - name: revenue_stream
+        description: "The source of revenues of Chipper from different product lines"
+
+      - name: revenue_currency
+        description: "The local fiat currency for booking the revenues"
+
+      - name: exchange_rate_fee_percentage_in_decimals
+        description: "The exchange rate fee percentage from the transfers table converted to decimal value"
+
+      - name: commission_revenue_rate_in_decimals
+        description: "The commission revenue rate in decimals as per negotiations between Chipper and the external providers or as per guidance from Chipper's Finance and Accounting Team"
+
+      - name: gross_revenues
+        description: "The total amount of sales or revenues before any relevant deductions such as sales discounts"
+
+      - name: sales_discount_percentage_in_decimals
+        description: "The sales discount percentage from the HLO table converted to decimal value. Currently, it's only relevant to airtime sales"
+
+      - name: sales_discount
+        description: "Sales discount percentage in decimals multiplied by the gross revenues"
+
+      - name: net_revenues
+        description: "Gross revenues minus any sales discounts"
+
+      - name: rate_to_usd
+        description: "The relevant exchange rate to convert the revenue_currency to USD"
+
+      - name: gross_revenues_in_usd
+        description: "The gross revenues converted to USD using the rate_to_usd"
+
+      - name: sales_discount_in_usd
+        description: "The sales discount converted to USD using the rate_to_usd"
+
+      - name: net_revenues_in_usd
+        description: "The net revenues converted to USD using the rate_to_usd"
+
+      - name: monetized_user_id
+        description: "From whom did Chipper generate the revenues"
+
+      - name: origin_currency
+        description: "The currency of the origin amount"
+        
+      - name: destination_currency
+        description: "The currency of the destination_amount"
+        
+      - name: outgoing_user_id
+        description:  "Outbound user who initiated the transaction" 
+        
+      - name: incoming_user_id
+        description: "Inbound user who initiated the transaction" 
+        
+      - name: incoming_user_primary_currency
+        description: "primary currency of the inbound user"
+
+      - name: outgoing_user_primary_currency
+        description: "primary currency of the outbound user"
+
+      - name: ngn_parallel_rate
+        description: "parallel rate for NGN revenue currency only"
+
+      - name: gross_revenues_in_usd_parallel
+        description: "gross revenue in calculated with the parallel market rate"   
+
+      - name: sales_discount_in_usd_parallel
+        description: "sales discount calculated with the parallel market rate"     
+
+      - name: net_revenues_in_usd_parallel
+        description: "net revenue calculated with the parallel market rate"  
+
+      - name: exchange_rate_fee_percentage
+        description: "Exchange rate fee percentage from the transfers table"
+
+      - name: base_modification_percentage
+        description: "Base modification percentage from the transfers table"  
+      
+      - name: origin_amount
+        description: "Origin amount in local currency" 
+
+      - name: origin_amount_in_USD
+        description: "Origin amount converted to USD using the origin rate" 
+      
+      - name: origin_amount_in_USD_parallel
+        description: "Origin amount converted to USD for origin currency NGN using NGN parallel rate and other currencies using official rates (Null for NGN origin amount without NGN parallel rates)" 
+
+      - name: destination_amount
+        description: "Destination amount in local currency" 
+
+      - name: destination_amount_in_USD
+        description: "Destination amount converted to USD using the destination rate" 
+      
+      - name: destination_amount_in_USD_parallel
+        description: "Destination amount converted to USD for destination currency NGN using NGN parallel rate and other currencies using official rates (Null for NGN destination amount without NGN parallel rates)" 
+      
+      - name: origin_rate
+        description: "The relevant official exchange rate to convert the origin_currency to USD"
+
+      - name: destination_rate
+        description: "The relevant official exchange rate to convert the destination_currency to USD"
+      
+      - name: destination_ngn_parallel_rate
+        description: "parallel rate for NGN destination currency only"
+
+      - name: revenue_transfer_type
+        description: "Transfer type for corresponding transfer id"
+
+      - name: journal_type
+        description: "Type from the journals table"
+      
+      - name: exchange_rate
+        description: "Exchange rate from the transfers table used to initiate or complete the transfer from origin to destination"
+      
+      - name: corridor
+        description: "Derived column that defines the underlying transaction corridor. If same currency (origin and destination currencies are the same), either local + asset type (from the assets table) or local + other. If different (origin and destination currencies are different), either cross-border + asset type, crypto trade, or cross-border + other"
+
+      - name: hlo_table
+        description: "The underlying HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_status
+        description: "Status from the HLO entry. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+      
+      - name: transfer_status
+        description: "Status from the transfers table"
+      
+      - name: origin_destination_currency_pair
+        description: "Origin to Destination Currency Pair"
+      
+      - name: settlement_rate_date
+        description: "Date of settlement rate. When settlement rate is null, it will display the last available date of settlement rate for the origin-destination currency pair."
+
+      - name: settlement_rate
+        description: "Settlement rate tracked by liquidity team. When settlement rate is null, it will display the last available settlement rate for the origin-destination currency pair."
+      
+
+
+  - name: crypto_details
+    config:
+      tags: ['4_hourly']
+    description: "Adds additional logic to expanded transfers table and combines other details from expanded revenue."
+    columns:
+      - name: transfer_id
+        description: "Primary Key (id) from the transfers table"
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: "unique id for the user"
+        tests:
+          - not_null    
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column that indicates whether the transfer itself was later reversed in another transfer or not. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: is_transfer_reversal
+        description: "Boolean column that indicates whether the transfer ID in the row is a reversal transaction. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: transfer_type
+        description: "Derived column that defines transfer type as the hlo_table + hlo_status + [reversal]. Dead-end ledger entry for dead-end expanded transfers"
+
+      - name: transfer_status
+        description: "Status from the transfers table"
+
+      - name: transfer_created_at
+        description: "Timestamp when the transfer entry was created"
+
+      - name: transfer_updated_at
+        description: "Timestamp when the transfer entry was last updated"
+
+      - name: journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: journal_type
+        description: "Type from the journals table"
+
+      - name: hlo_id
+        description: "Primary key (id) from the relevant HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_table
+        description: "The underlying HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_status
+        description: "Status from the HLO entry. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_created_at
+        description: "Timestamp when the HLO entry was created. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the HLO entry was last updated. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: origin_currency
+        description: "Wallet currency of the debit side of the transaction"
+
+      - name: origin_amount
+        description: "Amount debited in the origin currency"
+
+      - name: origin_ngn_parallel_rate
+        description: "parallel rate for NGN origin currency only"  
+
+      - name: origin_amount_in_USD_parallel
+        description: "Origin amount converted to USD for origin currency NGN using NGN parallel rate and other currencies using official rates (Null for NGN origin amount without NGN parallel rates)" 
+
+      - name: destination_ngn_parallel_rate
+        description: "parallel rate for NGN destination currency only"
+      
+      - name: destination_amount_in_USD_parallel
+        description: "Destination amount converted to USD for destination currency NGN using NGN parallel rate and other currencies using official rates (Null for NGN destination amount without NGN parallel rates)" 
+
+      - name: origin_rate_id
+        description: "Foreign key to the exchange rates table"
+
+      - name: origin_rate
+        description: "Exchange rate to USD from the exchange rates table for the origin amount"
+
+      - name: origin_amount_in_usd
+        description: "Origin amount converted to USD using the origin rate"
+
+      - name: exchange_rate_fee_percentage
+        description: "Exchange rate fee percentage from the transfers table"
+
+      - name: base_modification_percentage
+        description: "Base modification percentage from the transfers table"
+
+      - name: exchange_rate
+        description: "Exchange rate from the transfers table used to initiate or complete the transfer from origin to destination"
+
+      - name: corridor
+        description: "Derived column that defines the underlying transaction corridor. If same currency (origin and destination currencies are the same), either local + asset type (from the assets table) or local + other. If different (origin and destination currencies are different), either cross-border + asset type, crypto trade, or cross-border + other"
+
+      - name: destination_currency
+        description: "Wallet currency of the credit side of the transaction"
+
+      - name: destination_amount
+        description: "Amount credited in the destination currency"
+
+      - name: destination_rate_id
+        description: "Foreign key to the exchange rates table"
+
+      - name: destination_rate
+        description: "Exchange rate to USD from the exchange rates table for the destination amount"
+
+      - name: destination_amount_in_usd
+        description: "Destination amount converted to USD using the destination rate"
+
+      - name: flat_fee_currency
+        description: "Currency of any relevant flat fees"
+
+      - name: flat_fee_amount
+        description: "Amount of the flat fees in the flat fee currency. If negative, the flat fee was charged to the outgoing user ID. If positive, the flat fee was charged to the incoming user ID"
+
+      - name: flat_fee_rate
+        description: "Exchange rate to USD from the exchange rates table for the flat fee amount"
+
+      - name: flat_fee_amount_in_usd
+        description: "Flat fee amount converted to USD using the flat fee rate"  
+
+      - name: cryptocurrency
+        description: "The crypto currency involved in the transfer despite transfer type"
+
+      - name: fiat_currency
+        description: "The fiat currency involved in the transfer despite transfer type (null for deposits and withdrawals)"   
+
+      - name: crypto_units 
+        description: "The number of crypto units involved in the transfer."  
+
+      - name: gains_and_losses
+        description: "Gains and losses in usd measured as the difference of what's given and what's received"
+
+      - name:  gains_as_percent_of_received
+        description: "gains and losses divided by origin_amount_in_USD"
+
+      - name: gains_as_percent_of_given
+        description: "gains and losses divided by destination_amount_in_USD"  
+
+      - name: User_Unit_Price_USD
+        description: "The unit price a user sees in USD"    
+
+      - name: User_Unit_Price_Local
+        description: "The unit price a users sees in local currency"    
+
+      - name: Fair_Value_Unit_Price_USD
+        description: "The market price per unit of the crypto before any Chipper base modification is applied. Fair Market Value is pulled from the exchange rates table. "    
+
+      - name: Fair_Value_Unit_Price_Local
+        description: "The market price in local currency per unit of the crypto. "          
+
+      - name: NGN_difference_receive_give_in_USD
+        description: " The difference between the amount given vs recieved in USD"    
+
+      - name: NGN_Amount_Parallel_Official_diff_in_USD
+        description: "the difference between amount given and recieved in parrellel market rate used" 
+
+      - name: NGN_Parallel_Unit_Price_in_NGN
+        description: "The crypto's market price in USD converted to NGN using parallel rate."                         
+
+  - name: financial_ledger
+    config:
+      tags: ['4_hourly']
+    description: "Combine expanded ledger with user data, transaction details, chargeback indicator, NGN parallel rate to create financial customer wallet report in Looker"
+    columns:
+      - name: ledger_entry_id
+        description: "Primary Key (id) from the ledger entries table"
+        tests:
+          - unique
+          - not_null
+
+      - name: transfer_id
+        description: "Primary Key (id) from the transfers table"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column that indicates whether the transfer itself was later reversed in another transfer or not. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: is_transfer_reversal
+        description: "Boolean column that indicates whether the transfer ID in the row is a reversal transaction. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: transfer_type
+        description: "Derived column that defines transfer type as the hlo_table + hlo_status + [reversal]. Dead-end ledger entry for dead-end expanded transfers"
+
+      - name: journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: journal_type
+        description: "Type from the journals table"
+
+      - name: hlo_id
+        description: "Primary key (id) from the relevant HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_table
+        description: "The underlying HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_status
+        description: "Status from the HLO entry. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: corridor
+        description: "Derived column that defines the underlying transaction corridor. If same currency (origin and destination currencies are the same), either local + asset type (from the assets table) or local + other. If different (origin and destination currencies are different), either cross-border + asset type, crypto trade, or cross-border + other"
+
+      - name: hlo_created_at
+        description: "Timestamp when the HLO entry was created. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the HLO entry was last updated. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: ledger_currency
+        description: "Wallet currency of the user who made or was involved in the transaction"
+
+      - name: ledger_amount
+        description: "Amount debited from or credited to user's wallet in the ledger currency"
+
+      - name: ledger_rate
+        description: "Exchange rate to USD from the exchange rates table for the ledger amount"
+
+      - name: ledger_amount_in_usd
+        description: "Ledger amount converted to USD using the ledger rate"
+
+      - name: ledger_timestamp
+        description: "Timestamp from the ledger entries table (when the debit or credit happened)"
+
+      - name: main_party_user_id
+        description: "User ID associated with the ledger currency, ledger amount, ledger amount in USD and ledger timestamp"
+
+      - name: counter_party_user_id
+        description: "The user ID of the counterparty that the main party user was transacting with. Usually present in P2P, B2C and C2B transactions"
+
+      - name: ngn_parallel_rate
+        description: "NGN parallel rate to convert ledger amount in NGN to USD"
+      
+      - name: ledger_amount_in_usd_parallel
+        description: "Ledger amount converted to USD for ledger currency NGN using NGN parallel rate and other currencies using official rates (Null for NGN ledger amount without NGN parallel rates)"   
+      
+      - name: main_party_primary_currency
+        description: "Primary currency of the main party user"
+      
+      - name: main_party_KYC_TIER
+        description: "KYC Verification status of the main party user"  
+
+      - name: main_party_acquisition_date
+        description: "Timestamp indicating when the main party user was created at"
+  
+      - name: main_party_acquisition_source
+        description: "Acquisition source of the main party user"
+      
+      - name: main_party_is_internal
+        description: "Boolean flag indicating whether the main party user is an internal user"
+      
+      - name: main_party_is_deleted
+        description: "Boolean flag indicating whether the main party user is a deleted user"
+      
+      - name: main_party_is_admin
+        description: "Boolean flag indicating whether the main party user is an admin"
+
+      - name: main_party_is_business
+        description: "Boolean flag indicating whether the main party user is a business user"
+      
+      - name: main_party_is_valid_user
+        description: "Boolean flag indicating whether the main party user is a valid user or not"
+
+      - name: main_party_is_blocked_by_flag
+        description: "Boolean flag indicating whether a user has an account blocking flag designated by LRC."
+
+      - name: main_party_has_risk_flag
+        description: "Boolean flag indicating whether the user exists in our risk table (user could be flagged from LRC or through internal risk scoring models). Includes blocked/offboarded users"
+      
+      - name: main_party_gender
+        description: "Self-reported description of the main party user"
+
+      - name: main_party_phone_number
+        description: "Main party user's latest phone number"
+
+      - name: main_party_region_latest
+        description: "Latest self reported region from KYC submission"
+
+      - name: counter_party_primary_currency
+        description: "Primary currency of the counter party user"
+
+      - name: counter_party_KYC_TIER
+        description: "KYC Verification status of the counter party user"  
+
+      - name: counter_party_acquisition_date
+        description: "Timestamp indicating when the counter party user was created at"
+  
+      - name: counter_party_acquisition_source
+        description: "Acquisition source of the counter party user"
+      
+      - name: counter_party_is_internal
+        description: "Boolean flag indicating whether the counter party user is an internal user"
+      
+      - name: counter_party_is_deleted
+        description: "Boolean flag indicating whether the counter party user is a deleted user"
+      
+      - name: counter_party_is_admin
+        description: "Boolean flag indicating whether the counter party user is an admin"
+
+      - name: counter_party_is_business
+        description: "Boolean flag indicating whether the counter party user is a business user"
+      
+      - name: counter_party_is_valid_user
+        description: "Boolean flag indicating whether the counter party user is a valid user or not"
+
+      - name: counter_party_is_blocked_by_flag
+        description: "Boolean flag indicating whether a user has an account blocking flag designated by LRC."
+
+      - name: counter_party_has_risk_flag
+        description: "Boolean flag indicating whether the user exists in our risk table (user could be flagged from LRC or through internal risk scoring models). Includes blocked/offboarded users"
+      
+      - name: is_chargeback
+        description: "Boolean flag indicating whether the transaction has a chargeback record"
+
+      - name: transaction_details
+        description: "Include both internal (_internalTransactionDetails) and external (externalProviderTransactionDetails) transaction details"
+      
+      - name: external_provider 
+        description: "Name of External Provider"
+
+      - name: external_provider_transaction_id 
+        description: "Transaction ID from External Provider"
+      
+      - name: reverse_transfer_id 
+        description: "Reverse transfer id for original transfer"
+      
+      - name: airtime_commission_percentage
+        decription: "Commission percentage for airtime purchases"
+
+      - name: airtime_discount_percentage
+        description: "Discount percentage for airtime purchases"
+      
+      - name: airtime_phone_carrier
+        description: "Phone carrier for airtime purchases"
+      
+      - name: withdrawal_reference_id
+        description: "Reference ID for withdrawals"
+      
+      - name: payment_method_type
+        description: "Payment method type"
+      
+      - name: is_payment_method_external 
+        description: "If the user's payment method is external or not. true/false/null"
+  
+      - name: is_payment_method_linked 
+        description: "If the user has a linked payment method or not. true/false/null"
+    
+      - name: mobile_money_cashout_currency 
+        description: "Currency of the mobile money cashout"
+
+      - name: is_payment_method_verified
+        description: "If the user's payment method is verified or not. true/false/null"
+
+      - name: cashout_currency 
+        description: "Currency of the user's payment method"
+        
+  - name: intercom_conversation_data
+    config:
+      tags: ['4_hourly']
+    description: "Combines lastest relevant intercom conversation data from CHIPPER.INTERCOM."
+    columns:
+      - name: id
+        description: "Primary key (id) from CHIPPER.INTERCOM.CONVERSATION_HISTORY. Uniquely identifies each conversation."
+
+      - name: updated_at
+        description: "Timestamp when the conversation was last updated."
+
+      - name: created_at
+        description: "Timestamp when the conversation record was created."
+
+      - name: open
+        description: "Flag indicating whether the conversation is still open."
+
+      - name: state
+        description: "Current state of the conversation."
+
+      - name: read
+        description: "Flag indicating whether the conversation was read."
+
+      - name: waiting_since
+        description: "If conversation state is not closed, timestamp of latest unanswered message in conversation"
+
+      - name: snoozed_until
+        description: "If conversation state is snoozed, timestamp of when the conversation becomes open else null."
+      
+      - name: priority
+        description: "Latest priority of the conversation"
+      
+      - name: source_type
+        description: "First Message Type"
+
+      - name: source_id
+        description: "First Message ID"
+
+      - name: source_delivered_as
+        description: "First message delivery type."
+
+      - name: source_subject
+        description: "First message subject."
+
+      - name: source_body
+        description: "First message content."
+
+      - name: source_url
+        description: "Source URL."
+
+      - name: source_author_type
+        description: "Source Type."
+
+      - name: source_author_id
+        description: "Source Author ID."
+
+      - name: assignee_id
+        description: "ID of assigned admin/bot/team."
+
+      - name: assignee_type
+        description: "Specifies if a team, bot, or admin was assigned to conversation."
+
+      - name: first_contact_reply_type
+        description: "Method used for first contact reply."
+
+      - name: first_contact_reply_url
+        description: "URL of first contact reply."
+
+      - name: first_contact_reply_created_at
+        description: "Timestamp of first contact reply."
+
+      - name: conversation_rating_remark
+        description: "User's remark about given rating."
+
+      - name: conversation_rating_created_at
+        description: "Timestamp when the user rated the conversation."
+
+      - name: conversation_rating_value
+        description: "User's rating of given conversation."
+
+      - name: location_country
+        description: "User's country."
+      
+      - name: location_region
+        description: "User's region."
+
+      - name: user_id
+        description: "User's unique identifier."
+
+      - name: primary_currency
+        description: "User's primary currency."
+
+      - name: team
+        description: "Team(s) relevant to the conversation. Best link to product lines."
+
+      - name: admin_name
+        description: "Name of conversation administrator."
+
+      - name: total_bot_comments
+        description: "Total number of comments in the conversation where the author is a bot."
+      
+      - name: total_user_comments
+        description: "Total number of comments in the conversation where the author is the user."
+      
+      - name: total_admin_comments
+        description: "Total number of comments in the conversation where the author is an admin."
+      
+      - name: total_comments
+        description: "Total number of comments in the conversation."
+
+      - name: tag
+        description: "Description of tag associated with the conversation."
+
+      - name: tag_group
+        description: "General group that tag falls into."
+
+  - name: daily_acquisition_spend_users
+    config:
+      tags: ['4_hourly']
+    description: "Aggegates daily spend across ads and referrals to calculate CAC and transacting CAC." 
+    columns:
+      - name: date
+        description: "date of ad spend and user acquisition"
+
+      - name: referral_spend
+        description: "cost of referrals campaigns"
+
+      - name: ad_spend
+        description: "cost of ads across all ad platforms"
+
+      - name: total_spend
+        description: "referral spend plus add spend "
+      
+      - name: users_acquired
+        description: "number of users acquired in a given day"
+
+      - name: users_with_transactions
+        description: "number of users acquired in a given day who have gone on to have thier first transaction"
+
+      - name: users_with_deposits
+        description: "number of users acquired in a given day who have gone on to have thier first deposit"
+ 
+  - name: contribution_margin_details
+    config:
+      tags: ['4_hourly']
+    description: "Creates daily view showing contribution margin by currency by day. Broken out by HLO component"
+    columns:
+      - name: margin_stream
+        description: "Shows high level asset class (FX vs Crypto)"
+
+      - name: revenue_stream
+        description: "Shows second level revenue stream (Non Forex vs Product revenues)"
+
+      - name: transfer_id
+        description: "Unique transaction ID"
+
+      - name: transaction_settled_date
+        description: "date range - daily view"
+
+      - name: journal_type
+        description: "Transaction journal type"
+
+      - name: transfer_type
+        description: "Type of transaction occurring and status"
+
+      - name: hlo_status
+        description: "Status of the transaction"
+
+      - name: corridor
+        description: "Local or Cross Border transaction flag"
+
+      - name: external_provider
+        description: "External provider (if applicable) that processes the transaction"
+
+      - name: user_id
+        description: "Unique user id"
+
+      - name: primary_currency
+        description: "primary currency associated with the transaction"      
+
+      - name: user_kyc_tier
+        description: "KYC Verification status of the user"  
+      
+      - name: user_acquisition_source
+        description: "Acquisition source of the user"
+
+      - name: user_is_internal
+        description: "Boolean flag indicating whether the user is an internal user"
+    
+      - name: user_is_deleted
+        description: "Boolean flag indicating whether the main party user is a deleted user"
+    
+      - name: user_is_admin
+        description: "Boolean flag indicating whether the user is an admin"
+
+      - name: user_is_business
+        description: "Boolean flag indicating whether the user is a business user"
+      
+      - name: user_is_valid_user
+        description: "Boolean flag indicating whether the user is a valid user or not"
+
+      - name: user_is_blocked_by_flag
+        description: "Boolean flag indicating whether a user has an account blocking flag designated by LRC."
+
+      - name: user_has_risk_flag
+        description: "Boolean flag indicating whether as user has a risk flag on their account"
+
+      - name: is_whale
+        description: "Boolean flag indicating if a user is one of the top 80% of revenue generators for a given product month (CBN rate)"
+
+      - name: is_parallel_whale
+        description: "Boolean flag indicating if a user is one of the top 80% of revenue generators for a given product month (NGN parallel rate)"        
+
+      - name: hlo_table_with_id
+        description: "Concatenated table name with unique transaction id"
+
+      - name: tpv_in_usd
+        description: "Total processed volume in USD"
+  
+      - name: tpv_in_usd_parallel
+        description: "Total processed volume in USD using parallel rate"
+
+      - name: net_revenues_in_usd
+        description: "Total net revenue in USD using CBN rate"
+  
+      - name: net_revenues_in_usd_parallel
+        description: "Total net revenue in USD using NGN parallel rate"
+
+      - name: cogs_in_usd
+        description: "Total costs of goods sold in USD using CBN rate"
+  
+      - name: cogs_in_usd_parallel
+        description: "Total costs of goods sold in USD using NGN parallel rate"
+
+      - name: gross_margin_in_usd
+        description: "Net Revenue - COGS (Note - for Crypto transactions net margin = amount received - amount given)"
+  
+      - name: gross_margin_in_usd_parallel
+        description: "Net Revenue - COGS using the parallel rate (Note - for Crypto transactions net margin = amount received - amount given)"
+
+      - name: operating_expenses_in_usd
+        description: "Total operating costs in usd using CBN rate"
+  
+      - name: operating_expenses_in_usd_parallel
+        description: "Total operating costs in usd using NGN parallel rate"
+
+      - name: contribution_margin_in_usd
+        description: "Settlement contribution margin in USD"
+  
+      - name: contribution_margin_in_usd_parallel
+        description: "Settlement contribution margin in USD using parallel rate"
+
+      - name: row_number
+        description: "Row number to uniquely identify each row"
+        tests:
+          - unique
+          - not_null
+
+  - name: active_transactors
+    config:
+      tags: ['4_hourly']
+    description: "Contains information on all settled or completed on-ledger transactions and completed off-ledger card transactions"
+    columns:
+      - name: journal_id
+        description: "Unique identifier for transaction. Primary key of respective journal table."
+
+      - name: user_id
+        description: "Unique identifier for user associated with the transaction."
+
+      - name: journal_type
+        description: "Type of transaction, also the journal table to which the transaction belongs."
+      
+      - name: ledger_timestamp
+        description: "Ledger timestamp of when the transaction occurred."
+      
+      - name: hlo_status
+        description: "Status of transaction in its HLO table."
+
+      - name: is_original_transfer_reversed
+        description: "Flag indicating whether original transfer linked to the given transaction was reversed."
+
+  - name: withdrawal_details
+    config:
+      tags: ['4_hourly']
+    description: "Withdrawal table with amount, amount in usd and amount in usd parallel"
+    columns:
+        - name: withdrawal_id
+          description: "Primary Key (id) from the withdrawals table"
+
+        - name: journal_id
+          description: "The journal id of the withdrawal"
+
+        - name: transfer_id
+          description: "The transfer id of the withdrawal"
+
+        - name: reverse_transfer_id
+          description: "The reverse transfer id of the withdrawal"
+
+        - name: withdrawal_created_at
+          description: "Timestamp when the withdrawal was created"
+
+        - name: withdrawal_updated_at
+          description: "Timestamp when the withdrawal was updated"
+
+        - name: withdrawal_error_message
+          description: "Withdrawal error messages"
+
+        - name: user_id
+          description: "User ID of withdrawals"
+
+        - name: admin_id
+          description: "Admin ID of withdrawals"
+
+        - name: provider
+          description: "Withdrawal providers"
+
+        - name: provider_id
+          description: "Provider ID of withdrawals"
+
+        - name: network_id
+          description: "Network ID of withdrawals"
+
+        - name: linked_account_id
+          description: "Linked Account ID of withdrawals"
+
+        - name: withdrawal_details
+          description: "Withdrawal details"
+
+        - name: withdrawal_status
+          description: "Withdrawal status"
+
+        - name: note
+          description: "Withdrawal note"
+
+        - name: user_primary_currency
+          description: "Primary currency of the user"
+        
+        - name: user_KYC_TIER
+          description: "KYC Verification status of the user"  
+        
+        - name: user_acquisition_date
+          description: "Timestamp indicating when the user was created at"
+        
+        - name: user_acquisition_source
+          description: "Acquisition source of the user"
+  
+        - name: user_is_internal
+          description: "Boolean flag indicating whether the user is an internal user"
+      
+        - name: user_is_deleted
+          description: "Boolean flag indicating whether the main party user is a deleted user"
+      
+        - name: user_is_admin
+          description: "Boolean flag indicating whether the user is an admin"
+
+        - name: user_is_business
+          description: "Boolean flag indicating whether the user is a business user"
+      
+        - name: user_is_valid_user
+          description: "Boolean flag indicating whether the user is a valid user or not"
+
+        - name: user_is_blocked_by_flag
+          description: "Boolean flag indicating whether a user has an account blocking flag designated by LRC."
+
+        - name: user_has_risk_flag
+          description: "Boolean flag indicating whether as user has a risk flag on their account"
+
+        - name: origin_rate
+          description: "Exchange rate to convert withdrawal amount from local currency to USD"
+
+        - name: transfer_status
+          description: "Transfer status of withdrawals"
+
+        - name: withdrawal_currency
+          description: "Currency of withdrawal transactions"
+
+        - name: withdrawal_amount
+          description: "Withdrawal amount in local currency"
+
+        - name: withdrawal_amount_in_usd
+          description: "Withdrawal amount in USD converted using official exchange rates"
+
+        - name: origin_ngn_parallel_rate
+          description: "The parallel exchange rate of NGN market for origin currency"
+
+        - name: withdrawal_amount_in_usd_parallel
+          description: "Withdrawal amount converted to USD for currency NGN using NGN parallel rate and other currencies using origin rates (Null for withdrawal amount in NGN without NGN parallel rates)"
+        
+        - name: corridor
+          description: "Derived column to understand if a transaction is between the same currencies or different currencies. If same currencies, append the asset type (either fiat or crypto, else other). If different currencies and both are fiat, then, cross-border fiat transaction. If different currencies and either one is crypto, then crypto trade (else, other)"
+        
+        - name: exchange_rate
+          description: "Exchange rate from the transfers table used to initiate or complete the transfer from origin to destination"
+        
+        - name: exchange_rate_fee_percentage
+          description: "Exchange rate fee percentage from the transfers table"
+        
+        - name: destination_rate
+          description: "Exchange rate to convert destination amount from local currency to USD"
+
+        - name: destination_currency
+          description: "Wallet currency of the credit side of the transaction"
+
+        - name: destination_amount
+          description: "Amount credited in the destination currency"
+        
+        - name: destination_amount_in_usd
+          description: "Destination amount converted to USD using the origin rate"
+        
+        - name: destination_ngn_parallel_rate
+          description: "The parallel exchange rate of NGN market for destination currency"
+
+        - name: destination_amount_in_usd_parallel
+          description: "Destination amount converted to USD for currency NGN using NGN parallel rate and other currencies using destination rates (Null for destination amount in NGN without NGN parallel rates)"
+
+        
+  - name: ledgers_details
+    description: "expanded ledgers table with the addition of analytics columns."
+    config:
+      tags: ['4_hourly']
+    columns:
+      - name: ledger_entry_id
+        description: "Primary Key (id) from the ledger entries table"
+        tests:
+          - unique
+          - not_null
+
+      - name: transfer_id
+        description: "Primary Key (id) from the transfers table"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column that indicates whether the transfer itself was later reversed in another transfer or not. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: is_transfer_reversal
+        description: "Boolean column that indicates whether the transfer ID in the row is a reversal transaction. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: transfer_type
+        description: "Derived column that defines transfer type as the hlo_table + hlo_status + [reversal]. Dead-end ledger entry for dead-end expanded transfers"
+
+      - name: activity_type
+        description: "Derived column that lumps rewards together and specifies cross boarder/local and sending/receiving P2P transactions."
+      
+      - name: journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: journal_type
+        description: "Type from the journals table"
+
+      - name: hlo_id
+        description: "Primary key (id) from the relevant HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_table
+        description: "The underlying HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_status
+        description: "Status from the HLO entry. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: corridor
+        description: "Derived column that defines the underlying transaction corridor. If same currency (origin and destination currencies are the same), either local + asset type (from the assets table) or local + other. If different (origin and destination currencies are different), either cross-border + asset type, crypto trade, or cross-border + other"
+
+      - name: hlo_created_at
+        description: "Timestamp when the HLO entry was created. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the HLO entry was last updated. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: ledger_currency
+        description: "Wallet currency of the user who made or was involved in the transaction"
+
+      - name: ledger_amount
+        description: "Amount debited from or credited to user's wallet in the ledger currency"
+
+      - name: absolute_ledger_amount
+        description: "absolute ledger amount"
+
+      - name: ledger_rate
+        description: "Exchange rate to USD from the exchange rates table for the ledger amount"
+
+      - name: ledger_amount_in_usd
+        description: "Ledger amount converted to USD using the ledger rate"
+
+      - name: absolute_ledger_amount_in_usd
+        description: "absolute ledger amount in USD"
+
+      - name: tpv_usd
+        description: "can be used for calculating TPV as it de-duplicated crypto transactions which have multiple transfers per transaction."
+
+      - name: ledger_timestamp
+        description: "Timestamp from the ledger entries table (when the debit or credit happened)"
+
+      - name: main_party_user_id
+        description: "User ID associated with the ledger currency, ledger amount, ledger amount in USD and ledger timestamp"
+
+      - name: counter_party_user_id
+        description: "The user ID of the counterparty that the main party user was transacting with. Usually present in P2P, B2C and C2B transactions"
+
+  - name: deposit_details
+    config:
+      tags: ['4_hourly']
+    description: "Deposit table with amount, amount in usd and amount in usd parallel"
+    columns:
+        - name: deposit_id
+          description: "Primary Key (id) from the deposit table"
+
+        - name: user_id
+          description: "User ID who made the deposit transaction"
+
+        - name: linked_account_id
+          description: "Linked Account ID of deposit"
+
+        - name: deposit_details
+          description: "Deposit transaction details"
+
+        - name: deposit_status
+          description: "Status of the deposit"
+
+        - name: transfer_id
+          description: "The transfer id of the deposit transaction"
+
+        - name: journal_id
+          description: "The journal id of the deposit transaction"
+
+        - name: deposit_created_at
+          description: "Timestamp when the deposit was created"
+
+        - name: deposit_updated_at
+          description: "Timestamp when the deposit was updated/settled"
+
+        - name: deposit_error_message
+          description: "Deposit error messages"
+
+        - name: charge_id
+          description: "Charge id of the deposit"
+
+        - name: card_charge_id
+          description: "Card charge id of the deposit"
+
+        - name: admin_id
+          description: "Admin ID of deposits"
+
+        - name: deposit_note
+          description: "Deposit note associated with the transaction"
+
+        - name: deposit_receipt_webhook_id
+          description: "Deposit receipt webhook id"
+
+        - name: user_primary_currency
+          description: "Primary currency of the user"
+        
+        - name: user_kyc_tier
+          description: "KYC Verification status of the user"  
+        
+        - name: user_acquisition_date
+          description: "Timestamp indicating when the user was created at"
+        
+        - name: user_acquisition_source
+          description: "Acquisition source of the user"
+  
+        - name: user_is_internal
+          description: "Boolean flag indicating whether the user is an internal user"
+      
+        - name: user_is_deleted
+          description: "Boolean flag indicating whether the main party user is a deleted user"
+      
+        - name: user_is_admin
+          description: "Boolean flag indicating whether the user is an admin"
+
+        - name: user_is_business
+          description: "Boolean flag indicating whether the user is a business user"
+      
+        - name: user_is_valid_user
+          description: "Boolean flag indicating whether the user is a valid user or not"
+
+        - name: user_is_blocked_by_flag
+          description: "Boolean flag indicating whether a user has an account blocking flag designated by LRC."
+
+        - name: user_has_risk_flag
+          description: "Boolean flag indicating whether as user has a risk flag on their account"
+
+        - name: deposit_type
+          description: "Type of deposit (bank account, nuban, etc)"
+
+        - name: official_rate
+          description: "Exchange rate to convert deposit amount from local currency to USD"
+
+        - name: deposit_type_provider
+          description: "Provider associated with the deposit"
+
+        - name: transfer_status
+          description: "Status of the transfer"
+
+        - name: deposit_currency
+          description: "Currency of deposit transactions"
+
+        - name: deposit_amount
+          description: "deposit amount in local currency"
+
+        - name: deposit_amount_in_usd
+          description: "Deposit amount in USD converted using official exchange rates"
+
+        - name: ngn_parallel_rate
+          description: "The parallel exchange rate of NGN market"
+
+        - name: deposit_amount_in_usd_parallel
+          description: "Deposit amount converted to USD for currency NGN using NGN parallel rate and other currencies using official rates (Null for deposit amount in NGN without NGN parallel rates)"
+
+  - name: issued_card_transactions_with_usd
+    config:
+      tags: ['4_hourly']
+    description: "Issued_card_transactions table with amount, amount in usd and amount in usd parallel"
+    columns:
+        - name: id
+          description: "Primary Key (id) from the issued_card_transactions"
+          tests:
+          - unique
+          - not_null
+
+        - name: journal_id
+          description: "The journal ID of the transaction; null for type = TRANSACTION "
+        
+        - name: transfer_id
+          description: "The transfer ID of the transaction; null for type = TRANSACTION "
+        
+        - name: reverse_transfer_id
+          description: "The reverse transfer ID of the transaction"
+        
+        - name: user_id
+          description: "unique id for the user"
+        
+        - name: timestamp
+          description: "Timestamp of the transaction"
+        
+        - name: created_at
+          description: "Timestamp when the entry was created."
+        
+        - name: updated_at
+          description: "Timestamp when the entry was last updated."
+        
+        - name: type
+          description: "Transaction types, including FUNDING, WITHDRAWAL, or TRANSACTION."
+        
+        - name: status
+          description: "Status of the entry."
+        
+        - name: entry_type
+          description: "Debit or Credit"
+        
+        - name: currency
+          description: "Transaction currency"
+        
+        - name: amount
+          description: "Transaction amount"
+        
+        - name: fee_currency
+          description: "Currency for the fees incurred"
+        
+        - name: fee_amount
+          description: "Fee amount of the transactions"
+        
+        - name: error_message
+          description: "Error messages for the entry"
+        
+        - name: description
+          description: "Description of the entry"
+        
+        - name: card_id
+          description: "Card ID of the entry"
+        
+        - name: card_last_four
+          description: "Last 4 digit of the card involved in the entry"
+        
+        - name: country
+          description: "Country of the entry"
+        
+        - name: provider_card_id
+          description: "Provider card ID of the entry"
+        
+        - name: provider_details
+          description: "Transaction details from providers"
+
+        - name: provider_transaction_id
+          description: "Transaction id from providers"
+
+        - name: gtp_mcccode
+          description: "Merchant Category Code for card issuer GTP that was parsed from the provider details column"
+
+        - name: base_ii_status
+          description: "Transaction status abbreviation that was parsed from the provider details column"
+
+        - name: base_ii_status_definition
+          description: "Transaction status definition for base_ii_status"
+
+        - name: transaction_type
+          description: "Same as transaction type for type = Funding and Withdrawal; concat results of type, entry, and base_ii_status_definition columns for type = Transaction"
+        
+        - name: card_country
+          description: "Country from issued card table"
+        
+        - name: card_currency
+          description: "Currency from issued card table"
+        
+        - name: card_issuer
+          description: "Card issuer from the issued card table"
+        
+        - name: transfer_status
+          description: "Transfer status for cards transaction types that are FUNDING, WITHDRAWAL; NULL for transaction type = TRANSACTION "
+
+        - name: official_exchange_rate_date
+          description: "Date of the official exchange rate"
+        
+        - name: official_rate
+          description: "Official exchange rate to convert transaction amount and fee amount to USD. When official rate is not available, it returns the last available value"
+        
+        - name: parallel_rate_date
+          description: "Date of the NGN parallel rate"
+        
+        - name: parallel_rate
+          description: "NGN parallel rate to convert transactions in NGN to USD"
+        
+        - name: amount_in_usd
+          description: "Transaction amount converted to USD using official exchange rate"
+        
+        - name: amount_in_usd_parallel
+          description: "Transaction amount converted to USD using official exchange rate for currencies != NGN and transaction amount converted to USD using NGN parallel rate for currencies = NGN"
+        
+        - name: fee_amount_in_usd
+          description: "Fee amount converted to USD using official exchange rate"
+       
+        - name: fee_amount_in_usd_parallel
+          description: "Fee amount converted to USD using official exchange rate for currencies != NGN and fee amount converted to USD using NGN parallel rate for currencies = NGN"
+        
+        - name: cashback_id
+          description: "Primary Key (id) from the cashback table"
+
+        - name: cashback_transfer_id
+          description: "Transfer ID for cashback transactions"
+
+        - name: cashback_type
+          description: "Type from cashback transaction table"
+
+        - name: cashback_status
+          description: "Status of cashback transactions"
+
+        - name: cashback_created_at
+          description: "Timestamp when the cashback was created"
+
+        - name: cashback_updated_at
+          description: "Timestamp when the cashback was updated"
+
+        - name: cashback_note
+          description: "Note for cashback transactions"
+
+        - name: cashback_reward_mode
+          description: "Reward mode for cashback transactions"
+
+        - name: cashback_currency
+          description: "Currency of cashback transactions"
+
+        - name: cashback_amount
+          description: "Amount of cashback transactions"
+        
+        - name: cashback_reward_percentage
+          description: "Reward percentage of cashback transactions"
+
+        - name: cashback_official_exchange_rate_date
+          description: "Date of the official exchange rate"
+
+        - name: cashback_official_rate
+          description: "Official exchange rate to convert cashback transaction amount and fee amount to USD. When official rate is not available, it returns the last available value"
+        
+        - name: cashback_parallel_rate_date
+          description: "Date of the NGN parallel rate"
+        
+        - name: cashback_parallel_rate
+          description: "NGN parallel rate to convert cashback transactions in NGN to USD"
+        
+        - name: cashback_amount_in_usd
+          description: "Cashback amount converted to USD using official exchange rate"
+
+        - name: cashback_amount_in_usd_parallel
+          description: "Cashback transaction amount converted to USD using official exchange rate for currencies != NGN and cashback transaction amount converted to USD using NGN parallel rate for currencies = NGN"
+
+        - name: cashback_transfer_status
+          description: "Transfer status for cashback transactions"
+        
+
+  - name: transaction_details_including_off_ledger
+    config:
+      tags: ['4_hourly']
+    description: "Adds transfer info to transaction details and user info to outgoing/incoming user info in transaction details."
+    columns:
+      - name: transfer_id
+        description: "Primary key (ID) from the transaction details table"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column that indicates whether the transfer itself was later reversed in another transfer or not. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: is_transfer_reversal
+        description: "Boolean column that indicates whether the transfer ID in the row is a reversal transaction. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: transfer_type
+        description: "Derived column that defines transfer type as the hlo_table + hlo_status + [reversal]. Dead-end ledger entry for dead-end expanded transfers"
+      
+      - name: journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: journal_type
+        description: "Type from the journals table"
+
+      - name: hlo_id
+        description: "Primary key (id) from the relevant HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_table
+        description: "The underlying HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_status
+        description: "Status from the HLO entry. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: corridor
+        description: "Derived column that defines the underlying transaction corridor. If same currency (origin and destination currencies are the same), either local + asset type (from the assets table) or local + other. If different (origin and destination currencies are different), either cross-border + asset type, crypto trade, or cross-border + other"
+
+      - name: hlo_created_at
+        description: "Timestamp when the HLO entry was created. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the HLO entry was last updated. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: origin_currency
+        description: "The currency of the origin amount"
+
+      - name: origin_amount
+        description: "Origin amount in local currency" 
+
+      - name: origin_rate
+        description: "The relevant official exchange rate to convert the origin_currency to USD"
+
+      - name: origin_amount_in_USD
+        description: "Origin amount converted to USD using the origin rate" 
+
+      - name: outgoing_user_id
+        description:  "Outbound user who initiated the transaction" 
+
+      - name: exchange_rate_fee_percentage
+        description: "Exchange rate fee percentage from the transfers table"
+
+      - name: base_modification_percentage
+        description: "Base modification percentage from the transfers table" 
+
+      - name: exchange_rate
+        description: "Exchange rate from the transfers table used to initiate or complete the transfer from origin to destination"
+
+      - name: destination_currency
+        description: "The currency of the destination_amount"
+
+      - name: destination_amount
+        description: "Destination amount in local currency" 
+
+      - name: destination_rate_id
+        description: "Foreign key to the exchange rates table"
+
+      - name: destination_rate
+        description: "The relevant official exchange rate to convert the destination_currency to USD"
+
+      - name: destination_amount_in_USD
+        description: "Destination amount converted to USD using the destination rate" 
+
+      - name: incoming_user_id
+        description: "Inbound user who initiated the transaction" 
+
+      - name: flat_fee_currency
+        description: "Currency of any relevant flat fees"
+
+      - name: flat_fee_amount
+        description: "Amount of the flat fees in the flat fee currency. If negative, the flat fee was charged to the outgoing user ID. If positive, the flat fee was charged to the incoming user ID"
+
+      - name: flat_fee_rate
+        description: "Exchange rate to USD from the exchange rates table for the flat fee amount"
+
+      - name: flat_fee_amount_in_usd
+        description: "Flat fee amount converted to USD using the flat fee rate"  
+
+      - name: external_provider
+        description: "Chipper's third-party external provider for processing and settling a transaction (if necessary - null value if not applicable)"
+
+      - name: is_on_ledger
+        description: "Boolean value. Whether the corresponding transfer is on ledger or off ledger"
+
+      - name: ngn_parallel_rate
+        description: "parallel rate for NGN origin currency only" 
+
+      - name: destination_ngn_parallel_rate
+        description: "parallel rate for NGN destination currency only"
+
+      - name: outgoing_user_primary_currency
+        description: "primary currency of the outbound user"
+
+      - name: outgoing_user_kyc_tier
+        description: "KYC Verification status of the outgoing user"  
+
+      - name: outgoing_user_acquisition_date
+        description: "Timestamp indicating when the outgoing user was created at"
+  
+      - name: outgoing_user_acquisition_source
+        description: "Acquisition source of the outgoing user"
+      
+      - name: outgoing_user_is_internal
+        description: "Boolean flag indicating whether the outgoing user is an internal user"
+      
+      - name: outgoing_user_is_deleted
+        description: "Boolean flag indicating whether the outgoing user is a deleted user"
+      
+      - name: outgoing_user_is_admin
+        description: "Boolean flag indicating whether the outgoing user is an admin"
+
+      - name: outgoing_user_is_business
+        description: "Boolean flag indicating whether the outgoing user is a business user"
+      
+      - name: outgoing_user_is_valid_user
+        description: "Boolean flag indicating whether the outgoing user is a valid user or not"
+
+      - name: outgoing_user_is_blocked_by_flag
+        description: "Boolean flag indicating whether a user has an account blocking flag designated by LRC."
+
+      - name: outgoing_user_has_risk_flag
+        description: "Boolean flag indicating whether the user exists in our risk table (user could be flagged from LRC or through internal risk scoring models). Includes blocked/offboarded users"
+
+      - name: outgoing_user_gender
+        description: "Self-reported description of the outgoing user"
+
+      - name: outgoing_user_phone_number
+        description: "Outoging user's latest phone number"
+
+      - name: outgoing_user_region_latest
+        description: "Latest self reported region from KYC submission"
+
+      - name: incoming_user_primary_currency
+        description: "primary currency of the inbound user"
+
+      - name: incoming_user_kyc_tier
+        description: "KYC Verification status of the incoming user"  
+
+      - name: incoming_user_acquisition_date
+        description: "Timestamp indicating when the incoming user was created at"
+  
+      - name: incoming_user_acquisition_source
+        description: "Acquisition source of the incoming user"
+
+      - name: incoming_user_is_internal
+        description: "Boolean flag indicating whether the incoming user is an internal user"
+      
+      - name: incoming_user_is_deleted
+        description: "Boolean flag indicating whether the incoming user is a deleted user"
+      
+      - name: incoming_user_is_admin
+        description: "Boolean flag indicating whether the incoming user is an admin"
+
+      - name: incoming_user_is_business
+        description: "Boolean flag indicating whether the incoming user is a business user"
+      
+      - name: incoming_user_is_valid_user
+        description: "Boolean flag indicating whether the incoming user is a valid user or not"
+
+      - name: incoming_user_is_blocked_by_flag
+        description: "Boolean flag indicating whether a user has an account blocking flag designated by LRC."
+
+      - name: incoming_user_has_risk_flag
+        description: "Boolean flag indicating whether the user exists in our risk table (user could be flagged from LRC or through internal risk scoring models). Includes blocked/offboarded users"
+
+      - name: withdrawal_reference_id
+        description: "Reference ID for withdrawals"
+      
+      - name: payment_method_type
+        description: "Payment method type"
+
+      - name: is_payment_method_external 
+        description: "If the user's payment method is external or not. true/false/null"
+  
+      - name: is_payment_method_linked 
+        description: "If the user has a linked payment method or not. true/false/null"
+    
+      - name: cashout_currency 
+        description: "Currency of the mobile money cashout"
+
+      - name: is_payment_method_verified
+        description: "If the user's payment method is verified or not. true/false/null"
+
+      - name: origin_amount_in_USD_parallel
+        description: "Origin amount converted to USD for origin currency NGN using NGN parallel rate and other currencies using official rates (Null for NGN origin amount without NGN parallel rates)" 
+
+      - name: destination_amount_in_USD_parallel
+        description: "Destination amount converted to USD for destination currency NGN using NGN parallel rate and other currencies using official rates (Null for NGN destination amount without NGN parallel rates)" 
+  
+
+  - name: issued_cards
+    config:
+      tags: ['4_hourly']
+    description: "Issued card list cards and card details for our virtual card portfolio"
+    columns:
+      - name: id
+        description: "Primary Key (id) from the issued_card"
+
+      - name: country
+        description: "Country of the issued_card"
+
+      - name: card_network
+        description: "issued card network ex. Visa"
+
+      - name: expiry_date
+        decription: "expiration date for issued card"
+
+      - name: provider_card_status
+        description: "null value, issued card status"
+
+      - name: created_at
+        description: "creation date of issued card"
+
+      - name: billing_address
+        description: "json data, issued card user's address"
+
+      - name: card_network_logo
+        description: "url for visa card logo"
+
+      - name: provider_details
+        description: "additional details regarding issued card"
+
+      - name: card_status
+        description: "status of issued card activation"
+
+      - name: card_issuer
+        description: "issuer card name"
+
+      - name: provider_card_id
+        description: "provider card id number"
+
+      - name: updated_at
+        description: "issued card updated at date"
+
+      - name: balance
+        description: "issued card balance in local currency"
+
+      - name: phone
+        description: "issued card user's phone number"
+
+      - name: user_id
+        description: "unique id for the user"
+
+      - name: tokenized_cvv
+        description: "tokenized CVV"
+
+      - name: last_four
+        description: "last four of card number"
+
+      - name: card_bank
+        description: "card issuer bank"
+
+      - name: replacement_card_id
+        description: "if card is replaced, card id"
+
+      - name: tokenized_card_number
+        description: "tokenized card number"
+
+      - name: currency
+        description: "card user's currency"
+
+      - name: name_on_card
+        description: "user's name on card"
+
+      - name: parsed_card_status
+        description: "abbreviated card status"
+
+      - name: has_card_balance
+        description: "true or false, if card balance = true, no balance = false"
+
+      - name: official_exchange_rate_timestamp
+        description: "official exhcange rate date"
+
+      - name: official_exchange_rate
+        description: "most recent official exchange rate"
+
+      - name: balance_in_usd
+        description: "card balance in usd"
+
+      - name: parallel_rate_date
+        description: "parallel rate date"
+
+      - name: parallel_rate
+        description: "most recent parallel rate"
+
+      - name: balance_in_usd_parallel
+        description: "card balance using parallel rate in usd"
+
+
+  - name: decline_rate
+    config:
+      tags: ['4_hourly']
+    description: "Ratio of total declined transactions to total transactions"
+    columns:
+      - name: transaction_settled_date
+        description: "Date the transaction was settled/updated"
+
+      - name: ledger_currency
+        description: "Currency of the transaction"
+
+      - name: journal_type
+        description: "Transaction type"
+
+      - name: declined_transactions
+        decription: "Total transactions that were declined"
+
+      - name: failed_transactions
+        description: "Total transactions with a failed status"
+
+      - name: total_transactions
+        description: "Total transactions"
+
+
+  - name: daily_9psb
+    config:
+      tags: ['daily']
+    description: "Daily Nuban account data used for 9SPB data verification." 
+    columns:
+      - name: nuban_account_number
+        description: "Account number for given Nuban account"
+        
+      - name: opening_balance
+        description: "Opening daily balance of given Nuban account"
+
+      - name: closing_balance
+        description: "Closing daily balance for given Nuban account"
+
+      - name: ledger_change
+        description: "Day-on-Day ledger change for given account"
+              
+      - name: client_code_customer_id
+        description: "Customer ID of client associated with Nuban account"
+
+      - name: row_num
+        description: "Row number of given record"
+
+  - name: contribution_margin_costs
+    config:
+      tags: ['4_hourly']
+    description: "Contribution Margin table at the cost level by product" 
+    columns:
+      - name: row_number
+        description: "Unique row number ID"
+        tests:
+         - unique
+         - not_null
+        
+      - name: transfer_id
+        description: "transaction ID"
+
+      - name: provider_transaction_id
+        description: "external provider transaction ID"
+
+      - name: transaction_settled_date
+        description: "Date the transaction was settled in our ledger"
+              
+      - name: margin_stream
+        description: "High level product description"
+
+      - name: journal_type
+        description: "Type from the journals table"
+
+      - name: transfer_type
+        description: "Transfer type for corresponding transfer id"
+
+      - name: external_provider
+        description: "Name of external provider"
+
+      - name: user_id
+        description: "unique user id"
+
+      - name: currency
+        description: "transaction currency"
+
+      - name: transaction_amount
+        description: "transaction amount in local currency"
+
+      - name: fee_type
+        description: "Name of specific contribution margin fee"
+
+      - name: fee_amount
+        description: "Fee amount in local currency"
+
+      - name: fee_amount_in_usd
+        description: "Fee amount in USD"
+        
+  - name: contribution_margin
+    config:
+      tags: ['4_hourly']
+    description: "Creates daily view showing contribution margin by currency by day. Broken out by HLO component"
+    columns:
+      - name: hlo_table_with_id
+        description: "Concatenation of HLO table and HLO ID to create a unique row or transaction identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: margin_stream
+        description: "Shows high level asset class (FX vs Crypto)"
+
+      - name: transaction_settled_date
+        description: "date range - daily view"
+
+      - name: journal_type
+        description: "Transaction journal type"
+
+      - name: transfer_type
+        description: "Type of transaction occurring and status"
+
+      - name: hlo_status
+        description: "Status of the transaction"
+
+      - name: corridor
+        description: "Local or Cross Border transaction flag"
+
+      - name: external_provider
+        description: "External provider (if applicable) that processes the transaction"
+
+      - name: user_id
+        description: "Unique user id"
+
+      - name: primary_currency
+        description: "primary currency associated with the transaction"      
+
+      - name: user_kyc_tier
+        description: "KYC Verification status of the user"  
+      
+      - name: user_acquisition_source
+        description: "Acquisition source of the user"
+
+      - name: user_is_internal
+        description: "Boolean flag indicating whether the user is an internal user"
+    
+      - name: user_is_deleted
+        description: "Boolean flag indicating whether the main party user is a deleted user"
+    
+      - name: user_is_admin
+        description: "Boolean flag indicating whether the user is an admin"
+
+      - name: user_is_business
+        description: "Boolean flag indicating whether the user is a business user"
+      
+      - name: user_is_valid_user
+        description: "Boolean flag indicating whether the user is a valid user or not"
+
+      - name: user_is_blocked_by_flag
+        description: "Boolean flag indicating whether a user has an account blocking flag designated by LRC."
+
+      - name: user_has_risk_flag
+        description: "Boolean flag indicating whether as user has a risk flag on their account"
+
+      - name: is_whale
+        description: "Boolean flag indicating if a user is one of the top 80% of revenue generators for a given product month (CBN rate)"
+
+      - name: is_parallel_whale
+        description: "Boolean flag indicating if a user is one of the top 80% of revenue generators for a given product month (NGN parallel rate)"        
+
+      - name: hlo_table_with_id
+        description: "Concatenated table name with unique transaction id"
+
+      - name: forex_tpv_in_usd
+        description: "Total FX processed volume in USD"
+  
+      - name: forex_tpv_in_usd_parallel
+        description: "Total FX processed volume in USD using parallel rate"
+
+      - name: forex_net_revenues_in_usd
+        description: "Total FX net revenue in USD using CBN rate"
+  
+      - name: forex_net_revenues_in_usd_parallel
+        description: "Total FX net revenue in USD using NGN parallel rate"
+
+      - name: forex_cogs_in_usd
+        description: "Total FX costs of goods sold in USD using CBN rate"
+  
+      - name: forex_cogs_in_usd_parallel
+        description: "Total FX costs of goods sold in USD using NGN parallel rate"
+
+      - name: forex_gross_margin_in_usd
+        description: "FX Net Revenue - COGS (Note - for Crypto transactions net margin = amount received - amount given)"
+  
+      - name: forex_gross_margin_in_usd_parallel
+        description: "FX Net Revenue - COGS using the parallel rate (Note - for Crypto transactions net margin = amount received - amount given)"
+
+      - name: forex_operating_expenses_in_usd
+        description: "Total FX operating costs in usd using CBN rate"
+  
+      - name: forex_operating_expenses_in_usd_parallel
+        description: "Total FX operating costs in usd using NGN parallel rate"
+
+      - name: forex_contribution_margin_in_usd
+        description: "FX Settlement contribution margin in USD"
+  
+      - name: forex_contribution_margin_in_usd_parallel
+        description: "FX Settlement contribution margin in USD using parallel rate"
+
+      - name: product_tpv_in_usd
+        description: "Total product specific processed volume in USD"
+  
+      - name: product_tpv_in_usd_parallel
+        description: "Total product specific processed volume in USD using parallel rate"
+
+      - name: product_net_revenues_in_usd
+        description: "Total product specific net revenue in USD using CBN rate"
+  
+      - name: product_net_revenues_in_usd_parallel
+        description: "Total product specific net revenue in USD using NGN parallel rate"
+
+      - name: product_cogs_in_usd
+        description: "Total product specific costs of goods sold in USD using CBN rate"
+  
+      - name: product_cogs_in_usd_parallel
+        description: "Total product specific costs of goods sold in USD using NGN parallel rate"
+
+      - name: product_gross_margin_in_usd
+        description: "product specific Net Revenue - COGS (Note - for Crypto transactions net margin = amount received - amount given)"
+  
+      - name: product_gross_margin_in_usd_parallel
+        description: "product specific Net Revenue - COGS using the parallel rate (Note - for Crypto transactions net margin = amount received - amount given)"
+
+      - name: product_operating_expenses_in_usd
+        description: "Total product specific operating costs in usd using CBN rate"
+  
+      - name: product_operating_expenses_in_usd_parallel
+        description: "Total product specific operating costs in usd using NGN parallel rate"
+
+      - name: product_contribution_margin_in_usd
+        description: "product specific Settlement contribution margin in USD"
+  
+      - name: product_contribution_margin_in_usd_parallel
+        description: "product specific Settlement contribution margin in USD using parallel rate"
+
+      - name: tpv_in_usd
+        description: "Total processed volume in USD"
+  
+      - name: tpv_in_usd_parallel
+        description: "Total processed volume in USD using parallel rate"
+
+      - name: net_revenues_in_usd
+        description: "Total net revenue in USD using CBN rate"
+  
+      - name: net_revenues_in_usd_parallel
+        description: "Total net revenue in USD using NGN parallel rate"
+
+      - name: cogs_in_usd
+        description: "Total costs of goods sold in USD using CBN rate"
+  
+      - name: cogs_in_usd_parallel
+        description: "Total costs of goods sold in USD using NGN parallel rate"
+
+      - name: gross_margin_in_usd
+        description: "Net Revenue - COGS (Note - for Crypto transactions net margin = amount received - amount given)"
+  
+      - name: gross_margin_in_usd_parallel
+        description: "Net Revenue - COGS using the parallel rate (Note - for Crypto transactions net margin = amount received - amount given)"
+
+      - name: operating_expenses_in_usd
+        description: "Total operating costs in usd using CBN rate"
+  
+      - name: operating_expenses_in_usd_parallel
+        description: "Total operating costs in usd using NGN parallel rate"
+
+      - name: contribution_margin_in_usd
+        description: "Settlement contribution margin in USD"
+  
+      - name: contribution_margin_in_usd_parallel
+        description: "Settlement contribution margin in USD using parallel rate"

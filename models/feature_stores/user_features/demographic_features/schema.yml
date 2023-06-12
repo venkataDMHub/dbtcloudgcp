@@ -1,0 +1,207 @@
+version: 2
+
+models:
+  - name: user_demographic_features
+    config:
+      tags: ['hourly']
+    description: "A centralized table for users demographic features that will be commonly used for various machine learning projects. These features will not be changed regularly, and should be preprocessed in a model agnostic way."
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: display_first_name
+        description: "first name of the user from the user table"
+
+      - name: display_last_name
+        description: "last name of the user from the user table"
+
+      - name: legal_first_name
+        description: "first name of the user from the user_info table"
+
+      - name: legal_last_name
+        description: "last name of the user from the user_info table"
+
+      - name: nationality
+        description: "nationality of the user"
+
+      - name: city_of_birth
+        description: "city of birth of the user"
+
+      - name: dob
+        description: "exact date of birth of the user"
+
+      - name: user_age
+        description: "age of the user"
+
+      - name: tag
+        description: "chipper tag of the user from the user table"  
+
+      - name: avatar
+        description: "link to the avatar of the user"  
+
+      - name: primary_currency
+        description: "primary currency of the user"    
+
+      - name: acquisition_source
+        description: "acquisition source of the user"
+
+      - name: acquisition_date
+        description: "The date a user is acquired"  
+
+      - name: kyc_tier
+        description: "KYC Verification status of the user"
+        tests:
+          - accepted_values:
+              values: ["TIER_0", "TIER_1", "TIER_2", "TIER_3"]
+
+      - name: purpose_of_account
+        description: "the purpose of the user for their chipper account"
+
+      - name: account_age
+        description: "account age of the user in days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+      
+      - name: gender
+        description: "gender of the user"
+        tests:
+          - accepted_values:
+              values: ["M", "F", NULL, "O"]
+
+      - name: is_internal
+        description: "Boolean flag indicating whether the user is an internal user"
+
+      - name: is_deleted
+        description: "Boolean flag indicating whether the user is deleted"
+
+      - name: is_admin
+        description: "Boolean flag indicating whether the user is an admin user"
+
+      - name: is_business
+        description: "Boolean flag indicating whether the user is a business user"
+      
+      - name: is_valid_user
+        description: "Boolean flag indicating whether the user is a valid user or not"
+
+      - name: is_blocked_by_flag
+        description: "Boolean flag indicating whether the user is flagged by LRC"  
+
+      - name: invalid_user_reasons
+        description: "Concatenated list of all the reasons why the user is invalid. This is null for valid users"
+
+      - name: all_active_flags
+        description: "List of all active flags on the user"
+
+      - name: num_flags
+        description: "The number of active flags on the user"
+
+      - name: face_urls
+        description: "a list of urls to users accepted selfie"
+
+      - name: country_first
+        description: "country of the user's first address"
+
+      - name: city_first
+        description: "city of the user's first address"
+
+      - name: street_first
+        description: "street of the user's first address"
+
+      - name: postal_code_first
+        description: "postal code of the user's first address"
+
+      - name: lat_first
+        description: "latitude coordinates of the user's first address"
+
+      - name: long_first
+        description: "longitude coordinates of the user's first address"
+
+      - name: country_latest
+        description: "country of the user's latest address"
+
+      - name: city_latest
+        description: "city of the user's latest address"
+
+      - name: street_latest
+        description: "street of the user's latest address"
+
+      - name: postal_code_latest
+        description: "postal code of the user's latest address"
+
+      - name: lat_latest
+        description: "latitude coordinates of the user's latest address"
+
+      - name: long_latest
+        description: "longitude coordinates of the user's latest address"
+
+      - name: device_id_first
+        description: "sardine device id of the user's first device"
+
+      - name: device_model_first
+        description: "model of the user's first device"
+
+      - name: os_first
+        description: "operating system of the user's first device"
+
+      - name: app_version_first
+        description: "first record of user's app version"
+
+      - name: device_id_latest
+        description: "sardine device id of the user's latest device"
+
+      - name: device_model_latest
+        description: "model of the user's latest device"
+
+      - name: os_latest
+        description: "operating system of the user's latest device"
+
+      - name: app_version_latest
+        description: "latest record of user's app version"
+
+      - name: uos_score
+        description: "onboarding score of the user from UOS model"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
+      - name: onboarding_time
+        description: "time in seconds for a user to finish onboarding process"
+
+      - name: total_lpv_usd
+        description:  "The lifetime amount (USD) that has been processed for each user"  
+
+      - name: lpv_group
+        description: "Grouping of users based on the distribution of LPV"   
+
+      - name: lpv_range_min
+        description: "The minimum LPV for a users in the given LPV group"
+
+      - name: lpv_range_max
+        description: "The minimum LPV for a users in the given LPV group"
+
+      - name: percent_lpv_from_rewards
+        description: "pecernt of lifetime processed volume generated via Chipper rewards payouts"
+
+      - name: latest_engagement_bucket
+        description: "Lastest user engagement bucket"
+
+      - name: latest_engagement_score
+        description: "Lastest user engagement score"
+
+      - name: phone_number
+        description: "User's latest phone number"
+
+      - name: email_address
+        description: "User's latest email address"  
+
+      - name: has_risk_flag
+        description: "Boolean used if the user exists in the risk_flags table" 
+      
+      - name: is_monetized_user
+        description: "Boolean flag indicating whether the user is a monetized user from revenues table or not"
+        

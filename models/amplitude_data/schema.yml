@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: amplitude_dash_data
+    config:
+      tags: ['hourly']
+    description: "A transformation that creates the underlying dataset for Amplitude Event Count reports in Mode"
+    columns:
+      - name: EVENT_TIME
+        description: "Timestamp indicating when events occurred, with hourly resolution"
+
+      - name: PRIMARY_CURRENCY
+        description: "Primary currency of user sending events from their Chipper app"
+        tests:
+          - accepted_values:
+              values:
+                [
+                  "NGN",
+                  "EUR",
+                  "GHS",
+                  "TZS",
+                  "ZAR",
+                  "UGX",
+                  "XOF",
+                  "USD",
+                  "NONE",
+                  "USDC",
+                  "RWF",
+                  "BTC",
+                  "SOL",
+                  "KES",
+                  "ZMW",
+                  "ETH",
+                  "DOGE",
+                  "GBP",
+                  "MWK",
+                  "SLL",
+                  "XAF"
+                ]
+
+      - name: EVENT_CATEGORY
+        description: "Event category, coarsest level of detail"
+
+      - name: EVENT_TYPE
+        description: "Event type, finest level of detail"
+
+      - name: VERSION_NAME
+        description: "Version of ChipperNative app sending events"
+
+      - name: EVENT_COUNT
+        description: "Aggregated count of events grouped by the preceding columns"

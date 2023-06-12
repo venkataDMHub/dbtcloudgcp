@@ -1,0 +1,530 @@
+version: 2
+
+models:
+  - name: user_to_user_payments
+    config:
+      tags: ['4_hourly']
+    description: "Aims to model the paymentController.pay TypeScript function in SQL (used generally for actual user-to-actual user transactions)"
+
+    columns:
+      - name: id
+        description: "Primary Key (id) from the payments table"
+
+      - name: hlo_table
+        description: "The underlying HLO Table - payments"
+
+      - name: sender_id
+        description: "The outgoing user ID whose wallet is debited (sender of the funds). Is always neither a base-% nor a bot-% account (i.e. An actual user account)"
+
+      - name: recipient_id
+        description: "The incoming user ID whose wallet is credited (receiver of the funds). Is always neither a base-% nor a bot-% account (i.e. An actual user account)"
+
+      - name: status
+        description: "Status of the transaction from the payments table"
+
+      - name: transfer_id
+        description: "Transfer ID in the payments table as FKEY to the transfers table"
+
+      - name: journal_id
+        description: "Journal ID in the payments table as FKEY to the journals table"
+
+      - name: created_at
+        description: "Timestamp when the payment entry was created"
+
+      - name: updated_at
+        description: "Timestamp when the payment entry was last updated"
+
+      - name: error_message
+        description: "The error message from the payments table (usually provides the reasons why a transaction failed)"
+
+      - name: short_id
+        description: "The short ID of the payment"
+
+      - name: reference
+        description: "The reference in the payments table"
+
+      - name: note
+        description: "The payment note or message for each payment (written by the sender_id - and is what the recipient_id sees on the app's activity feed)"
+
+      - name: payment_grouping
+        description: "The payment grouping set by the Core backend in TypeScript"
+
+      - name: payment_type
+        description: "Derived column that categorizes each payment more specifically (generally the hlo_table + payment category + status)"
+
+  - name: payments_with_bot
+    config:
+      tags: ['4_hourly']
+    description: "Aims to model the paymentController.workerPerformBotPayment TypeScript function in SQL (used generally for transactions involving Christine, the Chipper bot-%)"
+
+    columns:
+      - name: id
+        description: "Primary Key (id) from the payments table"
+
+      - name: hlo_table
+        description: "The underlying HLO Table - payments"
+
+      - name: sender_id
+        description: "The outgoing user ID whose wallet is debited (sender of the funds). Is either a bot-% (Christine sending money back to an actual user) or an actual user account (Actual user sending money to Christine)"
+
+      - name: recipient_id
+        description: "The incoming user ID whose wallet is credited (receiver of the funds). Is either a bot-% (Christine receiving money from an actual user) or an actual user account (Actual user receiving money from Christine)"
+
+      - name: status
+        description: "Status of the transaction from the payments table"
+
+      - name: transfer_id
+        description: "Transfer ID in the payments table as FKEY to the transfers table"
+
+      - name: journal_id
+        description: "Journal ID in the payments table as FKEY to the journals table"
+
+      - name: created_at
+        description: "Timestamp when the payment entry was created"
+
+      - name: updated_at
+        description: "Timestamp when the payment entry was last updated"
+
+      - name: error_message
+        description: "The error message from the payments table (usually provides the reasons why a transaction failed)"
+
+      - name: short_id
+        description: "The short ID of the payment"
+
+      - name: reference
+        description: "The reference in the payments table"
+
+      - name: note
+        description: "The payment note or message for each payment (written by the sender_id - and is what the recipient_id sees on the app's activity feed)"
+
+      - name: payment_grouping
+        description: "The payment grouping set by the Core backend in TypeScript"
+
+      - name: payment_type
+        description: "Derived column that categorizes each payment more specifically (generally the hlo_table + payment category + status)"
+
+  - name: collections_to_base
+    config:
+      tags: ['4_hourly']
+    description: "Aims to model the paymentController.collectToBase TypeScript function in SQL (used generally for Chipper admin operations for debiting users' wallets for erroneously credited transactions)"
+
+    columns:
+      - name: id
+        description: "Primary Key (id) from the payments table"
+
+      - name: hlo_table
+        description: "The underlying HLO Table - payments"
+
+      - name: sender_id
+        description: "The outgoing user ID whose wallet is debited (sender of the funds). Is always neither a base-% nor a bot-% account (i.e. An actual user account)"
+
+      - name: recipient_id
+        description: "The incoming user ID whose wallet is credited (receiver of the funds). Is always a base-% account"
+
+      - name: status
+        description: "Status of the transaction from the payments table"
+
+      - name: transfer_id
+        description: "Transfer ID in the payments table as FKEY to the transfers table"
+
+      - name: journal_id
+        description: "Journal ID in the payments table as FKEY to the journals table"
+
+      - name: created_at
+        description: "Timestamp when the payment entry was created"
+
+      - name: updated_at
+        description: "Timestamp when the payment entry was last updated"
+
+      - name: error_message
+        description: "The error message from the payments table (usually provides the reasons why a transaction failed)"
+
+      - name: short_id
+        description: "The short ID of the payment"
+
+      - name: reference
+        description: "The reference in the payments table"
+
+      - name: note
+        description: "The payment note or message for each payment (written by the sender_id - and is what the recipient_id sees on the app's activity feed)"
+
+      - name: payment_grouping
+        description: "The payment grouping set by the Core backend in TypeScript"
+
+      - name: payment_type
+        description: "Derived column that categorizes each payment more specifically (generally the hlo_table + payment category + status)"
+
+  - name: base_to_base_payments
+    config:
+      tags: ['4_hourly']
+    description: "Aims to model payment transactions between two base-% accounts"
+
+    columns:
+      - name: id
+        description: "Primary Key (id) from the payments table"
+
+      - name: hlo_table
+        description: "The underlying HLO Table - payments"
+
+      - name: sender_id
+        description: "The outgoing user ID whose wallet is debited (sender of the funds). Is always a base-% account"
+
+      - name: recipient_id
+        description: "The incoming user ID whose wallet is credited (receiver of the funds). Is always a base-% account"
+
+      - name: status
+        description: "Status of the transaction from the payments table"
+
+      - name: transfer_id
+        description: "Transfer ID in the payments table as FKEY to the transfers table"
+
+      - name: journal_id
+        description: "Journal ID in the payments table as FKEY to the journals table"
+
+      - name: created_at
+        description: "Timestamp when the payment entry was created"
+
+      - name: updated_at
+        description: "Timestamp when the payment entry was last updated"
+
+      - name: error_message
+        description: "The error message from the payments table (usually provides the reasons why a transaction failed)"
+
+      - name: short_id
+        description: "The short ID of the payment"
+
+      - name: reference
+        description: "The reference in the payments table"
+
+      - name: note
+        description: "The payment note or message for each payment (written by the sender_id - and is what the recipient_id sees on the app's activity feed)"
+
+      - name: payment_grouping
+        description: "The payment grouping set by the Core backend in TypeScript"
+
+      - name: payment_type
+        description: "Derived column that categorizes each payment more specifically (generally the hlo_table + payment category + status)"
+
+  - name: referrals_with_all_transfer_ids
+    config:
+      tags: ['4_hourly']
+    description: "Narrow format of the referrals table by doing a union of the referral bonuses of the referrer (referrer_transfer_id and secondary_transfer_id) and the invited user (invited_transfer_id)"
+
+    columns:
+      - name: transfer_id
+        description: "Transfer ID in the referrals table as FKEY to the transfers table"
+
+  - name: reversals_handled_in_other_modules
+    config:
+      tags: ['4_hourly']
+    description: "Union of the data purchase reversals and withdrawal reversals handled in the data_purchases and withdrawals DBT modules. These reversals use the paymentController.payFromBase TypeScript function for handling refunds for failed transactions"
+
+    columns:
+      - name: transfer_id
+        description: "Reverse transfer ID from the data_purchases and withdrawals tables as FKEY to the transfers table"
+
+  - name: payments_from_base
+    config:
+      tags: ['4_hourly']
+    description: "Aims to model the paymentController.payFromBase and payCurrencyFromBase TypeScript functions in SQL (used generally for crediting users' wallets from a base-% account)"
+
+    columns:
+      - name: id
+        description: "Primary Key (id) from the payments table"
+
+      - name: hlo_table
+        description: "The underlying HLO Table - payments"
+
+      - name: sender_id
+        description: "The outgoing user ID whose wallet is debited (sender of the funds). Is always a base-% account"
+
+      - name: recipient_id
+        description: "The incoming user ID whose wallet is credited (receiver of the funds). Is neither a base-% nor a bot-% account (i.e. An actual user account)"
+
+      - name: status
+        description: "Status of the transaction from the payments table"
+
+      - name: transfer_id
+        description: "Transfer ID in the payments table as FKEY to the transfers table"
+
+      - name: journal_id
+        description: "Journal ID in the payments table as FKEY to the journals table"
+
+      - name: created_at
+        description: "Timestamp when the payment entry was created"
+
+      - name: updated_at
+        description: "Timestamp when the payment entry was last updated"
+
+      - name: error_message
+        description: "The error message from the payments table (usually provides the reasons why a transaction failed)"
+
+      - name: short_id
+        description: "The short ID of the payment"
+
+      - name: reference
+        description: "The reference in the payments table"
+
+      - name: note
+        description: "The payment note or message for each payment (written by the sender_id - and is what the recipient_id sees on the app's activity feed)"
+
+      - name: payment_grouping
+        description: "The payment grouping set by the Core backend in TypeScript"
+
+      - name: payment_type
+        description: "Derived column that categorizes each payment more specifically (generally the hlo_table + payment category + status)"
+
+  - name: payments_with_type
+    config:
+      tags: ['4_hourly']
+    description: "Union of five payment models with specific payment types - user_to_user_payments + payments_with_bot + collections_to_base + base_to_base_payments + payments_from_base"
+
+    columns:
+      - name: id
+        description: "Primary Key (id) from the payments table"
+
+      - name: hlo_table
+        description: "The underlying HLO Table - payments"
+
+      - name: sender_id
+        description: "The outgoing user ID whose wallet is debited (sender of the funds)"
+
+      - name: recipient_id
+        description: "The incoming user ID whose wallet is credited (receiver of the funds)"
+
+      - name: status
+        description: "Status of the transaction from the payments table"
+
+      - name: transfer_id
+        description: "Transfer ID in the payments table as FKEY to the transfers table"
+
+      - name: journal_id
+        description: "Journal ID in the payments table as FKEY to the journals table"
+
+      - name: created_at
+        description: "Timestamp when the payment entry was created"
+
+      - name: updated_at
+        description: "Timestamp when the payment entry was last updated"
+
+      - name: error_message
+        description: "The error message from the payments table (usually provides the reasons why a transaction failed)"
+
+      - name: short_id
+        description: "The short ID of the payment"
+
+      - name: reference
+        description: "The reference in the payments table"
+
+      - name: note
+        description: "The payment note or message for each payment (written by the sender_id - and is what the recipient_id sees on the app's activity feed)"
+
+      - name: payment_grouping
+        description: "The payment grouping set by the Core backend in TypeScript"
+
+      - name: payment_type
+        description: "Derived column that categorizes each payment more specifically (generally the hlo_table + payment category + status)"
+
+  - name: payments_with_type_component
+    config:
+      tags: ['4_hourly']
+    description: "Appends transaction data from tranfers and ledger entries table to Payments (with Type) HLO"
+
+    columns:
+      - name: hlo_id
+        description: "Primary Key (id) from the Payments table"
+
+      - name: hlo_table
+        description: "Payments - The underlying HLO Table"
+
+      - name: hlo_journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: hlo_created_at
+        description: "Timestamp when the hlo entry was created"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the hlo entry was last updated"
+
+      - name: transfer_id
+        description: "Transfer id of the hlo entry"
+
+      - name: is_transfer_reversal
+        description: "Boolean column that indicates whether the transfer itself was a reversal. For a reversal_transfer_id this is always set to TRUE. This is not relevant for the payments table as there are no reversals for Payments"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column that indicates whether the original transfer was reversed. This is not relevant for the payments table as there are no reversals for Payments"
+
+      - name: ledger_entry_journal_id
+        description: "The journal_id of the transaction from the ledger_entries table"
+
+      - name: incoming_user_id
+        description: "The user_id of the incoming user in the underlying transfer"
+
+      - name: outgoing_user_id
+        description: "The user_id of the outgoing user_id in the underlying transfer"
+
+  - name: payments_with_type_with_all_transfer_ids
+    config:
+      tags: ['4_hourly']
+    description: "Narrow format of the Payments (with Type) table by modeling hlo_id x transfer_id as a primary key. This is done by taking the union of transfer_ids and the reverse_transfer_ids. This is not relevant for the payments table as there are no reversals for Payments"
+
+    columns:
+      - name: hlo_id
+        description: "Primary Key (id) from the Payments table"
+
+      - name: hlo_table
+        description: "Payments - The underlying HLO Table"
+
+      - name: hlo_status
+        description: "Status of the hlo entry"
+
+      - name: hlo_journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: hlo_created_at
+        description: "Timestamp when the hlo entry was created"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the hlo entry was last updated"
+
+      - name: transfer_id
+        description: "Transfer id of the hlo entry"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column that indicates whether the original transfer was reversed. This is not relevant for the payments table as there are no reversals for Payments"
+
+      - name: is_transfer_reversal
+        description: "Boolean column that indicates whether the transfer itself was a reversal. For a reversal_transfer_id this is always set to TRUE. This is not relevant for the payments table as there are no reversals for Payments"
+
+      - name: payment_type
+        description: "Derived column from the payments_with_type.sql that categorizes each payment more specifically (generally the hlo_table + payment category + status)"
+
+  - name: payments_with_type_with_ledger_entries
+    config:
+      tags: ['4_hourly']
+    description: Appending ledger_entries data to payments_with_type_with_all_transfer_ids.sql"
+
+    columns:
+      - name: hlo_id
+        description: "Primary Key (id) from the Payments table"
+
+      - name: hlo_table
+        description: "Payments - The underlying HLO Table"
+
+      - name: hlo_status
+        description: "Status of the hlo entry"
+
+      - name: hlo_journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: hlo_created_at
+        description: "Timestamp when the hlo entry was created"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the hlo entry was last updated"
+
+      - name: transfer_id
+        description: "Transfer id of the hlo entry"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column that indicates whether the original transfer was reversed. This is not relevant for the payments table as there are no reversals for Payments"
+
+      - name: is_transfer_reversal
+        description: "Boolean column that indicates whether the transfer itself was a reversal. For a reversal_transfer_id this is always set to TRUE. This is not relevant for the payments table as there are no reversals for Payments"
+
+      - name: ledger_entry_id
+        description: "Primary key (id) from the ledger entries table"
+
+      - name: ledger_entry_journal_id
+        description: "The journal_id of the transaction from the ledger_entries table"
+
+      - name: amount
+        description: "Amount from the ledger_entries table"
+
+      - name: user_id
+        description: "user_id from the ledger_entries table"
+
+      - name: timestamp
+        description: "Timestamp when the ledger entry was created"
+
+      - name: transfer_type
+        description: "Derived column that defines transfer type as the hlo_table + hlo_status + [reversal]. For payments, this is the payment_type (generally the hlo_table + payment category + status) from the payments_with_type.sql"
+
+      - name: is_debit
+        description: "Boolean column that indicates whether the ledger entry is the debit or the credit part of the transaction"
+
+      - name: outgoing_user_id
+        description: "user_id if is_debit, else NULL"
+
+      - name: incoming_user_id
+        description: "user_id if is_credit, else NULL"
+
+      - name: row_num_asc
+        description: "Ascending rank of the ledger_entry_id for the given hlo_id"
+
+      - name: row_num_desc
+        description: "Descending rank of the ledger_entry_id for the given hlo_id"
+
+  - name: payments_expanded_ledgers
+    config:
+      tags: ['4_hourly']
+    description: Appending transfers with USD and journals data to payments_with_type_with_ledger_entries.sql"
+
+    columns:
+      - name: ledger_entry_id
+        description: "Primary key (id) from the ledger entries table"
+
+      - name: transfer_id
+        description: "Transfer id of the hlo entry"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column that indicates whether the original transfer was reversed. This is not relevant for the payments table as there are no reversals for Payments"
+
+      - name: is_transfer_reversal
+        description: "Boolean column that indicates whether the transfer itself was a reversal. For a reversal_transfer_id this is always set to TRUE. This is not relevant for the payments table as there are no reversals for Payments"
+
+      - name: transfer_type
+        description: "Derived column that defines transfer type as the hlo_table + hlo_status + [reversal]. For payments, this is the payment_type (generally the hlo_table + payment category + status) from the payments_with_type.sql"
+
+      - name: journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: journal_type
+        description: "The type from the journals table"
+
+      - name: hlo_id
+        description: "Primary Key (id) from the Payments table"
+
+      - name: hlo_table
+        description: "Payments - The underlying HLO Table"
+
+      - name: hlo_status
+        description: "Status of the hlo entry"
+
+      - name: hlo_created_at
+        description: "Timestamp when the hlo entry was created"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the hlo entry was last updated"
+
+      - name: ledger_currency
+        description: "The currency from the ledger_entries table"
+
+      - name: ledger_amount
+        description: "The amount from the ledger_entries table (denomimated in the currency from ledger_entries)"
+
+      - name: ledger_rate
+        description: "The relevant exchange rate to USD from the transfers_with_usd model"
+
+      - name: ledger_amount_in_usd
+        description: "The ledger_amount converted to USD"
+
+      - name: ledger_timestamp
+        description: "Timestamp when the ledger entry was created"
+
+      - name: main_party_user_id
+        description: "user_id from the ledger_entries table whose wallet was impacted (either debit or credit) by the ledger_amount in the ledger_currency"
+
+      - name: counter_party_user_id
+        description: "user_id on the other side of the transaction. If main party user ID was the debit side, the counter-party user ID was the credit side. And, vice versa"

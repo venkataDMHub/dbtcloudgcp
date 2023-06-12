@@ -1,0 +1,74 @@
+version: 2
+
+models:
+  - name: nysm_investigation_tool
+    config:
+      tags: ['4_hourly']
+    description: "Data for nysm manual investigation retool dashboard"
+    columns:     
+    - name: src_user_id
+      description: "User id of the user"
+      tests: 
+        - not_null 
+
+    - name: case_id
+      description: "The Case Id is a unique identifier for each case"
+      tests: 
+        - not_null 
+
+    - name: created_at
+      description: "The timestamp of the nysm score creation" 
+
+    - name: primary_currency
+      description: "Primary currency of the user"
+
+    - name: highest_match_id
+      description: "User id of the user with the highest march score"  
+      tests: 
+        - not_null 
+        
+    - name: highest_match_score
+      description: "The score of the highest match selfie"  
+      tests:
+        - dbt_expectations.expect_column_values_to_be_between:
+            min_value: 0   
+            max_value: 1
+            
+    - name: highest_match_bucket
+      description: "The bucket of the highest match score"  
+
+    - name: src_face_url	
+      description: "URL to the selfie of the source user" 
+
+    - name: matched__face_url	
+      description: "URL to the selfie of the matched user" 
+
+    - name: tier
+      description: "User current verification tier"  
+      tests:
+        - accepted_values:
+            values: ["TIER_0", "TIER_1", "TIER_2", "TIER_3", "UNVERIFIED"]
+
+    - name: num_high_matches
+      description: "The number of matches in high bucket"  
+      tests:
+        - dbt_expectations.expect_column_values_to_be_between:
+            min_value: 0   
+
+    - name: num_medium_matches
+      description: "The number of matches in medium bucket"  
+      tests:
+        - dbt_expectations.expect_column_values_to_be_between:
+            min_value: 0   
+
+    - name: total_user_balance_usd
+      description: "The total balance of fiat, stocks and crypto of the source user"  
+      tests:
+        - dbt_expectations.expect_column_values_to_be_between:
+            min_value: 0   
+
+    - name: total_matched_user_balance_usd
+      description: "The total balance of fiat, stocks and crypto of the matched user"  
+      tests:
+        - dbt_expectations.expect_column_values_to_be_between:
+            min_value: 0   

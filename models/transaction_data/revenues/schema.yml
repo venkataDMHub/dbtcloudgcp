@@ -1,0 +1,93 @@
+version: 2
+
+models:
+  - name: revenues
+    config:
+      tags: ['4_hourly']
+    description: "Transformation for combining all revenue-related data from all product lines into one single table"
+
+    columns:
+      - name: row_number
+        description: "Row number to uniquely identify each row"
+        tests:
+          - unique
+          - not_null
+
+      - name: transfer_id
+        description: "Primary key (ID) from the transfers table"
+
+      - name: journal_id
+        description: "The journal ID of the transaction from the HLO table"
+
+      - name: fee_calculation_id
+        description: "Primary key (ID) from the fee_calculations table"
+
+      - name: fee_config_id
+        description: "Primary key (ID) from the fee_configs table"
+
+      - name: forex_fee_calculation_id
+        description: "Primary key (ID) from the forex_fee_calculations table"
+
+      - name: transfer_quote_id
+        description: "Primary key (ID) from the transfer_quotes table"
+
+      - name: external_provider
+        description: "Chipper's third-party external provider for processing and settling a transaction (if necessary - null value if not applicable)"
+
+      - name: external_provider_transaction_id
+        description: "The transaction ID from the third-party external provider"
+
+      - name: transaction_created_at
+        description: "The created_at timestamp from the HLO table"
+        tests:
+          - not_null
+
+      - name: transaction_updated_at
+        description: "The updated_at timestamp from the HLO table. For debit card revenues, it's the timestamp in UTC from the issued_cards_transaction table"
+        tests:
+          - not_null
+        
+      - name: revenue_stream
+        description: "The source of revenues of Chipper from different product lines"
+        tests:
+          - not_null
+
+      - name: revenue_currency
+        description: "The local fiat currency for booking the revenues"
+        tests:
+          - not_null
+
+      - name: exchange_rate_fee_percentage_in_decimals
+        description: "The exchange rate fee percentage from the transfers table converted to decimal value"
+
+      - name: commission_revenue_rate_in_decimals
+        description: "The commission revenue rate in decimals as per negotiations between Chipper and the external providers or as per guidance from Chipper's Finance and Accounting Team"
+
+      - name: gross_revenues
+        description: "The total amount of sales or revenues before any relevant deductions such as sales discounts"
+
+      - name: sales_discount_percentage_in_decimals
+        description: "The sales discount percentage from the HLO table converted to decimal value. Currently, it's only relevant to airtime sales"
+
+      - name: sales_discount
+        description: "Sales discount percentage in decimals multiplied by the gross revenues"
+
+      - name: net_revenues
+        description: "Gross revenues minus any sales discounts"
+
+      - name: rate_to_usd
+        description: "The relevant exchange rate to convert the revenue_currency to USD"
+
+      - name: gross_revenues_in_usd
+        description: "The gross revenues converted to USD using the rate_to_usd"
+
+      - name: sales_discount_in_usd
+        description: "The sales discount converted to USD using the rate_to_usd"
+
+      - name: net_revenues_in_usd
+        description: "The net revenues converted to USD using the rate_to_usd"
+
+      - name: monetized_user_id
+        description: "From whom did Chipper generate the revenues"
+        tests:
+          - not_null

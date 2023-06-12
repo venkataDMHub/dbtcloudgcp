@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: first_branch_install_corrected
+    config:
+      tags: ['daily']
+    description: 'User acquisition source inferred from branch installs'
+    columns: 
+      - name: user_id 
+        description: "user_id of the user"
+        tests: 
+          - unique 
+          - not_null 
+
+      - name: acquisition_source
+        description: 'Acquisitions source for branch installs is the advertising_partner_partner. If advertising_partner_partner is null then the acquisition_source is Direct Install' 
+
+      - name: advertising_id
+        description: 'id of the ad'
+
+      - name: branch_install_created_at
+        description: 'Timestamp indicating when the branch install was created'
+
+      - name: branch_install_id
+        description: 'id of the branch install'
+
+  - name: first_branch_install
+    description: 'User acquisition source inferred from branch installs'
+    columns: 
+      - name: user_id 
+        description: "user_id of the user"
+        tests: 
+          - unique 
+          - not_null 
+
+      - name: acquisition_source
+        description: 'Acquisitions source for branch installs is the advertising_partner_partner. If advertising_partner_partner is null then the acquisition_source is Direct Install' 
+
+      - name: advertising_id
+        description: 'id of the ad'
+
+      - name: branch_install_created_at
+        description: 'Timestamp indicating when the branch install was created'
+
+      - name: branch_install_id
+        description: 'id of the branch install'
+
+  - name: referral_acquired_users 
+    description: 'Users who were acquired from a referral'
+    columns:
+      - name: user_id
+        description: 'user_id of the the invited user'
+
+      - name: acquisition_source
+        description: "Acquisition source for referral acquired users, which is `Referral + {referral_status}`"
+
+      - name: referral_id 
+        description: "referral id of the referral that invited the user"
+
+  - name: user_acquisition_source 
+    description: 'Transformation that attributes an acquisition source for every user' 
+    columns: 
+      - name: user_id 
+        description: "user_id of the user"
+
+      - name: acquisition_source
+        description: "Acquisition source of the user. For referral invited user, the acquisition_source is gotten from referral_acquired_users. For other users, it is as per the branch install. Else, it the acquisition source is Unknown"
+
+
+

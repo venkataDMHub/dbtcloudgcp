@@ -1,0 +1,152 @@
+version: 2
+
+models:
+  - name: merchant_orders
+    config:
+      tags: ['hourly']
+    description: "This is a staging table for network api merchant dashboard orders data"
+    columns:
+      - name: id
+        description: "Order id"
+        tests:
+          - unique
+          - not_null
+
+      - name: status
+        description: "Status of the order"
+
+      - name: created_at
+
+      - name: updated_at
+
+      - name: merchant_reference
+        description: "The unique reference number provided by merchant"
+
+      - name: merchant_name
+        description: "Name of the merchant"
+
+      - name: customer_tag
+        description: "Customer's chipper tag"
+
+      - name: customer_primary_currency
+        description: "Customer's primary currency"
+
+      - name: origin_amount
+        description: "The amount debited from customer's account"
+
+      - name: origin_currency
+        description: "Currency for origin_amount"
+
+      - name: destination_amount
+        description: "The amount credited to merchant's account"
+
+      - name: destination_currency
+        description: "Currency for destination_amount"
+
+      - name: authorisation_id
+        description: "Most relevant authorisation id"
+
+      - name: merchant_id
+        description: "Merchant account id"
+
+      - name: note
+        description: "Note"
+
+  - name: merchant_payouts
+    config:
+      tags: ['hourly']
+    description: "This is a staging table for network api merchant dashboard payouts data"
+    columns:
+      - name: id
+        description: "Payout id"
+        tests:
+          - unique
+          - not_null
+
+      - name: status
+        description: "Status of the payout"
+
+      - name: created_at
+
+      - name: updated_at
+
+      - name: merchant_name
+        description: "Name of the merchant"
+
+      - name: customer_tag
+        description: "Customer's chipper tag"
+
+      - name: customer_primary_currency
+        description: "Customer's primary currency"
+
+      - name: origin_amount
+        description: "The amount debited from customer's account"
+
+      - name: origin_currency
+        description: "Currency for origin_amount"
+
+      - name: destination_amount
+        description: "The amount credited to merchant's account"
+
+      - name: destination_currency
+        description: "Currency for destination_amount"
+
+      - name: merchant_id
+        description: "Merchant account id"
+
+      - name: note
+        description: "Note"
+
+  - name: merchant_refunds
+    config:
+      tags: ['hourly']
+    description: "This is a staging table for network api merchant dashboard refunds data"
+    columns:
+      - name: id
+        description: "Refund id"
+        tests:
+          - unique
+          - not_null
+
+      - name: status
+        description: "Status of the refund"
+
+      - name: order_id
+        description: "The order this refund is issued on"
+
+      - name: reason
+        description: "Reason of the refund"
+
+      - name: merchant_reference
+        description: "The unique reference number provided by merchant"
+
+      - name: type
+        description: "The type of the refund, full, partial, etc"
+
+      - name: created_at
+
+      - name: updated_at
+
+      - name: merchant_name
+        description: "Name of the merchant"
+
+      - name: customer_tag
+        description: "Customer's chipper tag"
+
+      - name: customer_primary_currency
+        description: "Customer's primary currency"
+
+      - name: origin_amount
+        description: "The amount debited from customer's account"
+
+      - name: origin_currency
+        description: "Currency for origin_amount"
+
+      - name: destination_amount
+        description: "The amount credited to merchant's account"
+
+      - name: destination_currency
+        description: "Currency for destination_amount"
+
+      - name: merchant_id
+        description: "Merchant account id"

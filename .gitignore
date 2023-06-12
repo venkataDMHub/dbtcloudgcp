@@ -1,0 +1,7 @@
+target/
+dbt_packages/
+dbt_modules/
+logs/
+
+# Created by dbt deps
+/.user.yml

@@ -1,0 +1,137 @@
+version: 2
+
+models:
+  - name: expanded_transfers
+    config:
+      tags: ['4_hourly']
+    description: "Union of the HLO expanded transfers model and the dead-end expanded transfers model"
+
+    columns:
+      - name: transfer_id
+        description: "Primary Key (id) from the transfers table"
+        tests:
+          - unique
+          - not_null
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column that indicates whether the transfer itself was later reversed in another transfer or not. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: is_transfer_reversal
+        description: "Boolean column that indicates whether the transfer ID in the row is a reversal transaction. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: transfer_type
+        description: "Derived column that defines transfer type as the hlo_table + hlo_status + [reversal]. Dead-end ledger entry for dead-end expanded transfers"
+
+      - name: transfer_status
+        description: "Status from the transfers table"
+
+      - name: transfer_created_at
+        description: "Timestamp when the transfer entry was created"
+        tests:
+          - not_null
+
+      - name: transfer_updated_at
+        description: "Timestamp when the transfer entry was last updated"
+        tests:
+          - not_null
+
+      - name: journal_id
+        description: "The journal id of the transaction from the hlo table"
+        tests:
+          - not_null
+
+      - name: journal_type
+        description: "Type from the journals table"
+
+      - name: hlo_id
+        description: "Primary key (id) from the relevant HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+        tests:
+          - not_null
+
+      - name: hlo_table
+        description: "The underlying HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_status
+        description: "Status from the HLO entry. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_created_at
+        description: "Timestamp when the HLO entry was created. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+        tests:
+          - not_null
+
+      - name: hlo_updated_at
+        description: "Timestamp when the HLO entry was last updated. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+        tests:
+          - not_null
+
+      - name: origin_currency
+        description: "Wallet currency of the debit side of the transaction"
+
+      - name: origin_amount
+        description: "Amount debited in the origin currency"
+        tests:
+          - not_null
+
+      - name: origin_rate_id
+        description: "Foreign key to the exchange rates table"
+
+      - name: origin_rate
+        description: "Exchange rate to USD from the exchange rates table for the origin amount"
+        tests:
+          - not_null
+
+      - name: origin_amount_in_usd
+        description: "Origin amount converted to USD using the origin rate"
+        tests:
+          - not_null
+
+      - name: outgoing_user_id
+        description: "User from the debit (origin) side of the transaction"
+
+      - name: exchange_rate_fee_percentage
+        description: "Exchange rate fee percentage from the transfers table"
+
+      - name: base_modification_percentage
+        description: "Base modification percentage from the transfers table"
+
+      - name: exchange_rate
+        description: "Exchange rate from the transfers table used to initiate or complete the transfer from origin to destination"
+
+      - name: corridor
+        description: "Derived column that defines the underlying transaction corridor. If same currency (origin and destination currencies are the same), either local + asset type (from the assets table) or local + other. If different (origin and destination currencies are different), either cross-border + asset type, crypto trade, or cross-border + other"
+
+      - name: destination_currency
+        description: "Wallet currency of the credit side of the transaction"
+
+      - name: destination_amount
+        description: "Amount credited in the destination currency"
+        tests:
+          - not_null
+
+      - name: destination_rate_id
+        description: "Foreign key to the exchange rates table"
+
+      - name: destination_rate
+        description: "Exchange rate to USD from the exchange rates table for the destination amount"
+        tests:
+          - not_null
+
+      - name: destination_amount_in_usd
+        description: "Destination amount converted to USD using the destination rate"
+        tests:
+          - not_null
+
+      - name: incoming_user_id
+        description: "User from the credit side of the transaction"
+
+      - name: flat_fee_currency
+        description: "Currency of any relevant flat fees"
+
+      - name: flat_fee_amount
+        description: "Amount of the flat fees in the flat fee currency. If negative, the flat fee was charged to the outgoing user ID. If positive, the flat fee was charged to the incoming user ID"
+
+      - name: flat_fee_rate
+        description: "Exchange rate to USD from the exchange rates table for the flat fee amount"
+
+      - name: flat_fee_amount_in_usd
+        description: "Flat fee amount converted to USD using the flat fee rate"

@@ -1,0 +1,245 @@
+version: 2
+
+models:
+  - name: itemized_transaction_volume
+    config:
+      tags: ['4_hourly']
+    description: "Transformation for itemizing all relevant debits and credits in every transaction that make up the calculation of transaction volume. All amounts are in absolute values. Transactions include those processed by Chipper (from the ledger_entries table) and card spend transactions not processed by Chipper but by external providers (from the issued_card_transactions table)"
+
+    columns:
+      - name: reference_table
+        description: "From which table is the volume data derived (either ledger_entries or issued_card_transactions)"
+
+      - name: ledger_entry_id
+        description: "Primary key (ID) from the ledger_entries table"
+      
+      - name: hlo_id
+        description: "Primary key (ID) from the relevant HLO table"
+
+      - name: hlo_table
+        description: "HLO table of the transaction"
+
+      - name: reference_table_with_id
+        description: "Row number to uniquely identify each row. Concatenation of the reference_table and the ID (either ledger entry ID or issued card transaction ID) to create a unique row identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: hlo_table_with_id
+        description: "Concatenation of the HLO table and the HLO ID to create a transaction identifier"
+
+      - name: transfer_id
+        description: "Primary key (ID) from the transfers table"
+
+      - name: transaction_type
+        description: "The transfer type for Chipper processed volume and the type of card spend transaction for provider-processed card transactions"
+
+      - name: journal_id
+        description: "Primary key (ID) from the journals table"
+
+      - name: journal_type
+        description: "Journal type from the journals table"
+
+      - name: is_chipper_processed_volume
+        description: "Boolean column to determine whether the row is Chipper processed volume or not. Debits and credits that exist in Chipper's ledger entries are Chipper processed volume"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column to determine whether the original transfer was reversed later on or not"
+
+      - name: is_transfer_reversal
+        description: "Boolean column to determine whether the transfer ID on the row is a reverse transfer or not"
+
+      - name: volume_type
+        description: "Type of transaction volume (the activity type for Chipper processed volume and the type of card spend transaction for provider-processed card transactions)"
+
+      - name: transaction_status
+        description: "Status of the transaction (the HLO status for Chipper processed volume and the Base II status for provider-processed card spend transactions)"
+
+      - name: volume_timestamp
+        description: "Timestamp when the debit or credit is officially recognized as transaction volume (the HLO updated at for Chipper processed volume and the transaction timestamp for provider-processed card spend transactions)"
+
+      - name: transaction_side
+        description: "Either DEBIT (-) or CREDIT (+)"
+
+      - name: volume_currency
+        description: "Currency of the transaction volume recognized"
+
+      - name: volume_rate_to_usd
+        description: "Exchange rate to convert the volume currency to USD (at official rate)"
+
+      - name: volume_parallel_rate
+        description: "Exchange rate to convert the volume currency to USD (at parallel rate)"
+
+      - name: unadjusted_volume
+        description: "Volume that includes transactions not necessarily successful, settled or completed, but the processing of which were attempted by external providers (as evidenced by the existence of the external provider's transaction ID). Processing by providers incurs costs and goes to the company's contribution margin numbers"
+
+      - name: unadjusted_volume_in_usd
+        description: "unadjusted_volume converted to USD (at official rates) using the volume_rate_to_usd"
+
+      - name: unadjusted_volume_in_usd_parallel
+        description: "unadjusted_volume converted to USD (at parallel rates) using the volume_parallel_rate"
+
+      - name: adjusted_volume
+        description: "Volume to considers only successful, settled or completed and unreversed transactions for official reporting to investors, BOD, management, etc"
+
+      - name: adjusted_volume_in_usd
+        description: "adjusted_volume converted to USD (at official rates) using the volume_rate_to_usd"
+
+      - name: adjusted_volume_in_usd_parallel
+        description: "adjusted_volume converted to USD (at parallel rates) using the volume_parallel_rate"
+
+      - name: transactor_id
+        description: "User ID of the transactor"
+
+      - name: transactor_primary_currency
+        description: "Primary currency of the transactor"
+
+  - name: aggregated_transaction_volume
+    config:
+      tags: ['4_hourly']
+    description: "Transformation for aggregating transaction volume at the transaction level. There is only 1 row for every transaction with 2 different columns for total debit volume and total credit volume respectively. All amounts are in absolute values. Transactions include those processed by Chipper (from the ledger_entries table) and card spend transactions not processed by Chipper but by external providers (from the issued_card_transactions table)"
+
+    columns:     
+      - name: hlo_id
+        description: "Primary key (ID) from the relevant HLO table"
+
+      - name: hlo_table
+        description: "HLO table of the transaction"
+
+      - name: hlo_table_with_id
+        description: "Concatenation of the HLO table and the HLO ID to create a transaction identifier"
+        tests:
+          - unique
+          - not_null
+
+      - name: transaction_type
+        description: "The transfer type for Chipper processed volume and the type of card spend transaction for provider-processed card transactions"
+
+      - name: volume_timestamp
+        description: "Timestamp when the debit or credit is officially recognized as transaction volume (the HLO updated at for Chipper processed volume and the transaction timestamp for provider-processed card spend transactions)"
+
+      - name: is_chipper_processed_volume
+        description: "Boolean column to determine whether the row is Chipper processed volume or not. Debits and credits that exist in Chipper's ledger entries are Chipper processed volume"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column to determine whether the original transfer was reversed later on or not"
+
+      - name: transaction_status
+        description: "Status of the transaction (the HLO status for Chipper processed volume and the Base II status for provider-processed card spend transactions)"
+
+      - name: has_debit_side
+        description: "Either 1 or 0. 1 if the transaction has a debit side (-)"
+
+      - name: has_credit_side
+        description: "Either 1 or 0. 1 if the transaction has a credit side (+)"
+
+      - name: transaction_sides_count
+        description: "Either 1 or 2. 1 if the transaction has either only debit side (-) or only credit side (+). 2 if both sides"
+
+      - name: count_of_debits
+        description: "Unique count of debits that occurred in the transaction"
+
+      - name: count_of_credits
+        description: "Unique count of credits that occurred in the transaction"
+
+      - name: debit_side_transfer_id
+        description: "Primary key (ID) from the transfers table. Transfer ID of the transaction's debit side"
+
+      - name: credit_side_transfer_id
+        description: "Primary key (ID) from the transfers table. Transfer ID of the transaction's credit side"
+
+      - name: debit_side_journal_id
+        description: "Primary key (ID) from the journals table. Journal ID of the transaction's debit side"
+
+      - name: credit_side_journal_id
+        description: "Primary key (ID) from the journals table. Journal ID of the transaction's credit side"        
+
+      - name: debit_side_journal_type
+        description: "Journal type from the journals table. Journal type of the transactions' debit side"
+
+      - name: credit_side_journal_type
+        description: "Journal type from the journals table. Journal type of the transactions' credit side"
+
+      - name: debit_side_volume_type
+        description: "Type of transaction volume for the debit side (the activity type for Chipper processed volume and the type of card spend transaction for provider-processed card transactions)"        
+
+      - name: debit_side_currency
+        description: "Currency of the transaction's debit side"
+
+      - name: debit_side_rate_to_usd
+        description: "Exchange rate to convert the debit-side volume currency to USD (at official rate)"
+
+      - name: debit_side_parallel_rate
+        description: "Exchange rate to convert the debit-side volume currency to USD (at parallel rate)"
+
+      - name: debit_side_unadjusted_volume
+        description: "Debit-side volume that includes transactions not necessarily successful, settled or completed, but the processing of which were attempted by external providers (as evidenced by the existence of the external provider's transaction ID). Processing by providers incurs costs and goes to the company's contribution margin numbers"
+
+      - name: debit_side_unadjusted_volume_in_usd
+        description: "debit_side_unadjusted_volume converted to USD (at official rates) using the debit_side_rate_to_usd"
+
+      - name: debit_side_unadjusted_volume_in_usd_parallel
+        description: "debit_side_unadjusted_volume converted to USD (at parallel rates) using the debit_side_parallel_rate"
+
+      - name: debit_side_adjusted_volume
+        description: "Debit-side volume to considers only successful, settled or completed and unreversed transactions for official reporting to investors, BOD, management, etc"
+
+      - name: debit_side_adjusted_volume_in_usd
+        description: "debit_side_adjusted_volume converted to USD (at official rates) using the debit_side_rate_to_usd"
+
+      - name: debit_side_adjusted_volume_in_usd_parallel
+        description: "debit_side_adjusted_volume converted to USD (at parallel rates) using the debit_side_parallel_rate"
+
+      - name: debit_side_transactor_id
+        description: "User ID of the debit-side transactor"
+
+      - name: debit_side_transactor_primary_currency
+        description: "Primary currency of the debit-side transactor"
+
+      - name: credit_side_volume_type
+        description: "Type of transaction volume for the credit side (the activity type for Chipper processed volume and the type of card spend transaction for provider-processed card transactions)"        
+
+      - name: credit_side_currency
+        description: "Currency of the transaction's credit side"
+
+      - name: credit_side_rate_to_usd
+        description: "Exchange rate to convert the credit-side volume currency to USD (at official rate)"
+
+      - name: credit_side_parallel_rate
+        description: "Exchange rate to convert the credit-side volume currency to USD (at parallel rate)"
+
+      - name: credit_side_unadjusted_volume
+        description: "Credit-side volume that includes transactions not necessarily successful, settled or completed, but the processing of which were attempted by external providers (as evidenced by the existence of the external provider's transaction ID). Processing by providers incurs costs and goes to the company's contribution margin numbers"
+
+      - name: credit_side_unadjusted_volume_in_usd
+        description: "credit_side_unadjusted_volume converted to USD (at official rates) using the credit_side_rate_to_usd"
+
+      - name: credit_side_unadjusted_volume_in_usd_parallel
+        description: "credit_side_unadjusted_volume converted to USD (at parallel rates) using the credit_side_parallel_rate"
+
+      - name: credit_side_adjusted_volume
+        description: "Credit-side volume to considers only successful, settled or completed and unreversed transactions for official reporting to investors, BOD, management, etc"
+
+      - name: credit_side_adjusted_volume_in_usd
+        description: "credit_side_adjusted_volume converted to USD (at official rates) using the credit_side_rate_to_usd"
+
+      - name: credit_side_adjusted_volume_in_usd_parallel
+        description: "credit_side_adjusted_volume converted to USD (at parallel rates) using the credit_side_parallel_rate"
+
+      - name: credit_side_transactor_id
+        description: "User ID of the credit-side transactor"
+
+      - name: credit_side_transactor_primary_currency
+        description: "Primary currency of the credit-side transactor"
+
+      - name: unadjusted_transaction_volume_in_usd
+        description: "debit_side_unadjusted_volume_in_usd + credit_side_unadjusted_volume_in_usd"
+
+      - name: unadjusted_transaction_volume_in_usd_parallel
+        description: "debit_side_unadjusted_volume_in_usd_parallel + credit_side_unadjusted_volume_in_usd_parallel"
+
+      - name: adjusted_transaction_volume_in_usd
+        description: "debit_side_adjusted_volume_in_usd + credit_side_adjusted_volume_in_usd"
+
+      - name: adjusted_transaction_volume_in_usd_parallel
+        description: "debit_side_adjusted_volume_in_usd_parallel + credit_side_adjusted_volume_in_usd_parallel"

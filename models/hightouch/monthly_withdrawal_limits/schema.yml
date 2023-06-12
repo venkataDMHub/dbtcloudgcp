@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: monthly_withdrawal_limits
+    config:
+      tags: ['hourly']
+    description: 'list of users who reach monthly withdrawal limits in UGX and RWF'
+    columns: 
+
+      - name: user_id
+        description: unique id of the user
+
+      - name: primary_currency
+        description: The user's primary_currency. Currently either UGX or RWF
+
+      - name: transaction_month
+        description: the month the withdrawal transactions occured
+
+      - name: total_withdrawals
+        description: total number of settled withdrawal transactions for the user in the given month
+      
+      - name: total_amount_withdrawn
+        description: total amount in local currency withdrawan for the user in the given month
+
+      - name: meets_withdrawal_threshold
+        description: True if a user has 25+ transactions,  has withdrawn more than 6,250,000 UGX or  has withdrawn more than 2,500,000 RWF
+        

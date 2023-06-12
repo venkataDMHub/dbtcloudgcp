@@ -1,0 +1,167 @@
+version: 2
+
+models:
+  - name: cashback_disbursements_expanded_ledgers
+    config:
+      tags: ['4_hourly']
+    description: "expanded ledgers for cashback disbursements"
+
+    columns:
+      - name: ledger_entry_id
+        description: "Ledger Entry Id"
+
+      - name: transfer_id
+        description: "Transfer Id"
+
+      - name: is_transfer_reversal
+        description: "Boolean to check if the transfer is reversal"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean - is original transfer reversed"
+
+      - name: transfer_type
+        description: "Type of transfer"
+
+      - name: journal_id
+        description: "Journal id " 
+
+      - name: journal_type
+        description: "journal type"
+
+      - name: hlo_id
+        description: "Hlo id" 
+
+      - name: hlo_table
+        description: "Hlo table"
+
+      - name: hlo_status
+        description: "status of Hlo " 
+
+      - name: corridor
+        description: "Corridor of the transfer"
+
+      - name: hlo_created_at
+        description: "timestamp - Hlo created at"
+
+      - name: hlo_updated_at
+        description: "timestamp - Hlo updated at"        
+
+      - name: ledger_currency
+        description: "Ledger Currency"
+
+      - name: ledger_rate
+        description: "Ledger rate"   
+
+      - name: ledger_amount
+        description: "Ledger amount"
+
+      - name: ledger_amount_in_usd
+        description: "Ledger amount in USD" 
+
+      - name: ledger_timestamp
+        description: "Ledger Timestamp"
+
+      - name: main_party_user_id
+        description: "Main party user id" 
+
+      - name: counter_party_user_id
+        description: "Counter Party user id"
+
+  - name: cashback_disbursements_with_all_transfer_ids
+    config:
+      tags: ['4_hourly']
+    description: "Narrow format of the cashback disbursements table by modeling hlo_id x transfer_id as a primary key. This is done by taking the union of transfer_ids and the reverse_transfer_ids"
+
+    columns:
+      - name: hlo_id
+        description: "Primary Key (id) from the Bill Payments table"
+
+      - name: hlo_table
+        description: "Bill Payments - The underlying HLO Table"
+
+      - name: hlo_status
+        description: "Status of the hlo entry"
+      - name: hlo_journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: hlo_created_at
+        description: "Timestamp when the hlo entry was created"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the hlo entry was last updated"
+
+      - name: transfer_id
+        description: "Transfer id of the hlo entry"
+
+      - name: is_original_transfer_reversed
+        description: "boolean column that indicates whether the transfer was reversed. For a reversal_transfer_id this is always set to TRUE"
+
+      - name: is_transfer_reversal
+        description: "boolean column that indicates whether the transfer itself was a reversal transfer"
+
+  - name: cashback_disbursements_with_ledger_entries
+    config:
+      tags: ['4_hourly']
+    description: Appending ledger_entries data to bill_payments_with_all_transfers"
+
+    columns:
+      - name: hlo_id
+        description: "Primary Key (id) from the Bill Payments table"
+
+      - name: hlo_table
+        description: "Bill Payments - The underlying HLO Table"
+
+      - name: hlo_status
+        description: "Status of the hlo entry"
+
+      - name: hlo_journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: hlo_created_at
+        description: "Timestamp when the hlo entry was created"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the hlo entry was last updated"
+
+      - name: transfer_id
+        description: "Transfer id of the hlo entry"
+
+      - name: is_original_transfer_reversed
+        description: "boolean column that indicates whether the transfer was reversed. For a reversal_transfer_id this is always set to TRUE"
+
+      - name: is_transfer_reversal
+        description: "boolean column that indicates whether the transfer itself was a reversal transfer"
+
+      - name: ledger_entry_id
+        description: "Primary key (id) from the ledger entries table"
+
+      - name: ledger_entry_journal_id
+        description: "The journal_id of the transaction from the ledger_entries table"
+
+      - name: amount
+        description: "Amount from the ledger_entries table"
+
+      - name: user_id
+        description: "user_id from the ledger_entries table"
+
+      - name: timestamp
+        description: "Timestamp when the ledger entry was created"
+
+      - name: transfer_type
+        description: "Derived column that defines transfer type as the hlo_table + hlo_stats + [reversal]"
+
+      - name: is_debit
+        description: "boolean column that indicates whether the ledger entry is a debit of the credit part of the transaction"
+
+      - name: outgoing_user_id
+        description: "user_id if is_debit, else NULL"
+
+      - name: incoming_user_id
+        description: "user_id if is_credit, else NULL"
+
+      - name: row_num_asc
+        description: "Ascending rank of the ledger_entry_id for the given hlo_id"
+
+      - name: row_num_desc
+        description: "Descending rank of the ledger_entry_id for the given hlo_id" 
+

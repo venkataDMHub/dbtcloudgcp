@@ -1,0 +1,98 @@
+version: 2
+
+models:
+  - name: uos_percentile
+    description: "Getting the percentile ranking of various data-points required for UOS computation"
+    columns:
+      - name: percentile
+        description: "percentile of the required datapoint"
+
+      - name: onboarding_time
+        description: "onboarding time for given percentile"
+
+      - name: num_ip
+        description: "number of IPs for given percentile"
+
+      - name: user_per_ip_count
+        description: "users per IP for given percentile"
+
+  - name: uos_recent_data
+    description: "Getting the UOS data for the specified interval"
+    columns:
+      - name: onboarding_time
+        description: "time to complete the onboarding flow"
+        tests:
+          - dbt_utils.at_least_one
+
+      - name: num_ip
+        description: "number of IPs seen during onboarding"
+
+      - name: user_per_ip_count
+        description: "number of users linked to an onboarding IP"
+
+  - name: pipeline_uos_data
+    description: "Getting all the information / features for the UOS pipeline"
+    columns:
+      - name: user_id
+        description: "user_id for whom onboarding score is to be computed"
+
+      - name: first_name
+        description: "first name entered manually by the user"
+
+      - name: last_name
+        description: "last name entered manually by the user"
+
+      - name: user_created_at
+        description: "When the user signed up on the chipper platform"
+
+      - name: time_to_onboard
+        description: "Onboarding time of the user"
+
+      - name: onboarding_completion_timestamp
+        description: "When the user completed the onboarding process"
+
+      - name: onboarding_completion_timestamp
+        description: "When the user completed the onboarding process"
+
+      - name: num_distinct_ips
+        description: "Number of distinct IP's seen during the onboarding process"
+
+      - name: user_per_ip_count
+        description: "(Maximum) Number of users previously seen with an IP"
+
+      - name: year_month
+        description: "The YYYY-MM component of when user creation date"
+
+      - name: dob
+        description: "The date of birth of the user from user_info table"
+
+      - name: nationality
+        description: "The nationality of the user from user_info table"
+
+      - name: purpose_of_account
+        description: "The purpose of the account from user_info table. This can be more than 1 value (separated by ,)"
+
+      - name: street
+        description: "The latest street name entered by the user"
+
+  - name: uos_name_sim
+    config:
+      tags: ['hourly']
+    description: "Getting the counts of all first AND last names seen over the past 24 hours period"
+    columns:
+      - name: name
+        description: "The name of the user. This could be the first OR last name"
+
+      - name: freq_name
+        description: "How often this particular names has occurred, both as a first name OR a last name"
+
+  - name: uos_street_sim
+    config:
+      tags: ['hourly']
+    description: "Getting the counts of all street names seen over the past 24 hours period"
+    columns:
+      - name: name
+        description: "The name of the street entered by the user"
+
+      - name: freq_name
+        description: "How often this particular street name has occurred in the specified time frame"

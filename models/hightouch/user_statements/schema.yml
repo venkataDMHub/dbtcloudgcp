@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  - name: user_statement
+    config:
+      tags: ['daily']
+    description: 'Running balance data by user and month for creation of monthly statements'
+    columns: 
+
+      - name: record_id
+        description: "Unique id per transaction"
+        tests:
+          - unique
+          - not_null
+
+      - name: ledger_entry_id
+        description: "Unique ledger entry ID"
+        tests:
+          - unique
+          - not_null
+
+      - name: month_year 
+        description: "MMM-YYYY format based on the transaction date"
+
+      - name: user_id
+        description: "Unique internal user id"
+
+      - name: user_primary_currency
+        description: "Primary currency of the user"
+
+      - name: first_name
+        description: "User legal first name"
+
+      - name: last_name
+        description: "User legal last name"
+
+      - name: chipper_user_tag
+        description: "chipper app username"
+
+      - name: house_number
+        description: "street/house number for user address"
+
+      - name: street_name
+        description: "street name for user address"
+
+      - name: city
+        description: "city of user"
+
+      - name: region
+        description: "state / region of user"
+
+      - name: postal_code
+        description: "user zip code"
+
+      - name: country
+        description: "user country"
+
+      - name: address
+        description: "customer full address"
+
+      - name: transaction_date
+        description: "date the transaction was created"
+
+      - name: transfer_id
+        description: "unique internal transaction id"
+
+      - name: ledger_currency 
+        description: "ledger currency of the transaction"
+
+      - name: transfer_type
+        description: "transaction type"
+
+      - name: hlo_table
+        description: "hlo component of the transaction"
+
+      - name: is_transfer_reversal
+        description: "T/F flag used to indicate if the transaction was a reversal"
+
+      - name: status
+        description: "status of the transaction"
+
+      - name: description
+        description: "transaction detail (varies by transaction type)"
+
+      - name: inflow_local
+        description: "amount added to chipper wallet local currency"
+
+      - name: outflow_local
+        description: "amount sent from chipper wallet local currency"
+
+      - name: user_balance_local
+        description: "running wallet balance by user local currency"
+
+      - name: inflow_usd
+        description: "amount added to chipper wallet usd currency"
+
+      - name: outflow_usd
+        description: "amount sent from chipper wallet usd currency"
+
+      - name: user_balance_usd
+        description: "running wallet balance by user usd currency"
+        

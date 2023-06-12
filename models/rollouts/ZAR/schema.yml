@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: south_african_users
+    config:
+      tags: ['hourly']
+    description: "A transformation that creates a shuffled table with users from South Africa, and adds a column with percentile row numbers, for rollout control."
+    columns:
+      - name: USER_ID
+        description: "User ID"
+        tests:
+          - unique
+          - not_null
+
+      - name: "PERCENTILE"
+        description: "A percentile for the randomly-assigned row number of the user, so we can deterministically sample the data for incremental percentages of users."
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1

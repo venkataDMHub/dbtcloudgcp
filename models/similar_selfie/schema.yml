@@ -1,0 +1,14 @@
+version: 2
+
+models:
+  - name: nysm_similar_selfie_lookback
+    description: "A transformation that creates a sample segment of historical users split by LPV groups for NYSM lookback analysis"
+    columns:
+        - name: user_id
+          description: "User ID"
+
+        - name: created_at
+          description: "Time user was created"
+
+        - name: lpv_group
+          description: "The LPV group the user belongs to"

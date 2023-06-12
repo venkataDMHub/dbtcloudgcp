@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: user_segments_metadata
+    description: "A transformation that keeps track of user segment sizes, when they were created, and when they were last updated"
+    columns:
+        - name: segment
+          description: "Name of segment"
+
+        - name: size
+          description: "Number of users in segment"
+
+        - name: created_at
+          description: "Timestamp of when the segment was deployed"
+
+        - name: updated_at
+          description: "Timestamp of when the segment was last updated"

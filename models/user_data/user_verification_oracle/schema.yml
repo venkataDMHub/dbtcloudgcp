@@ -1,0 +1,109 @@
+version: 2
+
+models:
+  - name: pipeline_uvo
+    description: "Output table for UVO pipeline"
+    columns:
+    - name: user_id
+      description: "User id of the user"
+      tests:
+        - unique
+        - not_null
+
+    - name: primary_currency
+      description: "Primary currency of the user"
+
+    - name: current_tier
+      description: "User current verification tier"
+      tests:
+        - accepted_values:
+            values: ["TIER_0", "TIER_1", "TIER_2", "TIER_3", "UNVERIFIED"]
+
+    - name: user_verified_at
+      description: "The timestamp of the user current verification was updated at"
+
+    - name: user_created_at
+      description: "The timestamp of the user creation"
+
+    - name: latest_accepted_kyc_submitted_at
+      description: "The timestamp of the user's lastest accepted kyc submission"
+
+    - name: whitelisted_kyc_added_at
+      description: "The timestamp of the user's being whitelisted for kyc verification"
+
+    - name: business_user_verified_at
+      description: "The timestamp of the user's being verified for business account"
+
+    - name: latest_blocking_flags_unflag_timestamp
+      description: "The latest timestamp of the user's bloacking flags being unflagged at"
+
+    - name: user_kyc_revoked_timestamp
+      description: "The latest timestamp of the user's KYC being revoked"
+
+    - name: kyc_accepted_doc_count
+      description: "The count of the accepted KYC document"
+
+    - name: highest_match_score
+      description: "The highest match score of user's latest nysm check"
+
+    - name: is_whitelisted_nysm
+      description: "Whether the users nysm result check is manually whitelisted"
+
+    - name: whitelisted_nysm_added_at
+      description: "The timestamp of the user's being whitelisted for NYSM"
+
+    - name: has_blocking_flags
+      description: "Whether the flag is blocking or not"
+      tests:
+        - accepted_values:
+            values: [TRUE, FALSE]
+
+    - name: blocking_flags_added_at
+      description: "The timestamp of when the blocking flag as added"
+
+    - name: has_business_approved
+      description: "Whether the user is approved for a business account"
+      tests:
+        - accepted_values:
+            values: [TRUE, FALSE]
+
+    - name: has_selfie_checked
+      description: "Whether the user passed the selfie check"
+      tests:
+        - accepted_values:
+            values: [TRUE, FALSE]
+
+    - name: has_uos_manually_checked
+      description: "Whether the user UOS was manually checked"
+      tests:
+        - accepted_values:
+            values: [TRUE, FALSE]
+
+    - name: has_watchlist_flag
+      description: "Whether the user has flag in watchlist check"
+      tests:
+        - accepted_values:
+            values: [TRUE, FALSE]
+
+    - name: is_whitelisted_kyc
+      description: "Whether the user is whitelisted for kyc verification"
+      tests:
+        - accepted_values:
+            values: [TRUE, FALSE]
+
+    - name: has_verified_address
+      description: "Whether the user address is verified"
+      tests:
+        - accepted_values:
+            values: [TRUE, FALSE]
+    - name: has_approved_secondary_document
+      description: "Whether the user secondary approved document"
+      tests:
+        - accepted_values:
+            values: [TRUE, FALSE]
+
+    - name: latest_accepted_secondary_kyc_submmitted_at
+      description: "The timetsamp when the  secondary NG  document was accepted "
+
+    - name: latest_secondary_kyc_revoked_at
+      description: "The timetsamp when the  secondary NG  document was revoked "

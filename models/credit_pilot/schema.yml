@@ -1,0 +1,118 @@
+version: 2
+
+models:
+  - name: qualified_credit_users
+    description: "list of users who qualify for the credit MVP and relevant features"
+    columns:
+    - name: user_id
+      description: "user_id of the user"
+      tests:
+        - unique
+        - not_null
+
+    - name: primary_currency
+      description: "primary currency of the user"
+
+    - name: gender
+      description: "gender of the user"
+      tests:
+        - accepted_values:
+            values: ["M", "F", NULL]
+
+    - name: user_age
+      description: "age of the user"
+
+    - name: acquisition_source
+      description: "acquisition source of the user"
+
+    - name: acquisition_cohort
+      description: "The month a user is acquired"
+
+    - name: purpose_of_account
+      description: "the self-reported purpose a user's chipper account"
+
+    - name: account_age_in_days
+      description: "account age of the user in days"
+
+    - name: postal_code_latest
+      description: "postal code of the user's latest address"     
+
+    - name: city_latest
+      description: "city of the user's latest address"
+
+    - name: uos_score
+      description: "onboarding score of the user from UOS model"
+      tests:
+        - dbt_expectations.expect_column_values_to_be_between:
+            min_value: 0
+            max_value: 1
+
+    - name: total_lpv_usd
+      description: "The lifetime amount (USD) that has been processed for each user"
+
+    - name: percent_lpv_from_rewards
+      description: "pecernt of lifetime processed volume generated via Chipper rewards payouts"
+
+    - name: lpv_group
+      description: "Grouping of users based on the distribution of LPV"
+
+    - name: latest_engagement_bucket
+      description: "Lastest user engagement bucket"
+
+    - name: latest_engagement_score
+      description: "Lastest user engagement score"
+
+    - name: platform
+      description: "the most recent platform for a user (iOS, android, null)" 
+
+    - name: total_number_of_accounts
+      description: "number of total bank accounts for a user in our system"
+
+    - name: total_number_of_external_accounts
+      description: "number of total external bank acccounts for a user in our system "
+
+    - name: total_number_of_linked_accounts
+      description: "number of total linked bank acccounts for a user in our system " 
+
+    - name: total_number_of_verified_accounts
+      description: "number of total verified bank acccounts for a user in our system"
+
+    - name: p2p_score
+      description: "user engagement score for P2P payements"
+
+    - name: p2p_bucket
+      description: "user engagement bucket for P2P payements"
+
+    - name: purchases_score
+      description: "user engagement score for airtime purchases, bill payments, data bundles and Network API"  
+
+    - name: purchases_bucket
+      description: "user engagement score for airtime purchases, bill payments, data bundles and Network API"  
+
+    - name: deposits_score
+      description: "user engagement score for deposits"
+
+    - name: deposits_bucket
+      description: "user engagement bucket for deposits"
+
+    - name: investments_score
+      description: "user engagement score for investments (stock and crypto)"  
+
+    - name: investments_bucket
+      description: "user engagement bucket for investments (stock and crypto)" 
+
+    - name: number_users_referred
+      description: "the number of other user_ids a user has referred"
+
+    - name: total_p2p_network
+      description: "number of other user_ids a user has sent/received money to/from"   
+
+    - name: user_age_bucket
+      description: "user age grouped into 10 year segements"
+
+    - name: provided_phone_number
+      description: "True we have a phone number on file for the user"   
+
+    - name: provided_email
+      description: "True we have an email on file for the user"
+

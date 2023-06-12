@@ -1,0 +1,139 @@
+version: 2
+
+models:
+  - name: expanded_chargebacks
+    config:
+      tags: ['hourly']
+    description: "Contains additional information about chargeback on top of data fetched from flutterwave"
+    columns:
+      - name: id
+        description: "id of the chargeback received from flutterwave"
+
+      - name: user_id
+        description: "chipper user_id that filed for the chargeback"
+
+      - name: transfer_id
+        description: ""
+
+      - name: amount
+        description: "The amount that the chargeback was filed for (NGN)"
+
+      - name: amount_in_usd
+        description: "The amount that the chargeback was filed for (USD)"
+
+      - name: flw_ref
+        description: "The flutterwave reference ID to reference the chargeback"
+
+      - name: status
+        description: "The status of the chargeback"
+        test:
+          - accepted_values:
+              values: ["accepted", "declined", "won", "lost", "initiated"]
+
+      - name: updated_status
+        description: "The status of the chargeback after 45 days have passed since the creation"
+
+      - name: updated_status_reason
+        description: "If the status has changed because 45 days have passed since the creation"
+
+      - name: stage
+        description: ""
+
+      - name: comment
+        description: "User comment on the chargeback provided to flutterwave"
+
+      - name: due_date
+        description: "When a response to the chargeback is due"
+
+      - name: due_date_45_days
+        description: "When the 45 day period for the chargeback is"
+
+      - name: settlement_id
+        description: ""
+
+      - name: chargeback_created_at
+        description: "When the chargeback was created"
+
+      - name: transaction_id
+        description: ""
+
+      - name: tx_ref
+        description: ""
+
+      - name: hlo_table
+        description: "The hlo table of payment method"
+
+      - name: external_provider
+        description: "The external provider of the payment method"
+
+      - name: external_provider_transaction_id
+        description: "The transaction ID on the external provider for the payment method"
+
+      - name: payment_card_bin
+        description: ""
+
+      - name: payment_card_card_network
+        description: "The type of card involved. Ex Mastercard, Verve, Visa etc."
+
+      - name: payment_card_issuing_bank
+        description: "The bank the card was issued by"
+
+      - name: payment_card_card_type
+        description: "Card type (Credit, debit)"
+
+      - name: payment_card_expiry_date
+        description: "Expiry date of the card"
+
+      - name: payment_card_last_four
+        description: "Last 4 digits of the card"
+
+      - name: nuban_bank_name
+        description: "Bank name"
+
+      - name: nuban_account_number
+        description: "Bank account number"
+
+      - name: nuban_account_name
+        description: "Account name"
+
+      - name: is_original_transfer_reversed
+        description: "If the deposit was reversed"
+
+      - name: hlo_status
+        description: "Status of the deposit"
+
+      - name: deposit_created_at
+        description: "When the deposit was created"
+
+      - name: deposit_updated_at
+        description: "When the deposit was updated"
+
+      - name: is_card_chargeback
+        description: "Whether the chargeback is a card chargeback or not"
+
+      - name: is_bank_chargeback
+        description: "Whether the chargeback is a bank chargeback or not"
+
+      - name: is_auto_declined
+        description: "Whether the chargeback has been auto-declined by the decline pipeline"
+
+      - name: autodecline_response
+        description: "Decline Response from the provider containing metadata and updated status of chargeback"
+
+      - name: autodeclined_at
+        description: "When the audodecline took place"
+
+  - name: audited_chargebacks
+    config:
+      tags: ['hourly']
+    description: "Contains additional information about chargeback on top of data fetched from flutterwave"
+    columns:
+      - name: chargeback_id
+        description: "id of the chargeback received from flutterwave"
+
+      - name: decline_api_response
+        description: "decline api response"
+
+      - name: created_at
+        description: "created at"
+    

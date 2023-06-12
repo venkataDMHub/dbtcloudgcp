@@ -1,0 +1,102 @@
+version: 2
+
+models:
+  - name: dim_dates
+    description: "Contains date parameters for each date from 2017-2025"
+    columns:
+        - name: DATE
+          description: "every given day between Jan 01 2017 and Dec 31 2025 "
+          tests:
+            - not_null
+            - unique
+
+        - name: DAY_OF_WEEK
+          description: "the number associated with the day of the week for each date. Sunday = 0"
+          tests:
+            - not_null  
+            - accepted_values:
+                values: [0,1,2,3,4,5,6]
+
+        - name: WEEK_DAY_NAME
+          description: "The full week day name for each date"
+          tests:
+            - not_null      
+
+        - name: WEEK_DAY_NAME_ABR
+          description: "The abbreviated week day name for each date"
+          tests:
+            - not_null 
+
+        - name: FIRST_DAY_OF_WEEK
+          description: "The first day of the week in which the date falls"
+          tests:
+            - not_null 
+
+        - name: LAST_DAY_OF_WEEK
+          description: "The last day of the week in which the date falls"
+          tests:
+            - not_null 
+
+        - name: DAY_OF_MONTH
+          description: "The day of the month for each date"
+          tests:
+            - not_null 
+
+        - name: MONTH_NAME
+          description: "the full name of the month for each date"
+          tests:
+            - not_null 
+
+        - name: MONTH_NAME_ABR
+          description:  "the abbreviated name of the month for each date"
+          tests:
+            - not_null 
+
+        - name: FIRST_DAY_OF_MONTH
+          description: "The first day of the month in which the date falls"
+          tests:
+            - not_null 
+
+        - name: LAST_DAY_OF_MONTH
+          description: "The last day of the month in which the date falls"
+          tests:
+            - not_null 
+
+        - name: DAY_OF_YEAR
+          description: "The day of the year each date falls"
+          tests:
+            - not_null 
+
+        - name: WEEK_OF_YEAR
+          description: "The week number of the year each date falls"
+          tests:
+            - not_null 
+
+        - name: MONTH_OF_YEAR
+          description: "The month number of the year each date falls. Jan = 1"
+          tests:
+            - not_null   
+
+        - name: FIRST_DAY_OF_QUARTER
+          description: "The first day of the quarter in which the date falls"
+          tests:
+            - not_null   
+
+        - name: FIRST_DAY_OF_YEAR
+          description: "The first day of the year in which each date falls"
+          tests:
+            - not_null 
+            
+        - name: LAST_DAY_OF_YEAR
+          description: "The last day of the year in which each date falls"
+          tests:
+            - not_null 
+        
+        - name: IS_MARKET_CLOSED_DATE_USA
+          description: "Boolean Field for whether the market is closed on each day. Only includes full day closures"
+          tests:
+            - not_null 
+        
+        - name: HOLIDAY_NAME_USA
+          description: "Name of the holiday for any market closed date"
+            

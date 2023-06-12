@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: crypto_rollout_buckets
+    config:
+      tags: ['hourly']
+    description: "A transformation that creates a table of all users who have deposited, withdrawn, or transacted with crypto since June 1st, 2021, for crypto-related rollouts."
+    columns:
+      - name: USER_ID
+        description: "User ID"
+        tests:
+          - unique
+          - not_null
+
+    columns:
+      - name: PRIMARY_CURRENCY
+        description: "Primary Currency for the user, to allow segmenting rollouts by country/currency"
+        tests:
+          - not_null
+
+      - name: "PERCENTILE"
+        description: "A percentile assigned to the user by hashing their UserID. Between 0 and 1, to 2 decimal places, so we can rollout features to users in 1% increments."
+        tests:
+          - not_null
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1

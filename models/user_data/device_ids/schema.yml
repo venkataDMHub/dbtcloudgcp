@@ -1,0 +1,70 @@
+version: 2
+
+models:
+  - name: first_seen_user_device_ids
+    config:
+      tags: ['hourly']
+    description: "First seen user device id for a given user"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+
+      - name: device_id
+        description: "device_id of the device"
+
+      - name: user_device_created_at
+        description: "timestamp indicating the time the device was created at"
+
+      - name: user_device_updated_at
+        description: "Timestamp indicating the last time the device was updated"
+
+  - name: last_seen_user_device_ids
+    config:
+      tags: ['hourly']
+    description: "Last seen user device id for a given user"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+
+      - name: device_id
+        description: "device_id of the device"
+
+      - name: user_device_created_at
+        description: "timestamp indicating the time the device was created at"
+
+      - name: user_device_updated_at
+        description: "Timestamp indicating the last time the device was updated"
+
+  - name: last_seen_sardine_device_ids
+    config:
+      tags: ['hourly']
+    description: "Last seen user device id for a given user"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+
+      - name: device_id
+        description: "device_id of the device"
+
+      - name: device_model
+        description: "The device model of the user"
+
+      - name: risk_level
+        description: "Sardine risk level of the user and device"
+
+  - name: first_seen_sardine_device_ids
+    config:
+      tags: ['hourly']
+    description: "Last seen user device id for a given user"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+
+      - name: device_id
+        description: "device_id of the device"
+
+      - name: device_model
+        description: "The device model of the user"
+
+      - name: risk_level
+        description: "Sardine risk level of the user and device"

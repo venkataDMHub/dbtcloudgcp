@@ -1,0 +1,281 @@
+version: 2
+
+models:
+
+  - name: transfers_with_usd
+    config:
+      tags: ['4_hourly']
+    description: "A transformation that standardizes all transfer amount to USD from the exchange rate table" 
+    columns: 
+      - name: id 
+        description: "the primary key of the transfers table"
+        tests: 
+          - unique
+
+      - name: journal_id
+        description: "foreign key to the journals table"
+
+      - name: origin_amount
+        description: "Value of origin amount in origin_currency"
+
+      - name: origin_currency
+        description: "The currency of the origin amount"
+
+      - name: exchange_rate
+        description: "Exchange rate of the transfer from origin_amount to destination_amount"
+        tests: 
+          - not_null
+
+      - name: destination_currency
+        description: "The currency of the destination_amount "
+
+      - name: destination_amount
+        description: "The value of destination amount in destination currency"
+
+      - name: status
+        description: "Status of the underlying transfer"
+
+      - name: corridor
+        description: "Derived column to understand if a transaction is between the same currencies or different currencies. If same currencies, append the asset type (either fiat or crypto, else other). If different currencies and both are fiat, then, cross-border fiat transaction. If different currencies and either one is crypto, then crypto trade (else, other)"
+
+      - name: created_at
+        description: "timetamp indicating when the transfer was created at"
+
+      - name: updated_at
+        description: "timestamp indicating when the transfer was last updated at"
+
+      - name: exchange_rate_fee_percentage
+        description: "Fee, in percentage, charged on the exchange rate"
+
+      - name: origin_rate_id
+        description: "Foreign key to the exchange rates table that gives the rate in USD for the origin amount"
+
+      - name: destination_rate_id
+        description: "Foreign key to the exchange rates table that gives the rate in USD for the destination amount"
+
+      - name: flat_fee_amount
+        description: "Value of the flat fee charged for the transfer"
+
+      - name: flat_fee_currency
+        description: "Currency in which the flat_fee_amount was charged"
+
+      - name: base_modification_percentage
+        description: "base modification percentage"
+
+      - name: origin_rate
+        description: "rate in USD for the origin amount"
+        tests: 
+          - not_null
+
+      - name: destination_rate
+        description: "rate in USD for the destination amount"
+        tests: 
+          - not_null
+      
+      - name: flat_fee_rate
+        description: "rate in USD for the flat fee amount"
+        tests: 
+          - not_null
+
+      - name: origin_amount_in_USD
+        description: 'origin_amount * origin_rate'
+        tests: 
+          - not_null
+
+      - name: destination_amount_in_USD
+        description: 'destination_amount * destination_rate'
+        tests: 
+          - not_null
+
+      - name: flat_fee_amount_in_USD
+        description: 'flat_fee_amount * flat_fee_rate'
+        tests: 
+          - not_null
+
+
+  - name: transfers_with_rate_ids
+    config:
+      tags: ['4_hourly'] 
+    description: "A transformation that joins the transfers table with the exchange rates table on the origin_rate_id and destination_rate_id"
+    columns: 
+      - name: id 
+        description: "the primary key of the transfers table"
+        tests: 
+          - unique
+
+      - name: journal_id
+        description: "foreign key to the journals table"
+
+      - name: origin_amount
+        description: "Value of origin amount in origin_currency"
+
+      - name: origin_currency
+        description: "The currency of the origin amount"
+
+      - name: exchange_rate
+        description: "Exchange rate of the transfer from origin_amount to destination_amount"
+
+      - name: destination_currency
+        description: "The currency of the destination_amount "
+
+      - name: destination_amount
+        description: "The value of destination amount in destination currency"
+
+      - name: status
+        description: "Status of the underlying transfer"
+
+      - name: created_at
+        description: "timetamp indicating when the transfer was created at"
+
+      - name: updated_at
+        description: "timestamp indicating when the transfer was last updated at"
+
+      - name: exchange_rate_fee_percentage
+        description: "Fee, in percentage, charged on the exchange rate"
+
+      - name: origin_rate_id
+        description: "Foreign key to the exchange rates table that gives the rate in USD for the origin amount"
+
+      - name: destination_rate_id
+        description: "Foreign key to the exchange rates table that gives the rate in USD for the destination amount"
+
+      - name: flat_fee_amount
+        description: "Value of the flat fee charged for the transfer"
+
+      - name: flat_fee_currency
+        description: "Currency in which the flat_fee_amount was charged"
+
+      - name: base_modification_percentage
+        description: "base modification percentage"
+
+      - name: origin_rate
+        description: "rate in USD for the origin amount"
+
+      - name: destination_rate
+        description: "rate in USD for the destination amount"
+
+    
+  - name: transfers_without_rate_ids
+    config:
+      tags: ['4_hourly'] 
+    description: "A transformation that joins the transfers table with the exchange rates based on the timestamp when the transfer was created_at. This transformation picks the closest available rate for transfers with missing rate_ids. For the transfers that don't have any rates, it hardcodes the rate based on the currency"
+    columns: 
+      - name: id 
+        description: "the primary key of the transfers table"
+        tests: 
+          - unique
+
+      - name: journal_id
+        description: "foreign key to the journals table"
+
+      - name: origin_amount
+        description: "Value of origin amount in origin_currency"
+
+      - name: origin_currency
+        description: "The currency of the origin amount"
+
+      - name: exchange_rate
+        description: "Exchange rate of the transfer from origin_amount to destination_amount"
+
+      - name: destination_currency
+        description: "The currency of the destination_amount "
+
+      - name: destination_amount
+        description: "The value of destination amount in destination currency"
+
+      - name: status
+        description: "Status of the underlying transfer"
+
+      - name: created_at
+        description: "timetamp indicating when the transfer was created at"
+
+      - name: updated_at
+        description: "timestamp indicating when the transfer was last updated at"
+
+      - name: exchange_rate_fee_percentage
+        description: "Fee, in percentage, charged on the exchange rate"
+
+      - name: origin_rate_id
+        description: "NULL - Foreign key to the exchange rates table that gives the rate in USD for the origin amount"
+
+      - name: destination_rate_id
+        description: "NULL - Foreign key to the exchange rates table that gives the rate in USD for the destination amount"
+
+      - name: flat_fee_amount
+        description: "Value of the flat fee charged for the transfer"
+
+      - name: flat_fee_currency
+        description: "Currency in which the flat_fee_amount was charged"
+
+      - name: base_modification_percentage
+        description: "base modification percentage"
+
+      - name: origin_rate
+        description: "rate in USD for the origin amount"
+
+      - name: destination_rate
+        description: "rate in USD for the destination amount"
+
+  - name: transfers_with_assets
+    config:
+      tags: ['4_hourly']
+    description: "A transformation that joins the transfers table with assets table on both the origin currency and the destination currency to derive the corridor"
+    columns: 
+      - name: id 
+        description: "the primary key of the transfers table"
+        tests: 
+          - unique
+
+      - name: journal_id
+        description: "foreign key to the journals table"
+
+      - name: origin_amount
+        description: "Value of origin amount in origin_currency"
+
+      - name: origin_currency
+        description: "The currency of the origin amount"
+
+      - name: exchange_rate
+        description: "Exchange rate of the transfer from origin_amount to destination_amount"
+
+      - name: destination_currency
+        description: "The currency of the destination_amount "
+
+      - name: destination_amount
+        description: "The value of destination amount in destination currency"
+
+      - name: status
+        description: "Status of the underlying transfer"
+
+      - name: created_at
+        description: "timetamp indicating when the transfer was created at"
+
+      - name: updated_at
+        description: "timestamp indicating when the transfer was last updated at"
+
+      - name: exchange_rate_fee_percentage
+        description: "Fee, in percentage, charged on the exchange rate"
+
+      - name: origin_rate_id
+        description: "NULL - Foreign key to the exchange rates table that gives the rate in USD for the origin amount"
+
+      - name: destination_rate_id
+        description: "NULL - Foreign key to the exchange rates table that gives the rate in USD for the destination amount"
+
+      - name: flat_fee_amount
+        description: "Value of the flat fee charged for the transfer"
+
+      - name: flat_fee_currency
+        description: "Currency in which the flat_fee_amount was charged"
+
+      - name: base_modification_percentage
+        description: "base modification percentage"
+
+      - name: origin_rate
+        description: "rate in USD for the origin amount"
+
+      - name: destination_rate
+        description: "rate in USD for the destination amount"
+
+      - name: corridor
+        description: "Derived column to understand if a transaction is between the same currencies or different currencies. If same currencies, append the asset type (either fiat or crypto, else other). If different currencies and both are fiat, then, cross-border fiat transaction. If different currencies and either one is crypto, then crypto trade (else, other)"

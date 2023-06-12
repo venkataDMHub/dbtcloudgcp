@@ -1,0 +1,55 @@
+version: 2
+
+models:
+  - name: retention_by_activity
+    config:
+      tags: ['4_hourly']
+    description: "Calculates quarterly/monthly/weekly retention across various user types"
+    columns: 
+    - name: acquisition_cohort
+      description: "The quarter/month/week the user group was acquired based on the date granulartiy field"
+
+    - name: time_cohort_alive
+      description: "The number of quarters/months/weeks the user group has been alive based on the date granulartiy field"
+
+    - name: date_granularity
+      description: "Can be used as a filter to calculate retention at the quarterly/monthly/weekly level. Must filter on this field to aggregate table"
+
+    - name: is_admin
+      description: "boolena flag indicating whether the users are admin"
+
+    - name: is_internal
+      description: "Boolean flag indicating whether the users are internal user"
+
+    - name: is_deleted
+      description:  "Boolean flag indicating whether users are deleted"
+    
+    - name: is_business
+      description: "Boolean flag indicating whether users are businesses"  
+
+    - name: is_valid_user
+      description: "Boolean flag indicating whether users are a valid user or not"   
+
+    - name: kyc_tier
+      description: "the user's KYC tier"   
+
+    - name: has_risk_flag
+      description: "Boolean flag indicating users with a risk flag"  
+
+    - name: is_blocked_by_flag
+      description: "Boolean flag indicating users with an LRC risk flag"   
+
+    - name: primary_currency
+      description: "primary currency of the user" 
+
+    - name: acquisition_source
+      description: "acquisition source of the user" 
+
+    - name: activity_category
+      description: "activity category performed by the users"   
+
+    - name: total_users_in_cohort
+      description: "the total number of users in each cohort" 
+
+    - name: total_transacting_users
+      description: "the total number of users in each cohort that transacted in the given timeframe (i.e. time_cohort_alive) "    

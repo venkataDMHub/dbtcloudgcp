@@ -1,0 +1,246 @@
+version: 2
+
+models:
+    - name: udd_referral_siblings
+      config:
+        tags: ['hourly']
+      description: 'Getting the sibling referral and the associated referral count of every user'
+      columns:
+        - name: user_id 
+          description: "user_id of the user"
+          tests: 
+            - unique 
+            - not_null 
+
+        - name: user_tag 
+          description: "Chipper tag of the user"
+    
+        - name: user_referred_by 
+          description: "user_id of the sibling referrer"
+
+        - name: user_referred_by_tag 
+          description: "Chipper tag of the sibling referrer"      
+    
+        - name: user_referred_by_tag 
+          description: "The status of the referral"
+
+        - name: user_referred_by_referral_count 
+          description: "Referral count of the sibling referrer"  
+
+    - name: udd_personal_information
+      config:
+        tags: ['hourly']
+      description: 'Getting the personal information using the latest kyc and contact info'
+      columns:
+        - name: user_id 
+          description: "user_id of the user"
+
+        - name: user_account_created_at 
+          description: "the time when the user was created"  
+
+        - name: verified_first_name 
+          description: "First name provided via documents after verification"  
+
+        - name: verified_last_name 
+          description: "Last name provided via documents after verification"  
+
+        - name: dob 
+          description: "The date of birth of the user"  
+
+        - name: gender 
+          description: "Gender of the user as provided in the documents"  
+
+        - name: nationality 
+          description: "Nationality of the user as provided in the documents"  
+
+        - name: city_of_birth 
+          description: "City of birth of the user as provided in the documents"  
+
+        - name: country_of_birth 
+          description: "Country of birth of the user as provided in the documents"  
+
+        - name: tier 
+          description: "The verification tier (Verfied, Unverified etc.)"  
+
+        - name: first_name 
+          description: "First name provided manually during the onboarding flow"  
+
+        - name: last_name 
+          description: "Last name provided manually during the onboarding flow"  
+
+        - name: primary_currency 
+          description: "Primary currency selected by the user"  
+
+        - name: tag 
+          description: "Chipper tag of the user"  
+
+        - name: identifier 
+          description: "Phone/email-address used during the signup"  
+
+        - name: identifier_type
+          description: "If a phone or email was used for signup"
+
+        - name: kyc_id 
+          description: "ID from the kyd_documents table"  
+
+        - name: status 
+          description: "The KYC status for the current status of documents"  
+
+        - name: doc_type 
+          description: "The type of KYC document being provided"  
+
+        - name: ownership_proof_url 
+          description: "Proof of ownership of KYC document with a selfie image"  
+
+        - name: kyc_submitted_at 
+          description: "Time at which KYC submitted"  
+
+        - name: user_age 
+          description: "Age of the user. Computed relative to current date"
+
+    - name: udd_account_flags
+      config:
+        tags: ['hourly']
+      description: 'Getting the account flags related to a given user'
+      columns:
+        - name: user_id 
+          description: "user_id of the user"
+
+        - name: flagged_by 
+          description: "user_id flagged by"
+
+        - name: unflagged_by 
+          description: "user_id unflagged by"
+
+        - name: flag_reason 
+          description: "reason for flagging the user"
+
+        - name: unflag_reason 
+          description: "reason for unflagging the user"
+
+        - name: date_flagged 
+          description: "date when a flag is placed"
+
+        - name: date_unflagged 
+          description: "date when the flag is removed"
+
+        - name: flag 
+          description: "the flag placed on the user"
+
+        - name: watchlist_match_id 
+          description: "the id of the entry in the watchlist_matches table"
+
+        - name: wm_created_at 
+          description: "when the watchlist match was created"
+
+        - name: wm_updated_at 
+          description: "when the watchlist match was updated"
+
+        - name: watchlist 
+          description: "the watchlist linked to the user"
+
+        - name: full_response 
+          description: "the full API watchlist response"
+
+        - name: watchlist_status 
+          description: "the watchlist status of the user"
+
+        - name: match_type 
+          description: "the type of watchlist match"
+
+    - name: udd_device_ids
+      config:
+        tags: ['hourly']
+      description: 'Getting the device id information of a user'
+      columns:
+        - name: original_user_id 
+          description: "the user_id for whom the device data is to be fetched"  
+
+        - name: original_user_tag 
+          description: "chipper tag of original_user_id"
+
+        - name: device_id 
+          description: "device associated with the given user_id"
+
+        - name: user_id 
+          description: "user_id of user"
+
+        - name: user_device_created_at 
+          description: "when the device was created"
+
+        - name: user_device_updated_at 
+          description: "when the device was updated"
+
+        - name: user_device_most_recent_ip 
+          description: "the most recent ip address of the device"
+
+        - name: os_version 
+          description: "the version of the operating system"
+
+        - name: app_version 
+          description: "the version of the chipper app"
+
+        - name: device_type 
+          description: "the type of device in question"
+
+        - name: carrier 
+          description: "the mobile carrier associated with the device"
+
+        - name: login_rank 
+          description: "ranking the usage of users per device"
+
+    - name: udd_financial_data
+      config:
+        tags: ['hourly']
+      description: 'Getting the financial information associated with a user'
+      columns:
+        - name: transfer_id 
+          description: "id of the transaction"
+
+        - name: journal_id 
+          description: "journal_id of transaction"
+
+        - name: created_at 
+          description: "when the transaction was created"
+
+        - name: journal_type 
+          description: "journal type of the transaction"
+
+        - name: transfer_type 
+          description: "type of transaction"
+
+        - name: origin_currency 
+          description: "origin currency of transaction"
+
+        - name: origin_amount 
+          description: "origin amount of transaction in orgin currency"
+
+        - name: destination_currency 
+          description: "destination currency of transaction"
+
+        - name: destination_amount 
+          description: "destination amount of transaction in destination currency"
+
+        - name: origin_amount_in_usd 
+          description: "origin amount of transaction in USD"
+
+        - name: destination_amount_in_usd 
+          description: "destination amount of transaction in USD"
+
+        - name: outgoing_user_id 
+          description: "user id of the other end of the transaction"
+
+        - name: outgoing_tag 
+          description: "tag of the other end of the transaction"
+
+        - name: outgoing_user_device_id 
+          description: "device_id of the other end of the transaction"
+
+        - name: incoming_user_id 
+          description: "user_id of the initiator"
+
+        - name: incoming_tag 
+          description: "tag of the initiator"
+
+        - name: transaction_details 
+          description: "details associated with transaction"

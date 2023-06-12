@@ -1,0 +1,218 @@
+version: 2
+
+models:
+  - name: executed_card_transactions
+    config:
+      tags: ['4_hourly']
+    description: "Provides dataset for investigation of users' cards transactions"
+    columns:
+      - name: id
+        description: ""
+
+      - name: journal_id
+        description: ""
+
+      - name: transfer_id
+        description: ""
+
+      - name: reverse_transfer_id
+        description: ""
+
+      - name: user_id
+        description: ""
+
+      - name: timestamp
+        description: ""
+
+      - name: created_at
+        description: ""
+
+      - name: updated_at
+        description: ""
+
+      - name: type
+        description: ""
+
+      - name: status
+        description: ""
+
+      - name: entry_type
+        description: ""
+
+      - name: currency
+        description: ""
+
+      - name: amount
+        description: ""
+
+      - name: fee_currency
+        description: ""
+
+      - name: fee_amount
+        description: ""
+
+      - name: error_message
+        description: ""
+
+      - name: description
+        description: ""
+
+      - name: card_id
+        description: ""
+
+      - name: card_last_four
+        description: ""
+
+      - name: country
+        description: ""
+
+      - name: provider_card_id
+        description: ""
+
+      - name: provider_details
+        description: ""
+
+      - name: provider_transaction_id
+        description: ""
+
+      - name: gtp_mcccode
+        description: ""
+
+      - name: base_ii_status
+        description: ""
+
+      - name: base_ii_status_definition
+        description: ""
+
+      - name: transaction_type
+        description: ""
+
+      - name: card_country
+        description: ""
+
+      - name: card_currency
+        description: ""
+
+      - name: card_issuer
+        description: ""
+
+      - name: transfer_status
+        description: ""
+
+      - name: official_exchange_rate_date
+        description: ""
+
+      - name: official_rate
+        description: ""
+
+      - name: parallel_rate_date
+        description: ""
+
+      - name: parallel_rate
+        description: ""
+
+      - name: amount_in_usd
+        description: ""
+
+      - name: amount_in_usd_parallel
+        description: ""
+
+      - name: fee_amount_in_usd
+        description: ""
+
+      - name: fee_amount_in_usd_parallel
+        description: ""
+
+      - name: cashback_id
+        description: ""
+
+      - name: cashback_transfer_id
+        description: ""
+
+      - name: cashback_type
+        description: ""
+
+      - name: cashback_status
+        description: ""
+
+      - name: cashback_created_at
+        description: ""
+
+      - name: cashback_updated_at
+        description: ""
+
+      - name: cashback_note
+        description: ""
+
+      - name: cashback_reward_mode
+        description: ""
+
+      - name: cashback_currency
+        description: ""
+
+      - name: cashback_amount
+        description: ""
+
+      - name: cashback_reward_percentage
+        description: ""
+
+      - name: cashback_official_exchange_rate_date
+        description: ""
+
+      - name: cashback_official_rate
+        description: ""
+
+      - name: cashback_parallel_rate_date
+        description: ""
+
+      - name: cashback_parallel_rate
+        description: ""
+
+      - name: cashback_amount_in_usd
+        description: ""
+
+      - name: cashback_amount_in_usd_parallel
+        description: ""
+
+      - name: cashback_transfer_status
+        description: ""
+
+  - name: all_time_cards_merchant_breakdown
+    config:
+      tags: ['4_hourly']
+    description: "Aggregates total cards activity by merchant"
+    columns:
+      - name: user_id
+        description: ""
+
+      - name: merchant
+        description: ""
+
+      - name: total_in_local_currency
+        description: ""
+
+      - name: total_usd
+        description: ""
+
+      - name: percent_of_total_usd
+        description: ""
+
+  - name: all_time_cards_tpv_breakdown
+    config:
+      tags: ['4_hourly']
+    description: "Aggregates total cards activity by transaction type"
+    columns:
+      - name: user_id
+        description: ""
+
+      - name: transaction_type
+        description: ""
+
+      - name: total_in_local_currency
+        description: ""
+
+      - name: total_usd
+        description: ""
+
+      - name: percent_of_total_usd
+        description: ""

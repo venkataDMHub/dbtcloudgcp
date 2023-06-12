@@ -1,0 +1,587 @@
+version: 2
+
+models:
+  - name: user_transactional_features
+    config:
+      tags: ['hourly']
+    description: "A centralized table for users behavioral features that will be commonly used for various machine learning projects. These features should be preprocessed in a model agnostic way."
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+      
+      - name: purchases_count_first_7_days
+        description: "The number of settled purchases transactions user made in the first 7 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_first_14_days
+        description: "The number of settled purchases transactions user made in the first 14 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_first_21_days
+        description: "The number of settled purchases transactions user made in the first 21 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_first_28_days
+        description: "The number of settled purchases transactions user made in the first 28 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_first_90_days
+        description: "The number of settled purchases transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_first_180_days
+        description: "The number of settled purchases transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_first_7_days
+        description: "The total usd value of settled purchases transactions user made in the first 7 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_first_14_days
+        description: "The total usd value of settled purchases transactions user made in the first 14 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_first_21_days
+        description: "The total usd value of settled purchases transactions user made in the first 21 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_first_28_days
+        description: "The total usd value of settled purchases transactions user made in the first 28 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_first_90_days
+        description: "The total usd value of settled purchases transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_first_180_days
+        description: "The total usd value of settled purchases transactions user made in the first 180 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_past_7_days
+        description: "The number of settled purchases transactions user made in the past 7 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_past_14_days
+        description: "The number of settled purchases transactions user made in the past 14 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_past_21_days
+        description: "The number of settled purchases transactions user made in the past 21 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_past_28_days
+        description: "The number of settled purchases transactions user made in the past 28 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_past_90_days
+        description: "The number of settled purchases transactions user made in the past 90 days"
+        test:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_count_past_180_days
+        description: "The number of settled purchases transactions user made in the past 180 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_past_7_days
+        description: "The total usd value of settled purchases transactions user made in the past 7 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_past_14_days
+        description: "The total usd value of settled purchases transactions user made in the past 14 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_past_21_days
+        description: "The total usd value of settled purchases transactions user made in the past 21 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_past_28_days
+        description: "The total usd value of settled purchases transactions user made in the past 28 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_past_90_days
+        description: "The total usd value of settled purchases transactions user made in the past 90 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: purchases_value_in_usd_past_180_days
+        description: "The total usd value of settled purchases transactions user made in the past 180 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_first_7_days
+        description: "The number of settled p2p transactions user made in the first 7 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_first_14_days
+        description: "The number of settled p2p transactions user made in the first 14 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_first_21_days
+        description: "The number of settled p2p transactions user made in the first 21 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_first_28_days
+        description: "The number of settled p2p transactions user made in the first 28 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_first_90_days
+        description: "The number of settled p2p transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_first_180_days
+        description: "The number of settled p2p transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_first_7_days
+        description: "The total usd value of settled p2p transactions user made in the first 7 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_first_14_days
+        description: "The total usd value of settled p2p transactions user made in the first 14 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_first_21_days
+        description: "The total usd value of settled p2p transactions user made in the first 21 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_first_28_days
+        description: "The total usd value of settled p2p transactions user made in the first 28 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_first_90_days
+        description: "The total usd value of settled p2p transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_first_180_days
+        description: "The total usd value of settled p2p transactions user made in the first 180 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_past_7_days
+        description: "The number of settled p2p transactions user made in the past 7 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_past_14_days
+        description: "The number of settled p2p transactions user made in the past 14 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_past_21_days
+        description: "The number of settled p2p transactions user made in the past 21 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_past_28_days
+        description: "The number of settled p2p transactions user made in the past 28 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_past_90_days
+        description: "The number of settled p2p transactions user made in the past 90 days"
+        test:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_count_past_180_days
+        description: "The number of settled p2p transactions user made in the past 180 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_past_7_days
+        description: "The total usd value of settled p2p transactions user made in the past 7 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_past_14_days
+        description: "The total usd value of settled p2p transactions user made in the past 14 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_past_21_days
+        description: "The total usd value of settled p2p transactions user made in the past 21 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_past_28_days
+        description: "The total usd value of settled p2p transactions user made in the past 28 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_past_90_days
+        description: "The total usd value of settled p2p transactions user made in the past 90 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: p2p_value_in_usd_past_180_days
+        description: "The total usd value of settled p2p transactions user made in the past 180 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+      - name: investments_count_first_7_days
+        description: "The number of settled investments transactions user made in the first 7 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_first_14_days
+        description: "The number of settled investments transactions user made in the first 14 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_first_21_days
+        description: "The number of settled investments transactions user made in the first 21 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_first_28_days
+        description: "The number of settled investments transactions user made in the first 28 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_first_90_days
+        description: "The number of settled investments transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_first_180_days
+        description: "The number of settled investments transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_first_7_days
+        description: "The total usd value of settled investments transactions user made in the first 7 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_first_14_days
+        description: "The total usd value of settled investments transactions user made in the first 14 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_first_21_days
+        description: "The total usd value of settled investments transactions user made in the first 21 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_first_28_days
+        description: "The total usd value of settled investments transactions user made in the first 28 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_first_90_days
+        description: "The total usd value of settled investments transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_first_180_days
+        description: "The total usd value of settled investments transactions user made in the first 180 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_past_7_days
+        description: "The number of settled investments transactions user made in the past 7 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_past_14_days
+        description: "The number of settled investments transactions user made in the past 14 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_past_21_days
+        description: "The number of settled investments transactions user made in the past 21 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_past_28_days
+        description: "The number of settled investments transactions user made in the past 28 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_past_90_days
+        description: "The number of settled investments transactions user made in the past 90 days"
+        test:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_count_past_180_days
+        description: "The number of settled investments transactions user made in the past 180 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_past_7_days
+        description: "The total usd value of settled investments transactions user made in the past 7 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_past_14_days
+        description: "The total usd value of settled investments transactions user made in the past 14 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_past_21_days
+        description: "The total usd value of settled investments transactions user made in the past 21 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_past_28_days
+        description: "The total usd value of settled investments transactions user made in the past 28 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_past_90_days
+        description: "The total usd value of settled investments transactions user made in the past 90 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: investments_value_in_usd_past_180_days
+        description: "The total usd value of settled investments transactions user made in the past 180 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+      - name: deposits_count_first_7_days
+        description: "The number of settled deposits transactions user made in the first 7 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_first_14_days
+        description: "The number of settled deposits transactions user made in the first 14 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_first_21_days
+        description: "The number of settled deposits transactions user made in the first 21 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_first_28_days
+        description: "The number of settled deposits transactions user made in the first 28 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_first_90_days
+        description: "The number of settled deposits transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_first_180_days
+        description: "The number of settled deposits transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_first_7_days
+        description: "The total usd value of settled deposits transactions user made in the first 7 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_first_14_days
+        description: "The total usd value of settled deposits transactions user made in the first 14 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_first_21_days
+        description: "The total usd value of settled deposits transactions user made in the first 21 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_first_28_days
+        description: "The total usd value of settled deposits transactions user made in the first 28 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_first_90_days
+        description: "The total usd value of settled deposits transactions user made in the first 90 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_first_180_days
+        description: "The total usd value of settled deposits transactions user made in the first 180 days since onboard"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_past_7_days
+        description: "The number of settled deposits transactions user made in the past 7 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_past_14_days
+        description: "The number of settled deposits transactions user made in the past 14 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_past_21_days
+        description: "The number of settled deposits transactions user made in the past 21 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_past_28_days
+        description: "The number of settled deposits transactions user made in the past 28 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_past_90_days
+        description: "The number of settled deposits transactions user made in the past 90 days"
+        test:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_count_past_180_days
+        description: "The number of settled deposits transactions user made in the past 180 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_past_7_days
+        description: "The total usd value of settled deposits transactions user made in the past 7 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_past_14_days
+        description: "The total usd value of settled deposits transactions user made in the past 14 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_past_21_days
+        description: "The total usd value of settled deposits transactions user made in the past 21 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_past_28_days
+        description: "The total usd value of settled deposits transactions user made in the past 28 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_past_90_days
+        description: "The total usd value of settled deposits transactions user made in the past 90 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+
+      - name: deposits_value_in_usd_past_180_days
+        description: "The total usd value of settled deposits transactions user made in the past 180 days"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0

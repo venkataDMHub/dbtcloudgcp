@@ -1,0 +1,119 @@
+version: 2
+
+models:
+  - name: referral_graph_relationship
+    config:
+      tags: ['daily']
+    description: "A transformation that compiles information used for creating relationships for the referral graph database."
+    columns:
+      - name: REFERRER_ID
+        description: "User ID for the individual who made the referral"
+        tests:
+          - not_null
+
+      - name: INVITED_USER_ID
+        description: "User ID for the user invited via the referral"
+        tests:
+          - not_null
+
+      - name: REFERRAL_CREATED_AT
+        description: "When the referral was created"
+        tests:
+          - not_null
+
+      - name: STATUS
+        description: "The status of the referral"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['PENDING', 'SETTLED', 'NEEDS_REVIEW', 'FLAGGED_BY_UOS', 'FLAGGED_BY_OTHER', 'FLAGGED_BY_SARDINE', 'FLAGGED_BY_FAKE_NAME_RATIO', 'FLAGGED_BY_SIMILAR_SELFIE']
+
+
+  - name: referral_graph_node
+    config:
+      tags: ['daily']
+    description: "A transformation that compiles information used for creating user nodes for the referral graph database."
+    columns:
+      - name: USER_ID
+        description: "User ID"
+        tests:
+          - unique
+          - not_null
+      
+      - name: PRIMARY_CURRENCY
+        description: "Primary currency of the user" 
+        tests:
+          - not_null
+
+      - name: AVATAR
+        description: "A link to the user's avatar image"
+
+      - name: DISPLAY_FIRST_NAME
+        description: "The user's display first name"
+        tests:
+          - not_null
+
+      - name: DISPLAY_LAST_NAME
+        description: "The user's display last name"
+        tests:
+          - not_null
+
+      - name: USER_SELFIE_URL
+        description: "URL of user's latest accepted selfie"
+
+
+      - name: USER_CREATED_AT
+        description: "When the user account was created"
+        tests:
+          - not_null
+
+      - name: USER_ONBOARDING_SCORE
+        description: "The user onboarding score for the user"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
+      - name: USER_ENGAGEMENT_SCORE
+        description: "The user engagement score for the user"
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0
+              max_value: 1
+
+      - name: USER_ENGAGEMENT_BUCKET
+        description: "The user engagement bucket for the user"
+        tests:
+            - accepted_values:
+                values: ["LOW", "MEDIUM", "HIGH", "INACTIVE"]
+      
+      - name: TOTAL_LIFETIME_REFERRAL_PAYOUTS_TRANSFERS
+        description: "Number of referral bonus payouts in a user's lifetime"
+      
+      - name: TOTAL_LIFETIME_REFERRAL_PAYOUT_USD
+        description: "Total value of referral bonus payouts (USD) in a user's lifetime"   
+
+      - name: TOTAL_CHIPPER_REWARDS_PAYOUT_USD
+        description: "The lifetime reward amount (USD) that has been processed for each user through referral, campaign and cashback"   
+
+      - name: TOTAL_CHIPPER_REWARDS_PAYOUT_TRANSFERS
+        description: "The total number of transfers for each user through referral, campaign and cashback" 
+
+      - name: SUB_TOTAL_LPV_USD
+        description: "The lifetime amount (USD) that has been processed for each user that are not through reward"   
+
+      - name: SUB_TOTAL_LIFETIME_TRANSFERS
+        description: "The total number of transfers for each user that are not through reward" 
+      
+      - name: TOTAL_LPV_USD
+        description: "The lifetime amount (USD) that has been processed for each user"   
+
+      - name: TOTAL_LIFETIME_TRANSFERS
+        description: "The total number of transfers for each user" 
+
+      - name: HAS_SIMILAR_SELFIE
+        description: "Indicator whether a user has recorded a similar selfie in the database"
+        tests:
+          - not_null
+          - accepted_values:
+              values: [True, False]

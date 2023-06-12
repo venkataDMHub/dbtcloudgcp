@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: branch_acquisition_costs
+    config:
+      tags: ['daily']
+    description: 'Per user costs inferred from branch installs'
+    columns: 
+      - name: date 
+        description: "Date of the install"
+
+      - name: acquisition_source
+        description: "Acquisitions source for branch installs is the advertising_partner_partner."
+
+      - name: campaign
+        description: "String name of advertising campaign"
+
+      - name: ad_set_id
+        description: "Integer identifier of advertising set"
+
+      - name: user_id
+        description: "user_id of the user"
+
+      - name: cost_per_install
+        description: "Total daily cost of ads divided by distinct user_ids installed that day"

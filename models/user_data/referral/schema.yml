@@ -1,0 +1,151 @@
+version: 2
+
+models:
+  - name: user_best_selfie
+    description: "All users with their most recently accepted KYC photos"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: facetec_url
+        description: "The google cloud url to the best KYC photos"
+
+  - name: expanded_referrals
+    config:
+      tags: ['4_hourly']
+    description: "Referrals with expanded information for referrer and invited user"
+    columns:
+      - name: id
+        description: "ID of the referral"
+        tests:
+          - unique
+          - not_null
+
+      - name: referrer_id
+        description: "User ID of the referrer"
+
+      - name: referrer_display_first_name
+        description: "The user entered first name of the referrer"
+
+      - name: referrer_display_last_name
+        description: "The user entered last name of the referrer"
+
+      - name: referrer_tag
+        description: "The user tag of the referrer"
+
+      - name: referrer_email
+        description: "The latest email of the referrer"
+
+      - name: referrer_phone_number
+        description: "The latest phone number of the referrer"
+
+      - name: referrer_kyc_tier
+        description: "The latest KYC verification tier of the referrer"
+
+      - name: referrer_num_flags
+        description: "The number of active flags on the user"
+
+      - name: referrer_all_active_flags
+        description: "The list of all active flags on the user"
+
+      - name: referrer_created_at
+        description: "The timestamp when the referrer was created"
+
+      - name: referrer_selfie_url
+        description: "The selfie url for the referrer"
+
+      - name: referrer_device_id
+        description: "The latest sardine device id of the referrer"
+
+      - name: referrer_device_model
+        description: "The model of the device as interpreted by the sardine API"
+
+      - name: referrer_sardine_risk_level
+        description: "The risk level as determined by sardine"
+
+      - name: referrer_uos_score
+        description: "The UOS (V2) score of the referrer"
+
+      - name: referrer_uos_score_v3
+        description: "The UOS (V3) score of the referrer"
+
+      - name: referrer_user_has_similar_selfie
+        description: "If referrer has smile similar selfie"
+
+      - name: invited_user_id
+        description: "User ID of the invited user"
+
+      - name: invited_display_first_name
+        description: "The user entered first name of the invited user"
+
+      - name: invited_display_last_name
+        description: "The user entered last name of the invited user"
+
+      - name: invited_tag
+        description: "The user tag of the invited user"
+
+      - name: invited_email
+        description: "The latest email of the invited"
+
+      - name: invited_phone_number
+        description: "The latest phone number of the invited"
+
+      - name: invited_kyc_tier
+        description: "The latest KYC verification tier of the invited"
+
+      - name: invited_num_flags
+        description: "The number of active flags on the invited user"
+
+      - name: invited_all_active_flags
+        description: "The list of all active flags on the invited user"
+
+      - name: invited_created_at
+        description: "The timestamp when the invited user was created"
+
+      - name: invited_selfie_url
+        description: "The selfie url for the invited user"
+
+      - name: invited_user_has_similar_selfie
+        description: "If invited user has smile similar selfie"
+
+      - name: invited_device_id
+        description: "The latest sardine device id of the invited user"
+
+      - name: invited_device_model
+        description: "The risk of the invited user as interpreted by the sardine API"
+
+      - name: invited_sardine_risk_level
+        description: "The model of the device of the invited user as interpreted by the sardine API"
+
+      - name: referrer_uos_score
+        description: "The UOS (V2) score of the invited user"
+
+      - name: referrer_uos_score_v3
+        description: "The UOS (V3) score of the invited user"
+
+      - name: status
+        description: "The status of the referral"
+
+      - name: last_error
+        description: "The error involved (if any) regarding the status of the referral"
+
+      - name: referral_created_at
+        description: "When the referral was created"
+
+      - name: referral_updated_at
+        description: "When the referral was updated"
+
+      - name: referrals_made
+        description: "Total referrals made by the referrer"
+
+      - name: referrals_made_by_status
+        description: "Total referrals made by the referrer for the current status of referral"
+
+      - name: max_ip_cluster_count
+        description: "Maximum IP cluster count for referrer"
+
+      - name: is_manually_reviewed
+        description: "A flag for referrals that are manually reviewed by customer-ops. "

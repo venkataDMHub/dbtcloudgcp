@@ -1,0 +1,154 @@
+version: 2
+
+models:
+  - name: airtime_purchases_expanded_ledgers
+    config:
+      tags: ['4_hourly']
+    description: "Appends transaction data from tranfers and ledger entries table to airtime purchases HLO"
+
+    columns:
+      - name: hlo_id
+        description: "Primary Key (id) from the Airtime Purchases table"
+
+      - name: hlo_table
+        description: "Airtime Purchases - The underlying HLO Table"
+
+      - name: hlo_journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: hlo_created_at
+        description: "Timestamp when the hlo entry was created"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the hlo entry was last updated"
+
+      - name: transfer_id
+        description: "Transfer id of the hlo entry"
+
+      - name: is_transfer_reversed
+        description: "boolean column that indicates whether the transfer was reversed. For a reversal_transfer_id this is always set to TRUE"
+
+      - name: is_transfer_reversal
+        description: "boolean column that indicates whether the transfer itself was a reversal transfer"
+
+      - name: ledger_entry_journal_id
+        description: "The journal_id of the transaction from the ledger_entries table"
+
+      - name: incoming_user_id
+        description: "The user_id of the incoming user in the underlying transfer"
+
+      - name: outgoing_user_id
+        description: "The user_id of the outgoing user_id in the underlying transfer"
+
+  - name: airtime_purchases_with_all_transfer_ids
+    config:
+      tags: ['4_hourly']
+    description: "Narrow format of the airtime purchase table by modeling hlo_id x transfer_id as a primary key. This is done by taking the union of transfer_ids and the reverse_transfer_ids"
+
+    columns:
+      - name: hlo_id
+        description: "Primary Key (id) from the Airtime Purchases table"
+
+      - name: hlo_table
+        description: "Airtime Purchases - The underlying HLO Table"
+
+      - name: hlo_status
+        description: "Status of the hlo entry"
+      - name: hlo_journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: hlo_created_at
+        description: "Timestamp when the hlo entry was created"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the hlo entry was last updated"
+
+      - name: transfer_id
+        description: "Transfer id of the hlo entry"
+
+      - name: is_transfer_reversed
+        description: "boolean column that indicates whether the transfer was reversed. For a reversal_transfer_id this is always set to TRUE"
+
+      - name: is_transfer_reversal
+        description: "boolean column that indicates whether the transfer itself was a reversal transfer"
+
+      - name: external_provider
+        description: "external provider info"
+
+      - name: external_provider_transaction_id
+        description: "external provider info - external id"
+
+      - name: transaction details
+        description: "relevant information of the transaction"
+       
+      - name: outgoing_user_id
+        description: "Outbound user who initiated the transaction" 
+
+      - name: incoming_user_id
+        description: "Inbound user who initiated the transaction" 
+
+  - name: airtime_purchases_with_ledger_entries
+    config:
+      tags: ['4_hourly']
+    description: Appending ledger_entries data to airtime_purchases_with_all_transfers"
+
+    columns:
+      - name: hlo_id
+        description: "Primary Key (id) from the Airtime Purchases table"
+
+      - name: hlo_table
+        description: "Airtime Purchases - The underlying HLO Table"
+
+      - name: hlo_status
+        description: "Status of the hlo entry"
+
+      - name: hlo_journal_id
+        description: "The journal id of the transaction from the hlo table"
+
+      - name: hlo_created_at
+        description: "Timestamp when the hlo entry was created"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the hlo entry was last updated"
+
+      - name: transfer_id
+        description: "Transfer id of the hlo entry"
+
+      - name: is_transfer_reversed
+        description: "boolean column that indicates whether the transfer was reversed. For a reversal_transfer_id this is always set to TRUE"
+
+      - name: is_transfer_reversal
+        description: "boolean column that indicates whether the transfer itself was a reversal transfer"
+
+      - name: ledger_entry_id
+        description: "Primary key (id) from the ledger entries table"
+
+      - name: ledger_entry_journal_id
+        description: "The journal_id of the transaction from the ledger_entries table"
+
+      - name: amount
+        description: "Amount from the ledger_entries table"
+
+      - name: user_id
+        description: "user_id from the ledger_entries table"
+
+      - name: timestamp
+        description: "Timestamp when the ledger entry was created"
+
+      - name: transfer_type
+        description: "Derived column that defines transfer type as the hlo_table + hlo_stats + [reversal]"
+
+      - name: is_debit
+        description: "boolean column that indicates whether the ledger entry is a debit of the credit part of the transaction"
+
+      - name: outgoing_user_id
+        description: "user_id if is_debit, else NULL"
+
+      - name: incoming_user_id
+        description: "user_id if is_credit, else NULL"
+
+      - name: row_num_asc
+        description: "Ascending rank of the ledger_entry_id for the given hlo_id"
+
+      - name: row_num_desc
+        description: "Descending rank of the ledger_entry_id for the given hlo_id"

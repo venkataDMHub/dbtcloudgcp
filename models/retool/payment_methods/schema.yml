@@ -1,0 +1,137 @@
+version: 2
+
+models:
+  - name: user_payment_method_details
+    config:
+      tags: ['4_hourly']
+    description: "Details on payment methods associated with users dataset for investigation"
+    columns:
+      - name: linked_account_id
+        description: ""
+
+      - name: linked
+        description: ""
+
+      - name: verified
+        description: ""
+
+      - name: external
+        description: ""
+
+      - name: associated_user_ids
+        description: ""
+
+      - name: type
+        description: ""
+
+      - name: linked_account_info
+        description: ""
+
+      - name: linked_account_created_at
+        description: ""
+
+      - name: marked_as_malicious
+        description: ""
+
+  - name: all_users_on_selected_payment_method
+    config:
+      tags: ['4_hourly']
+    description: "Summary of USER_ID by linked account info"
+    columns:
+      - name: user_id
+        description: ""
+
+      - name: legal_first_name
+        description: ""
+
+      - name: legal_last_name
+        description: ""
+
+      - name: tag
+        description: ""
+
+      - name: primary_currency
+        description: ""
+
+      - name: acquisition_source
+        description: ""
+
+      - name: kyc_tier
+        description: ""
+
+      - name: user_created_at
+        description: ""
+
+      - name: linked_account_info
+        description: ""
+
+      - name: num_of_users
+        description: ""
+
+  - name: all_linked_account_ids_on_selected_payment_method
+    config:
+      tags: ['4_hourly']
+    description: "Summary of linked account IDs by linked account info"
+    columns:
+      - name: linked_account_id
+        description: ""
+
+      - name: type
+        description: ""
+
+      - name: linked_account_info
+        description: ""
+
+      - name: linked_account_created_at
+        description: ""
+
+      - name: is_linked
+        description: ""
+
+      - name: is_verified
+        description: ""
+
+      - name: linked
+        description: ""
+
+      - name: verified
+        description: ""
+
+      - name: marked_as_malicious
+        description: ""
+
+      - name: external
+        description: ""
+
+      - name: user_id
+        description: ""
+
+      - name: display_first_name
+        description: ""
+
+      - name: display_last_name
+        description: ""
+
+      - name: legal_first_name
+        description: ""
+
+      - name: legal_last_name
+        description: ""
+
+      - name: tag
+        description: ""
+
+      - name: primary_currency
+        description: ""
+
+      - name: acquisition_source
+        description: ""
+
+      - name: kyc_tier
+        description: ""
+
+      - name: user_created_at
+        description: ""
+
+      - name: num_of_linked_accounts
+        description: ""

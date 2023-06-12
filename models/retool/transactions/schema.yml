@@ -1,0 +1,336 @@
+version: 2
+
+models:
+  - name: user_transactions_horizontal
+    config:
+      tags: ['4_hourly']
+    description: ""
+    columns:
+      - name: transfer_id
+        description: ""
+
+      - name: journal_id
+        description: ""
+
+      - name: hlo_table
+        description: ""
+
+      - name: journal_type
+        description: ""
+
+      - name: transfer_type
+        description: ""
+
+      - name: hlo_id
+        description: ""
+
+      - name: origin_currency
+        description: ""
+
+      - name: origin_amount
+        description: ""
+
+      - name: origin_rate
+        description: ""
+
+      - name: destination_currency
+        description: ""
+
+      - name: destination_amount
+        description: ""
+
+      - name: destination_rate
+        description: ""
+
+      - name: hlo_status
+        description: ""
+
+      - name: transfer_status
+        description: ""
+
+      - name: transfer_created_at
+        description: ""
+
+      - name: hlo_created_at
+        description: ""
+
+      - name: transfer_updated_at
+        description: ""
+
+      - name: hlo_updated_at
+        description: ""
+
+      - name: origin_amount_in_usd
+        description: ""
+
+      - name: destination_amount_in_usd
+        description: ""
+
+      - name: outbound_user_id
+        description: ""
+
+      - name: sender_user_display_first_name
+        description: ""
+
+      - name: sender_user_display_last_name
+        description: ""
+
+      - name: sender_user_legal_first_name
+        description: ""
+
+      - name: sender_user_legal_last_name
+        description: ""
+
+      - name: sender_user_tag
+        description: ""
+
+      - name: sender_user_primary_currency
+        description: ""
+
+      - name: sender_user_acquisition_source
+        description: ""
+
+      - name: sender_user_created_at
+        description: ""
+
+      - name: sender_user_kyc_tier
+        description: ""
+
+      - name: sender_user_ip_address
+        description: ""
+
+      - name: sender_chipper_device_id
+        description: ""
+
+      - name: inbound_user_id
+        description: ""
+
+      - name: receiver_user_display_first_name
+        description: ""
+
+      - name: receiver_user_display_last_name
+        description: ""
+
+      - name: receiver_user_legal_first_name
+        description: ""
+
+      - name: receiver_user_legal_last_name
+        description: ""
+
+      - name: receiver_user_tag
+        description: ""
+
+      - name: receiver_user_primary_currency
+        description: ""
+
+      - name: receiver_user_acquisition_source
+        description: ""
+
+      - name: receiver_user_kyc_tier
+        description: ""
+
+      - name: receiver_user_created_at
+        description: ""
+
+      - name: receiver_user_ip_address
+        description: ""
+
+      - name: receiver_chipper_device_id
+        description: ""
+
+      - name: shortened_transaction_details
+        description: ""
+
+      - name: transaction_details
+        description: ""
+
+      - name: sender_user_country_code
+        description: ""
+
+      - name: sender_user_city
+        description: ""
+
+      - name: sender_user_region
+        description: ""
+
+      - name: sender_user_connection_type
+        description: ""
+
+      - name: receiver_user_country_code
+        description: ""
+
+      - name: receiver_user_city
+        description: ""
+
+      - name: receiver_user_region
+        description: ""
+
+      - name: receiver_user_connection_type
+        description: ""
+
+      - name: is_external
+        description: ""
+
+      - name: corridor
+        description: ""
+
+      - name: is_original_transfer_reversed
+        description: ""
+
+      - name: is_transfer_reversal
+        description: ""
+
+  - name: user_transactions_vertical
+    config:
+      tags: ['4_hourly']
+    description: ""
+    columns:
+      - name: transfer_id
+        description: ""
+
+      - name: journal_id
+        description: ""
+
+      - name: journal_type
+        description: ""
+
+      - name: transfer_type
+        description: ""
+
+      - name: ledger_entry_id
+        description: ""
+
+      - name: hlo_id
+        description: ""
+
+      - name: ledger_currency
+        description: ""
+
+      - name: ledger_amount
+        description: ""
+
+      - name: ledger_amount_in_usd
+        description: ""
+
+      - name: hlo_status
+        description: ""
+
+      - name: corridor
+        description: ""
+
+      - name: created_at
+        description: ""
+
+      - name: updated_at
+        description: ""
+
+      - name: short_transaction_details
+        description: ""
+
+      - name: user_id
+        description: ""
+
+      - name: display_first_name
+        description: ""
+
+      - name: display_last_name
+        description: ""
+
+      - name: legal_first_name
+        description: ""
+
+      - name: legal_last_name
+        description: ""
+
+      - name: user_tag
+        description: ""
+
+      - name: primary_currency
+        description: ""
+
+      - name: acquisition_source
+        description: ""
+
+      - name: user_created_at
+        description: ""
+
+      - name: user_kyc_tier
+        description: ""
+
+      - name: ip_address
+        description: ""
+
+      - name: chipper_device_id
+        description: ""
+
+      - name: other_party_user_id
+        description: ""
+
+      - name: other_party_display_first_name
+        description: ""
+
+      - name: other_party_display_last_name
+        description: ""
+
+      - name: other_party_legal_first_name
+        description: ""
+
+      - name: other_party_legal_last_name
+        description: ""
+
+      - name: other_party_tag
+        description: ""
+
+      - name: other_party_primary_currency
+        description: ""
+
+      - name: other_party_acquisition_source
+        description: ""
+
+      - name: other_party_user_created_at
+        description: ""
+
+      - name: other_party_user_kyc_tier
+        description: ""
+
+      - name: other_party_chipper_device_id
+        description: ""
+
+      - name: other_party_ip_address
+        description: ""
+
+      - name: country_code
+        description: ""
+
+      - name: city
+        description: ""
+
+      - name: region
+        description: ""
+
+      - name: connection_type
+        description: ""
+
+      - name: other_party_country_code
+        description: ""
+
+      - name: other_party_city
+        description: ""
+
+      - name: other_party_region
+        description: ""
+
+      - name: other_party_connection_type
+        description: ""
+
+      - name: is_external
+        description: ""
+
+      - name: transaction_details_extended
+        description: ""
+
+      - name: is_original_transfer_reversed
+        description: ""
+
+      - name: is_transfer_reversal
+        description: ""

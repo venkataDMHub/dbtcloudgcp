@@ -1,0 +1,10 @@
+{{
+    config(
+        materialized='ephemeral'
+    )
+}}
+select
+    distinct
+    referral_id
+from
+    utils.retool_referral_actions

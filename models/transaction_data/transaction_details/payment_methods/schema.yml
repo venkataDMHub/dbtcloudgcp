@@ -1,0 +1,20 @@
+version: 2
+
+models:
+  - name: payment_methods
+    config:
+      tags: ['4_hourly']
+    description: "Transformation for all kinds of payment methods (i.e. linked accounts) such as mobile money, debit cards, bank or Nuban accounts, etc"
+
+    columns:
+      - name: linked_account_id
+        description: "Primary Key (id) from the linked accounts table"
+        tests:
+          - unique
+          - not_null
+
+      - name: user_id
+        description: "User ID of the user who added or linked the payment method"
+
+      - name: payment_method_details
+        description: "JSON column that stores all metadata about the payment method"

@@ -1,0 +1,43 @@
+version: 2
+
+models:
+    - name: expanded_alerts
+      description: "A transformation for all watchlist alerts"
+      columns:
+        - name: user_id
+          description: ""
+
+        - name: status
+          description: "Status of the alert"
+
+        - name: user_tier
+          description: "The tier of the user"
+
+        - name: country_of_birth
+          description: ""
+
+        - name: first_name
+          description: ""
+
+        - name: last_name
+          description: ""
+
+        - name: kyc_country
+          description: "The country the KYC doc originates from"
+
+        - name: is_assigned_alert
+          description: "Whether the alert is assigned to KYC analyst or not"
+
+        - name: admin_id
+          description: "Admin ID of the analyst if alert is assigned"
+
+        - name: assigned_at
+          description: "When the alert was assigned"
+
+        - name: num_total_alerts
+          description: ""
+        
+        - name: watchlist_alert_level
+          description: "The tier level of the watchlist alert"
+
+

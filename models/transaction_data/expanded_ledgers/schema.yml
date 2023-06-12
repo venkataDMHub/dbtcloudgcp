@@ -1,0 +1,77 @@
+version: 2
+
+models:
+  - name: expanded_ledgers
+    config:
+      tags: ['4_hourly']
+    description: "Major transformation with Core's ledger entries table as the ultimate base table. Union of the HLO expanded ledgers model and the dead-end expanded ledgers model"
+
+    columns:
+      - name: ledger_entry_id
+        description: "Primary Key (id) from the ledger entries table"
+        tests:
+          - unique
+          - not_null
+
+      - name: transfer_id
+        description: "Primary Key (id) from the transfers table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: is_original_transfer_reversed
+        description: "Boolean column that indicates whether the transfer itself was later reversed in another transfer or not. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: is_transfer_reversal
+        description: "Boolean column that indicates whether the transfer ID in the row is a reversal transaction. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: transfer_type
+        description: "Derived column that defines transfer type as the hlo_table + hlo_status + [reversal]. Dead-end ledger entry for dead-end expanded transfers"
+
+      - name: journal_id
+        description: "The journal id of the transaction from the hlo table"
+        tests:
+          - not_null
+
+      - name: journal_type
+        description: "Type from the journals table"
+
+      - name: hlo_id
+        description: "Primary key (id) from the relevant HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_table
+        description: "The underlying HLO table. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_status
+        description: "Status from the HLO entry. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: corridor
+        description: "Derived column that defines the underlying transaction corridor. If same currency (origin and destination currencies are the same), either local + asset type (from the assets table) or local + other. If different (origin and destination currencies are different), either cross-border + asset type, crypto trade, or cross-border + other"
+
+      - name: hlo_created_at
+        description: "Timestamp when the HLO entry was created. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: hlo_updated_at
+        description: "Timestamp when the HLO entry was last updated. Dead-end expanded transfers have no appearance in any HLO (hence, NULL for these dead-end expanded transfers)"
+
+      - name: ledger_currency
+        description: "Wallet currency of the user who made or was involved in the transaction"
+
+      - name: ledger_amount
+        description: "Amount debited from or credited to user's wallet in the ledger currency"
+        tests:
+          - not_null
+
+      - name: ledger_rate
+        description: "Exchange rate to USD from the exchange rates table for the ledger amount"
+
+      - name: ledger_amount_in_usd
+        description: "Ledger amount converted to USD using the ledger rate"
+
+      - name: ledger_timestamp
+        description: "Timestamp from the ledger entries table (when the debit or credit happened)"
+
+      - name: main_party_user_id
+        description: "User ID associated with the ledger currency, ledger amount, ledger amount in USD and ledger timestamp"
+        tests:
+          - not_null
+
+      - name: counter_party_user_id
+        description: "The user ID of the counterparty that the main party user was transacting with. Usually present in P2P, B2C and C2B transactions"

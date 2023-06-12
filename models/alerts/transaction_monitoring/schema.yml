@@ -1,0 +1,1156 @@
+version: 2
+
+models:
+  - name: value_limits_rule_received_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits received for businesses"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+        
+  - name: value_limits_rule_received_non_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits received for non-businesses"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+
+  - name: value_limits_rule_sent_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent for businesses"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+        
+  - name: value_limits_rule_sent_non_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent for non-businesses"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+
+  - name: multiple_remittances_receiver
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits received"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: user_tag
+        description: "User tag of the user involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: kyc_tier
+        description: "The user tier of the user"
+
+      - name: other_party_user
+        description: "user_id on the other end of the transaction"
+
+      - name: user_created_at
+        description: "when the user_id in question was created"
+
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: amount_in_usd
+        description: "$ amount involved in the remittances"
+
+      - name: transfer_id
+        description: "id of the transaction involved"
+
+      - name: receiver_full_name
+        description: "full name"
+
+      - name: num_of_senders
+        description: "number of senders involved in the remittance"
+
+      - name: running_count_senders
+        description: "running count of the senders"
+
+      - name: rn
+        description: "Rank of transactions between user_id and other party, in ascending order"
+
+      - name: list_of_txns
+        description: "An array transaction id's, indicating all the offending transactions"
+
+      - name: time_difference
+        description: "difference between the first and last offendering transactions (in hours)"
+
+  - name: multiple_remittances_sender
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: user_tag
+        description: "User tag of the user involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: kyc_tier
+        description: "The user tier of the user"
+
+      - name: other_party_user
+        description: "user_id on the other end of the transaction"
+
+      - name: user_created_at
+        description: "when the user_id in question was created"
+
+      - name: amount_in_usd
+        description: "$ amount involved in the remittances"
+
+      - name: transfer_id
+        description: "id of the transaction involved"
+
+      - name: sender_full_name
+        description: "full name"
+
+      - name: num_of_receivers
+        description: "number of senders involved in the remittance"
+
+      - name: running_count_receivers
+        description: "running count of the senders"
+
+      - name: rn
+        description: "Rank of transactions between user_id and other party, in ascending order"
+
+      - name: list_of_txns
+        description: "An array transaction id's, indicating all the offending transactions"
+
+      - name: time_difference
+        description: "difference between the first and last offendering transactions (in hours)"
+
+  - name: large_deposits_followed_by_transfer_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: receiving_transfer_type
+        description: "type of the receiving transfers. For example, deposits, p2p_payments, requests etc."
+
+      - name: destination_currency
+        description: "currency for the destination side of the transaction"
+
+      - name: received_amt
+        description: "Amount received in the destination_currency"
+
+      - name: rec_time
+        description: "Time at which the amount was received"
+
+      - name: receiver_id
+        description: "user_id on receiving end (if any)"
+
+      - name: sender_currency
+        description: "currency for the sender side of the transaction"
+
+      - name: receiver
+        description: "type of transfer on the receiving end"
+
+      - name: sent_amt
+        description: "Amount sent in sender currency"
+
+      - name: percentage
+        description: "% of amount sent"
+
+      - name: wait_time
+        description: "Time in minutes between sending and receiving the amount on either side"
+
+      - name: list_of_txns
+        description: "List of transactions flagged by the rule"
+
+  - name: large_deposits_followed_by_transfer_non_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: receiving_transfer_type
+        description: "type of the receiving transfers. For example, deposits, p2p_payments, requests etc."
+
+      - name: destination_currency
+        description: "currency for the destination side of the transaction"
+
+      - name: received_amt
+        description: "Amount received in the destination_currency"
+
+      - name: rec_time
+        description: "Time at which the amount was received"
+
+      - name: receiver_id
+        description: "user_id on receiving end (if any)"
+
+      - name: sender_currency
+        description: "currency for the sender side of the transaction"
+
+      - name: receiver
+        description: "type of transfer on the receiving end"
+
+      - name: sent_amt
+        description: "Amount sent in sender currency"
+
+      - name: percentage
+        description: "% of amount sent"
+
+      - name: wait_time
+        description: "Time in minutes between sending and receiving the amount on either side"
+
+      - name: list_of_txns
+        description: "List of transactions flagged by the rule"
+        
+  - name: us_value_limits_rule_received_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits received for businesses"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+        
+  - name: us_value_limits_rule_received_non_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits received for non-businesses"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+
+  - name: us_value_limits_rule_sent_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent for businesses"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+        
+  - name: us_value_limits_rule_sent_non_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent for non-businesses"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+
+  - name: us_multiple_remittances_receiver
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits received"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: user_tag
+        description: "User tag of the user involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: kyc_tier
+        description: "The user tier of the user"
+
+      - name: other_party_user
+        description: "user_id on the other end of the transaction"
+
+      - name: user_created_at
+        description: "when the user_id in question was created"
+
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: amount_in_usd
+        description: "$ amount involved in the remittances"
+
+      - name: transfer_id
+        description: "id of the transaction involved"
+
+      - name: receiver_full_name
+        description: "full name"
+
+      - name: num_of_senders
+        description: "number of senders involved in the remittance"
+
+      - name: running_count_senders
+        description: "running count of the senders"
+
+      - name: rn
+        description: "Rank of transactions between user_id and other party, in ascending order"
+
+      - name: list_of_txns
+        description: "An array transaction id's, indicating all the offending transactions"
+
+      - name: time_difference
+        description: "difference between the first and last offendering transactions (in hours)"
+
+  - name: us_multiple_remittances_sender
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: user_tag
+        description: "User tag of the user involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: kyc_tier
+        description: "The user tier of the user"
+
+      - name: other_party_user
+        description: "user_id on the other end of the transaction"
+
+      - name: user_created_at
+        description: "when the user_id in question was created"
+
+      - name: amount_in_usd
+        description: "$ amount involved in the remittances"
+
+      - name: transfer_id
+        description: "id of the transaction involved"
+
+      - name: sender_full_name
+        description: "full name"
+
+      - name: num_of_receivers
+        description: "number of senders involved in the remittance"
+
+      - name: running_count_receivers
+        description: "running count of the senders"
+
+      - name: rn
+        description: "Rank of transactions between user_id and other party, in ascending order"
+
+      - name: list_of_txns
+        description: "An array transaction id's, indicating all the offending transactions"
+
+      - name: time_difference
+        description: "difference between the first and last offendering transactions (in hours)"
+
+  - name: us_large_deposits_followed_by_transfer_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: receiving_transfer_type
+        description: "type of the receiving transfers. For example, deposits, p2p_payments, requests etc."
+
+      - name: destination_currency
+        description: "currency for the destination side of the transaction"
+
+      - name: received_amt
+        description: "Amount received in the destination_currency"
+
+      - name: rec_time
+        description: "Time at which the amount was received"
+
+      - name: receiver_id
+        description: "user_id on receiving end (if any)"
+
+      - name: sender_currency
+        description: "currency for the sender side of the transaction"
+
+      - name: receiver
+        description: "type of transfer on the receiving end"
+
+      - name: sent_amt
+        description: "Amount sent in sender currency"
+
+      - name: percentage
+        description: "% of amount sent"
+
+      - name: wait_time
+        description: "Time in minutes between sending and receiving the amount on either side"
+
+      - name: list_of_txns
+        description: "List of transactions flagged by the rule"
+
+  - name: us_large_deposits_followed_by_transfer_non_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: receiving_transfer_type
+        description: "type of the receiving transfers. For example, deposits, p2p_payments, requests etc."
+
+      - name: destination_currency
+        description: "currency for the destination side of the transaction"
+
+      - name: received_amt
+        description: "Amount received in the destination_currency"
+
+      - name: rec_time
+        description: "Time at which the amount was received"
+
+      - name: receiver_id
+        description: "user_id on receiving end (if any)"
+
+      - name: sender_currency
+        description: "currency for the sender side of the transaction"
+
+      - name: receiver
+        description: "type of transfer on the receiving end"
+
+      - name: sent_amt
+        description: "Amount sent in sender currency"
+
+      - name: percentage
+        description: "% of amount sent"
+
+      - name: wait_time
+        description: "Time in minutes between sending and receiving the amount on either side"
+
+      - name: list_of_txns
+        description: "List of transactions flagged by the rule"
+        
+  - name: uk_value_limits_received_non_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits received for non-businesses"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+
+  - name: uk_value_limits_sent_non_business
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent for non-businesses"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+
+  - name: uk_multiple_remittances_receiver
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits received"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: user_tag
+        description: "User tag of the user involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: kyc_tier
+        description: "The user tier of the user"
+
+      - name: other_party_user
+        description: "user_id on the other end of the transaction"
+
+      - name: user_created_at
+        description: "when the user_id in question was created"
+
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: amount_in_usd
+        description: "$ amount involved in the remittances"
+
+      - name: transfer_id
+        description: "id of the transaction involved"
+
+      - name: receiver_full_name
+        description: "full name"
+
+      - name: num_of_senders
+        description: "number of senders involved in the remittance"
+
+      - name: running_count_senders
+        description: "running count of the senders"
+
+      - name: rn
+        description: "Rank of transactions between user_id and other party, in ascending order"
+
+      - name: list_of_txns
+        description: "An array transaction id's, indicating all the offending transactions"
+
+      - name: time_difference
+        description: "difference between the first and last offendering transactions (in hours)"
+
+  - name: uk_multiple_remittances_sender
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: user_tag
+        description: "User tag of the user involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: kyc_tier
+        description: "The user tier of the user"
+
+      - name: other_party_user
+        description: "user_id on the other end of the transaction"
+
+      - name: user_created_at
+        description: "when the user_id in question was created"
+
+      - name: amount_in_usd
+        description: "$ amount involved in the remittances"
+
+      - name: transfer_id
+        description: "id of the transaction involved"
+
+      - name: sender_full_name
+        description: "full name"
+
+      - name: num_of_receivers
+        description: "number of senders involved in the remittance"
+
+      - name: running_count_receivers
+        description: "running count of the senders"
+
+      - name: rn
+        description: "Rank of transactions between user_id and other party, in ascending order"
+
+      - name: list_of_txns
+        description: "An array transaction id's, indicating all the offending transactions"
+
+      - name: time_difference
+        description: "difference between the first and last offendering transactions (in hours)"
+
+  - name: uk_large_deposits_followed_by_transfer
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the value limits sent"
+    columns:
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: receiving_transfer_type
+        description: "type of the receiving transfers. For example, deposits, p2p_payments, requests etc."
+
+      - name: destination_currency
+        description: "currency for the destination side of the transaction"
+
+      - name: received_amt
+        description: "Amount received in the destination_currency"
+
+      - name: rec_time
+        description: "Time at which the amount was received"
+
+      - name: receiver_id
+        description: "user_id on receiving end (if any)"
+
+      - name: sender_currency
+        description: "currency for the sender side of the transaction"
+
+      - name: receiver
+        description: "type of transfer on the receiving end"
+
+      - name: sent_amt
+        description: "Amount sent in sender currency"
+
+      - name: percentage
+        description: "% of amount sent"
+
+      - name: wait_time
+        description: "Time in minutes between sending and receiving the amount on either side"
+
+      - name: list_of_txns
+        description: "List of transactions flagged by the rule"
+
+  - name: high_value_card_top_up
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for high value card top up"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: running_sum
+        description: "Running sum of the transactions involved"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+
+  - name: unauthorized_funding_sources
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for the unauthorized funding sources"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "A user_id for the hummingbird rule"
+
+      - name: amount_in_usd
+        description: "Amount of the transaction in USD"
+
+      - name: currency
+        description: "primary currency of the user"
+
+      - name: list_of_txns
+        description: "The list of transactions flagging this rule"
+
+      - name: payment_card_card_type
+        description: "Card type Debit/Credit"
+
+  - name: sudden_activity_on_inactive_card
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for virtual cards - Calendar monthly debits exceeds the set monthly limits"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: ledger_currency
+        description: "Wallet currency of the User"
+
+      - name: list_of_txns
+        description: "List of transactions leading to the alert"
+
+      - name: amount
+        description: "Aggregate of the amount in USD"
+
+      - name: ledger_amount
+        description: "Ledger amount in local currency"
+
+      - name: transfer_type
+        description: "Type of the transaction"
+
+      - name: user_id
+        description: "Unique Identifier of the user"
+
+      - name: diff_days
+        description: "Days of Inactivity on the card"
+        
+  - name: rapid_movement_funds
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for virtual cards - Rapid Movement of funds "
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "Unique Identifier of the user"
+
+      - name: sum_transactions_funding_local
+        description: "Aggregate of the funding amount"
+
+      - name: sum_transactions_withdrawal_local
+        description: "Aggregate of the withdrawal amount"
+
+      - name: currency
+        description: "Wallet currency of the User"
+
+      - name: list_of_txns
+        description: "List of transactions leading to the alert"
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+
+      - name: week_of_year
+        description: "week when the rule was triggered"
+
+      - name: year
+        description: "year when the rule was triggered"
+
+  - name: potential_credit_structuring
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for virtual cards - Potential Credit Structuring"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "Unique Identifier of the user"
+
+      - name: running_balance
+        description: "Aggregate of the amount"
+
+      - name: currency
+        description: "Wallet currency of the User"
+
+      - name: list_of_txns
+        description: "List of transactions leading to the alert"
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+
+  - name: maximum_card_balance_exceeded
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for virtual cards - Maximum Card balance exceeded"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "Unique Identifier of the user"
+
+      - name: running_balance
+        description: "Aggregate of the amount"
+
+      - name: currency
+        description: "Wallet currency of the User"
+
+      - name: list_of_txns
+        description: "List of transactions leading to the alert"
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+
+  - name: large_reportable_txns_credit
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for virtual cards - Large Reportable transactions - Credit Side"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "Unique Identifier of the user"
+
+      - name: funding_amount
+        description: "Aggregate of the amount"
+
+      - name: currency
+        description: "Wallet currency of the User"
+
+      - name: list_of_txns
+        description: "List of transactions leading to the alert"
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+
+  - name: calendar_month_debits_exceeds_limits
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for virtual cards - Calendar monthly debits exceeds the set monthly limits"
+    columns:
+      - name: user_id
+        description: "User Identifier"
+      
+      - name: primary_currency
+        description: "primary currency of the user"
+
+      - name: currency
+        description: "Wallet currency of the user"
+
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: ledger_amount_total
+        description: "Aggregate sum of the ledger amount"
+
+      - name: list_of_txns
+        description: "List of transactions leading to the alert"
+
+      - name: month_of_year
+        description: "Month when the rule was triggered"
+
+      - name: year
+        description: "Year when the rule was triggered"
+
+  - name: extreme_purchases_single_merchant
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for virtual cards - Extreme purchases made on a single merchant"
+    columns:
+      - name: user_id
+        description: "Unique Identifer of the User"
+
+      - name: week_of_year
+        description: "Week of the year the alert was triggered"
+
+      - name: triggered_at
+        description: "timestamp when the rule was triggered"
+
+      - name: sum_amount
+        description: "Aggregate sum of the amount"
+
+      - name: currency
+        description: "Wallet currency of the user"
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+
+      - name: merchant_id
+        description: "Merchant Identification"
+
+      - name: count_merchant_txns
+        description: "count of transactions related to the merchant"
+
+      - name: list_of_txns
+        description: "List of transactions"
+
+  - name: large_reportable_txns_debit
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for virtual cards - Large Reportable transactions - Debit Side"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "Unique Identifier of the user"
+
+      - name: funding_amount
+        description: "Aggregate of the amount"
+
+      - name: curreny
+        description: "Wallet currency of the User"
+
+      - name: list_of_txns
+        description: "List of transactions leading to the alert"
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+        
+  - name: counterparties_send
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for virtual cards - Counterparties Send"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "Unique Identifier of the user"
+
+      - name: funding_amount
+        description: "Aggregate of the amount"
+
+      - name: curreny
+        description: "Wallet currency of the User"
+
+      - name: list_of_txns
+        description: "List of transactions leading to the alert"
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+
+      - name: count_txns
+        description: "Count of transactions"
+
+  - name: counterparties_receive
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for virtual cards - Counterparties Received"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "Unique Identifier of the user"
+
+      - name: funding_amount
+        description: "Aggregate of the amount"
+
+      - name: curreny
+        description: "Wallet currency of the User"
+
+      - name: list_of_txns
+        description: "List of transactions leading to the alert"
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+
+      - name: count_txns
+        description: "Count of transactions"
+
+  - name: wallet_rapid_movement_funds
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for wallet TM - Rapid movement funds"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: user_id
+        description: "Unique Identifier of the user"
+
+      - name: ledger_curreny
+        description: "Wallet currency of the User"
+
+      - name: list_of_txns
+        description: "List of transactions leading to the alert"
+
+      - name: sum_credits
+        description: "Credits - Sum of amount"
+
+      - name: sum_credits_usd
+        description: "Credits - Sum of amount in USD"
+
+      - name: sum_debits
+        description: "Debits - Sum of amount"
+
+      - name: sum_debits_usd
+        description: "Debits - Sum of amount in USD"
+
+  - name: alerts
+    config:
+      tags: ['daily']
+    description: "A transformation for Hummingbird Feedback - Alert info"
+    columns:
+      - name: triggered_at
+        description: "When the rule was triggered"
+
+      - name: rule_name
+        description: "What rule was triggered"
+
+      - name: alert_id
+        description: "Idenitifier for the alert"
+      
+
+  - name: audit_logs
+    config:
+      tags: ['daily']
+    description: "A transformation for Hummingbird Feedback - Analyst info"
+    columns:
+      - name: review_token
+        description: "unique identifier of the review"
+
+      - name: created_at
+        description: "timestamp - review was created"
+
+      - name: analyst_name
+        description: "Name of the analyst working on the alert"
+
+      - name: decision
+        description: "decisions made by the analyst"
+
+      - name: action_name
+        description: "decision - Action taken by the analyst"
+
+      - name: choice_id
+        description: "decision - choide made by the analyst"
+
+      - name: choice_name
+        description: "decision - choice name made by the analyst"
+
+      - name: comments
+        description: "decision - comments added to the decisioning if any"
+
+      - name: decision_made_at
+        description: "timestamp - decision made at"
+
+      - name: completed_at
+        description: "timestamp - review completed at"
+
+  - name: cases
+    config:
+      tags: ['daily']
+    description: "A transformation for Hummingbird Feedback - Case info"
+    columns:
+      - name: case_id
+        description: "Identifier for the case"
+      
+      - name: created_at
+        description: "timestamp - case created at"
+
+      - name: updated_at
+        description: "timestamp - case updated at"
+
+      - name: alert_info
+        description: "all the alert info related to the case"
+
+      - name: decisions
+        description: "decisions made on all the alerts and case"
+
+      - name: status
+        description: "status of the case"
+
+      - name: analyst_details
+        description: "all the analst details assigned to the case and alerts under the case"
+
+      - name: completed_at
+        description: "timestamp - case completed at"
+
+      - name: user_id
+        description: "unique identifer of the user"
+
+      - name: alerts_triggered
+        description: "alerts triggered for the case"
+
+  - name: historical_alerts
+    config:
+      tags: ['daily']
+    description: "A transformation that tracks the user, rule triggered by the user and the latest triggered date by the user"
+    columns:
+      - name: user_id
+        description: "Unique Idenitfier of the User"
+
+      - name: rule_name
+        description: "Rule triggered by the user"
+
+      - name: triggered_at
+        description: "Timestamp at which the rule was triggered"
+
+      - name: triggered_date
+        description: "Date on which the rule was triggered"
+
+      
+

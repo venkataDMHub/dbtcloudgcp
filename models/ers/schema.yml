@@ -1,0 +1,127 @@
+version: 2
+
+models:
+  - name: ERS_Internal_Ledger_Recon
+    config:
+      tags: ['4_hourly']
+    description: "A transformation for reconciling transactions between our extenal provider feeds and internal Chipper ledgers "
+    columns:
+      - name: ers_amount
+        description: "Transaction amount in the ERS table"  
+
+      - name: ers_data
+        description: "ERS JSON feed"  
+
+      - name: ers_created_at
+        description: "Date of transaction in ERS table"
+
+      - name: ers_external_id
+        description: "unique ERS id"
+
+      - name: ers_type
+        description: "ERS transaction type"
+
+      - name: ers_updated_at
+        description: "date record was last updated in ERS table"
+      
+      - name: ers_provider
+        description: "ERS provider name"
+
+      - name: ers_record_creation_date
+        description: "ERS record creation date"
+
+      - name: ers_currency
+        description: "ERS transaction currency"
+
+      - name: ers_status
+        description: "ERS transaction status"
+      
+      - name: ers_provider_fee
+        description: "ERS provider fee amount"
+
+      - name: ers_transaction_fee
+        description: "ERS transaction fee amount"
+
+      - name: ers_net_amount
+        description: "ERS amount less fees"
+
+      - name: ers_category
+        description: "ERS transaction category"
+      
+      - name: is_internal_record
+        description: "Y/N flag to indicate if ERS transaction appears in internal ledgers"
+      
+      - name: internal_txn_id
+        description: "unique internal transfer id"
+
+      - name: internal_txn_external_provider
+        description: "Chipper's third-party external provider for processing and settling a transaction (if necessary - null value if not applicable)"
+
+      - name: internal_txn_external_provider_id
+        description: "Unique ID based on external provider and transaction"
+
+      - name: internal_txn_details
+        description: "JSON value for internal transaction"
+
+      - name: internal_txn_created_at
+        description: "transaction create date/time"
+
+      - name: internal_txn_updated_at
+        description: "last updated date/time of transaction in internal ledger"
+
+      - name: internal_txn_status
+        description: "status of internal transaction"
+
+      - name: internal_txn_transfer_type
+        description: "transfer type associated with the transaction"
+
+      - name: internal_txn_journal_type
+        description: "type of transaction (deposit/withdrawal/etc.)"
+
+      - name: internal_txn_journal_id
+        description: "internal journal ID"
+
+      - name: internal_txn_corridor
+        description: "transaction corridor"
+
+      - name: internal_txn_ledger_currency   
+        description: "currency of the transaction"
+
+      - name: internal_txn_ledger_amount
+        description: "ledger amount associated with the transaction"
+
+      - name: internal_txn_ledger_rate
+        description: "Currency/USD rate"
+
+      - name: internal_txn_ledger_amount_in_usd
+        description: "ledger amount in USD"
+
+      - name: is_ers_record
+        description: "Y/N flag to indicate if internal transaction appears in external provider feeds"
+
+      - name: is_chargeback
+        description: "Y/N/ flag to indicate if the transaction contains a chargeback"
+
+      - name: chargeback_status
+        description: "original status of the chargeback"
+
+      - name: chargeback_updated_status
+        description: "status of chargeback post 45 day timeframe (defaults to 'WIN' if there is no response from issuer within 45 days of a declined charge"
+
+      - name: chargeback_claim_amount
+        description: "chargeback amount"
+
+      - name: chargeback_claim_amount_in_usd
+        description: "chargeback amount converted to USD"
+
+      - name: ref_id_1
+        description: "ERS transaction ID (used for joins)"
+
+      - name: ref_id_2
+        dsescription: "Internal transaction ID (used for joins)"
+
+      - name: ref_table_1
+        description: "Name of ERS table (used for joins)"
+
+      - name: ref_table_2
+        description: "Name of internal chipper core table (used for joins)"

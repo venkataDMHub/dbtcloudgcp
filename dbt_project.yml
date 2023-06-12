@@ -1,0 +1,87 @@
+name: "dbt_transformations"
+version: "1.1.1"
+config-version: 2
+
+profile: "default"
+
+model-paths: ["models"]
+analysis-paths: ["analysis"]
+test-paths: ["tests"]
+seed-paths: ["data"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+vars:
+  core_public: AURORA_CORE3_PUBLIC
+  compliance_public: AURORA_COMPLIANCE_PUBLIC
+  auth_public: AURORA_AUTH_PUBLIC
+  transaction_monitoring: TRANSACTION_MONITORING
+  ues_time_horizon_in_days: -90
+  external_api_public: AURORA_EXTERNAL_API_PUBLIC
+
+models:
+  dbt_transformations:
+    # Applies to all files under models/dms/
+    alerts:
+      materialized: table
+
+    amplitude_data:
+      materialized: table
+
+    canned_campaigns:
+      materialized: table
+
+    dms:
+      materialized: view
+
+    feature_stores:
+      materialized: table
+
+    graphs:
+      materialized: table
+
+    retool:
+      materialized: table
+      +schema: retool
+
+    rollouts:
+      materialized: table
+
+    segs:
+      materialized: table
+
+    transaction_data:
+      materialized: table
+
+    user_data:
+      materialized: table
+      user_verification_oracle:
+        +post-hook: "grant select on view {{ this }} to role READ_ALL"
+
+    user_debug_dashboard:
+      materialized: table
+
+    user_scores:
+      materialized: table
+
+    staging:
+        core_public:
+          schema: dbt_core_public 
+          materialized: view
+
+        compliance_public:
+          schema: dbt_compliance_public 
+          materialized: view
+
+        intercom:
+          schema: dbt_intercom 
+          materialized: view
+
+        zendesk:
+          schema: dbt_zendesk
+          materialized: view

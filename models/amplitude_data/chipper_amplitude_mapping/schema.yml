@@ -1,0 +1,23 @@
+version: 2
+
+models:
+  - name: map_user_amplitude
+    description: "A transformation to get the amplitude event ID for a user. This ID is required to fetch all amplitude events associated with a user"
+    columns:
+      - name: USER_ID
+        description: "ID of the User"
+
+      - name: AMPLITUDE_ID
+        description: "ID of the amplitude events. This is unique for a given user"
+
+      - name: CREATED_AT
+        description: "When this mapping was created"
+
+  - name: map_user_to_all_amplitude_ids
+    description: "A model to fetch all the amplitude ID's linked with the chipper user_id. It uses the merged ID's table to group all the amplitude ID's of a user together"
+    columns:
+      - name: USER_ID
+        description: "ID of the User"
+
+      - name: AMPLITUDE_ID
+        description: "ID of the amplitude events. This is unique for a given user"

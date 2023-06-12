@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: invalid_user_ids
+    description: "List of invalid user_ids. Invalid user_ids are trimmed down from the users table to get the List of valid user_ids"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+
+      - name: invalid_user_reasons
+        description: "Concatenated list of all the reasons why the user is invalid"
+
+  - name: invalid_referrals
+    description: "List of user_ids of invited users from a NEEDS_REVIEW referral"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: reason
+        description: "NEEDS_REVIEW_INVITED_USER, the reason for the user_id being considered invalid. "
+
+  - name: ngn_kes_2019_fake_accounts
+    description: "List of user_ids of NGN or KES users created between 2019-09-01 and 2019-11-30 who have made no transactions 4 weeks after their account creation"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: reason
+        description: "NGN_KES_2019_FAKE_ACCOUNTS, the reason for the user_id being considered invalid. "
+
+  - name: sardine_false_negatives
+    description: "List of invited user_ids of SETTLED referrals that would have been flagged as NEEDS_REVIEW by Sardine"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: reason
+        description: "SARDINE_FALSE_NEGATIVE, the reason for the user_id being considered invalid. "
+
+  - name: zar_2020_fake_accounts
+    description: "List of user_ids of ZAR users created between 2020-08-01 and 2020-08-31 who have an active account flag"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: reason
+        description: "ZAR_2020_FAKE_ACCOUNTS, the reason for the user_id being considered invalid. "
+
+  - name: non_active_sept_oct_users
+    description: "List of user_ids of NGN users created between 2021-09-01 and 2021-10-21 who have made no transactions 4 weeks after their account creation"
+    columns:
+      - name: user_id
+        description: "user_id of the user"
+        tests:
+          - unique
+          - not_null
+
+      - name: reason
+        description: "NGN_2021_FAKE_ACCOUNTS, the reason for the user_id being considered invalid. "

@@ -1,0 +1,63 @@
+version: 2
+
+models:
+  - name: deposits_with_payment_methods
+    config:
+      tags: ['4_hourly']
+    description: "Transformation for Deposits with Payment methods"
+
+    columns:
+        - name: hlo_id
+          description: "Primary Key (id) from the withdrawals table"
+
+        - name: linked_account_id
+          description: "linked account id"
+
+        - name: charge_id
+          description: "charge id"
+
+        - name: card_charge_id
+          description: "card charge id"
+
+        - name: deposit_receipt_webhook_id
+          description: "deposit receipt webhook id"
+
+        - name: transfer_id
+          description: "Transfer id of the hlo entry"
+
+        - name: reverse_transfer_id
+          description: "reverse Transfer id of the hlo entry"
+
+        - name: error_message
+          description: "error message"
+
+        - name: note
+          description: "note"
+
+        - name: admin_id
+          description: "admin id"
+
+        - name: journal_id
+          description: "journal id"
+
+        - name: details
+          description: "details"
+
+        - name: created_at
+          description: "Timestamp when the hlo entry was last created"
+
+        - name: updated_at
+          description: "Timestamp when the hlo entry was last updated"
+
+        - name: status
+          description: "status"
+
+        - name: user_id
+          description: "user id"
+
+        - name: payment_method_details
+          description: "payment method details"
+
+
+
+

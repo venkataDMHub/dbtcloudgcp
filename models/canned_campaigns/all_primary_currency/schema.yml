@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: all_gbp_users
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: all_ghs_users
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: all_rwf_users
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: all_usd_users
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"

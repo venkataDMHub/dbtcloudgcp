@@ -1,0 +1,73 @@
+version: 2
+
+models:
+  - name: activation_gbp_crypto
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: activation_ghs_crypto
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: activation_kes_crypto
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: activation_ngn_crypto
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: activation_rwf_crypto
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: activation_tzs_crypto
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: activation_ugx_crypto
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: activation_usd_crypto
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: activation_zar_crypto
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"
+  - name: activation_zmw_crypto
+    config:
+      tags: ["4_hourly"]
+    description: "A transformation that creates the list of user for a campaign"
+    columns:
+      - name: user_id
+        description: "Unique Identifier of the user"

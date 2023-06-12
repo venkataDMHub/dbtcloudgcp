@@ -1,0 +1,129 @@
+version: 2
+
+models:
+  - name: kyc_conversion
+    config:
+      tags: ['4_hourly']
+    description: "summarizes the kyc conversion funnel for each user"
+    columns:
+      - name: user_id
+        description: "Distinct id to identify the user"
+        tests:
+        - unique
+        - not_null 
+        
+      - name: account_created_at
+        description: "Timestamp indicating when the user's account was created at"
+      
+      - name: primary_currency
+        description: "primary currency of the user"
+
+      - name: acquisition_source
+        description: "acquisition source of the user"
+
+      - name: is_deleted
+        description: "Boolean flag indicating whether the user is deleted"
+
+      - name: is_valid_user
+        description: "Boolean flag indicating whether the user is a valid user or not"
+
+      - name: is_blocked_by_flag
+        description: "Boolean flag indicating whether the user is flagged by LRC"
+
+      - name: current_kyc_tier
+        description: "current KYC verification status of the user"
+
+      - name: has_submitted_selfie
+        description: "boolen indicting whether the user has submitted a selfie"
+
+      - name: selfie_first_submitted_at
+        description: "timestamp the selfie was first submitted"
+
+      - name: provider_for_first_submitted_selfie 
+        description: "the provider that reviewed the first selfie submitted"
+
+      - name: has_selfie_accepted 
+        description: "boolean indictating whether the user has had a selfie submitted "
+
+      - name: selfie_first_accepted_at
+        description: "timestamp the selfie was first accepted"
+
+      - name: provider_for_first_accepted_selfie 
+        description: "the provider that reviewed the first accepted selfie "
+
+      - name: has_submitted_documentation 
+        description: "boolean indicating whether the user has submitted documentation"
+
+      - name: first_submitted_doc_at 
+        description: "timestamp for when first documention is submitted"
+
+      - name: first_submitted_document_type 
+        description: "type of the first document submitted"
+
+      - name: first_submitted_document_number 
+        description: "the number of the first document submitted"
+
+      - name: has_accepted_documentation  
+        description: "boolean indicating whether documentation was accpeted"
+
+      - name: first_primary_document_accepted_at 
+        description: "timestamp for when the documentation was first accepted"
+
+      - name: first_accepted_primary_document_type
+        description: "type of document first accepted"
+
+      - name: first_accepted_primary_document_number 
+        description: "the document number of the first accepted document"
+
+      - name: has_account_blocking_flag_check 
+        description: "boolean indicating whether there is a currenct account flag"
+
+      - name: first_date_of_current_account_blocking_flags 
+        description: "the first date a user had an account blocking flag that hasnt been unflagged"
+
+      - name: list_of_current_flags
+        description: "list of all the account flags"
+
+      - name: has_been_verified
+        description: "boolean indicating whether the user has recieved KYC Tier 2 Verifiction"
+
+      - name: first_verified_at
+        description: "timestamp user first verified at"
+
+      - name: tier_before_verification
+        description: "tier the user was before verification"
+
+  - name: unaccepted_primary_document_reasons
+    config:
+      tags: ['4_hourly']
+    description: "contains all status of unaccepted documents and the reasons rejected documents were rejected"
+    columns:
+      - name: user_id
+        description: "Distinct id to identify the user"
+
+      - name: primary_currency
+        description: "primary currency of the user"
+
+      - name: doc_type
+        description: "document type"
+
+      - name: document_id
+        description: "id of the document"
+
+      - name: current_status
+        description: "the current_status of the document"
+
+      - name: new_status
+        description: "the status at the time the document was updated"
+      
+      - name: reason
+        description: "reason the document has its status"
+
+      - name: document_info_updated_at
+        description: "the date the document information was update"
+
+      - name: is_latest_document_info
+        description: "boolean indicating whether its the latest updated info for the document"
+
+      - name: doc_reason_rank
+        description: "ranks the document rejection reasons in order of popularity over the last 6 months"

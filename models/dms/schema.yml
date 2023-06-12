@@ -1,0 +1,327 @@
+version: 2
+
+models:
+  - name: dms_withdrawals
+    config:
+      tags: ['hourly']
+    description: "A transformation that enriches withdrawals data for DMS alerting"
+    columns:
+        - name: created_at
+          description: "Timestamp indicating when the withdrawal was initiated"
+
+        - name: status
+          description: "Status of the withdrawal"
+          tests:
+            - accepted_values:
+                values: ['SETTLED', 'PENDING', 'FAILED', 'EXTERNAL_FAILED', 'WAITING_APPROVAL', 'QUEUED', 'QUEUED_FOR_REFUND', 'PAYMENT_SUBMITTED']
+
+        - name: provider
+          description: "Withdrawal provider"
+
+        - name: error_message
+          description: "Error message with which the withdrawal failed"
+
+        - name: currency
+          description: "Destination currency of the withdrawal"
+
+
+  - name: dms_bill_payments
+    config:
+      tags: ['hourly']
+    description: "A transformation that enriches bill payments data for DMS alerting"
+    columns:
+      - name: created_at
+        description: "Timestamp indicating when the withdrawal was initiated"
+
+      - name: status
+        description: "Status of the bill payment"
+        tests:
+          - accepted_values:
+              values: ['COMPLETED', 'PENDING', 'FAILED']
+
+      - name: provider
+        description: "Bill Payment provider"
+
+      - name: biller_name
+        description: "Name of the biller"
+      
+      - name: biller_item_name
+        description: "Name of the item billed"
+
+      - name: currency
+        description: "Currency in which the bill payment was initiated"
+      
+      - name: payment_response
+        description: "Response from the bill payment provider"
+      
+      - name: error_message
+        description: "Error message with which the bill payment failed"
+
+
+  - name: dms_airtime_purchases
+    config:
+      tags: ['hourly'] 
+    description: "A transformation that enriches airtime purchases data for DMS alerting"
+    columns: 
+      - name: created_at
+        description: "Timestamp indicating when the airtime purchase was initiated"
+
+      - name: status 
+        description: "Status of the airtime purchase"
+        tests:
+          - accepted_values: 
+              values: ['COMPLETED', 'FAILED', 'PENDING', 'REFUNDED']
+        
+      - name: airtime_provider
+        description: "Airtime provider"
+
+      - name: phone_country_code 
+        description: "Country code of the mobile number that received the airtime purchase" 
+
+      - name: phone_carrier 
+        description: "The phone carrier serving the airtime purchase"
+
+      - name: error_message
+        description: "Error message with which the airtime purchase failed"
+
+  - name: dms_asset_trades
+    config:
+      tags: ['hourly'] 
+    description: "A transformation that enriches asset trades data for DMS alerting"
+    columns: 
+      - name: created_at
+        description: "Timestamp indicating when the asset trade was initiated"
+
+      - name: status 
+        description: "Status of the asset trade"
+        tests:
+          - accepted_values:
+             values: ['SETTLED', 'FAILED', 'EXPIRED', 'CANCELLED', 'PENDING']
+        
+      - name: fee_currency 
+        description: "The currency in which the fee for asset trade was charged"
+
+      - name: position
+        description: "The position (BUY or SELL) taken by the user in the asset trade"
+        tests:
+          - accepted_values: 
+              values: ['BUY', 'SELL']
+      
+      - name: fee_amount 
+        description: "The fee amount charged for the asset trade. The amount is charged in the fee_currency"
+
+      - name: error_message
+        description: "The error message with which the asset trade failed"
+
+      - name: asset 
+        description: "The type of asset involved in the given trade. Some examples of valid assets are BTC, ETH, USDC, NGN, GHS and USD"
+  
+
+
+  - name: dms_data_purchases
+    config:
+      tags: ['hourly']
+    description: "A transformation that enriches data purchases data for DMS alerting"
+    columns: 
+      - name: created_at 
+        description: "Timestamp indicating when the data purchase was initiated"
+
+      - name: status 
+        description: "Status of the data purchase"
+        tests:
+          - accepted_values: 
+               values: ['NEW', 'COMPLETED', 'QUEUED_FOR_REFUND', 'FAILED', 'PENDING']
+
+      - name: data_provider
+        description: "Data provider"
+
+      - name: currency 
+        description: "Currency in which the data was purchased" 
+
+      - name: carrier 
+        description: "The carrier serving the data purchase"
+
+      - name: error_message
+        description: "Error message with which the data purchase failed"
+
+      - name: description 
+        description: "Details of the data option that was purchased"
+
+  
+
+  - name: dms_deposits
+    config:
+      tags: ['hourly']
+    description: "A transformation that enriches deposits data for DMS alerting"
+    columns: 
+      - name: created_at
+        description: "Timestamp indicating when the deposit was initiated"
+
+      - name: status 
+        description: "Status of the deposit"
+
+      - name: origin_currency 
+        description: "Origin currency of the user who initiated the deposit"
+
+      - name: error_message 
+        description: "The error message with which the deposit failed"
+
+      - name: deposit_type
+        description: "Type of deposit based on the medium in which it was initiated"
+        tests:
+          - accepted_values: 
+              values: ['Debit Card Deposit', 'Mobile Money Deposit', 'Nuban Deposit', 'Other Deposit']
+
+
+  - name: dms_verified_users 
+    config:
+      tags: ['hourly']
+    description: "A transformation that hard codes a failed verification for each country for DMS alerting"
+    columns: 
+      - name: user_id 
+        description: "user_id of the user being verified"
+      
+      - name: status 
+        description: "User verification status of user_id"
+
+      - name: created_at 
+        description: "Timestamp indicating when the user verification was completed"
+
+      - name: primary_currency
+        description: "Primary currency of the user"
+
+   
+  - name: dms_crypto_deposits
+    config:
+      tags: ['hourly'] 
+    description: "A transformation enriches Crypto Deposits data for DMS alerting"
+    columns: 
+      
+      - name: status 
+        description: "Status of the Crypto Deposit"
+
+      - name: created_at 
+        description: "Timestamp indicating when the Crypto Deposit was initiated"
+
+      - name: asset
+        description: "Asset that was deposited"
+      
+      - name: provider     
+        description: "Crypto Deposit provider"
+
+      - name: last_error 
+        description: "The last error for the given crypto deposit"
+
+
+  - name: dms_crypto_withdrawals
+    config:
+      tags: ['hourly']
+    description: "A transformation enriches Crypto Withdrawals data for DMS alerting"
+    columns: 
+      
+      - name: status 
+        description: "Status of the Crypto Withdrawal"
+
+      - name: created_at 
+        description: "Timestamp indicating when the Crypto Withdrawal was initiated"
+
+      - name: asset
+        description: "Asset that was withdrawn"
+      
+      - name: provider     
+        description: "Crypto Withdrawal provider"
+
+      - name: last_error 
+        description: "The last error for the given crypto withdrawal"
+
+
+  - name: dms_sent_otp
+    config:
+      tags: ['hourly']
+    description: "A transformation enriches Sent OTP data for DMS alerting"
+    columns: 
+      
+      - name: status 
+        description: "Status of the OTP Sent"
+
+      - name: created_at 
+        description: "Timestamp indicating when the OTP was sent"
+
+      - name: country
+        description: "Country from which the OTP was requested"
+      
+      - name: provider     
+        description: "Provider of the OTP. SMS Provider if OTP was sent from SMS and EMAIL if OTP was requested via email "
+
+        
+  - name: dms_stock_trades
+    config:
+      tags: ['hourly']
+    description: "A transformation enriches Stock Trades data for DMS alerting"
+    columns: 
+      
+      - name: status 
+        description: "Status of the Stock Trade"
+        tests:
+          - accepted_values: 
+              values: ['SETTLED', 'CANCELLED', 'PENDING', 'REJECTED', 'PARTIAL_FILL', 'FAILED', 'ORDER_CREATED']
+
+
+      - name: created_at 
+        description: "Timestamp indicating when the Stock Trade was initiated"
+
+      - name: position
+        description: "The user's position on the stock trade"
+        tests:
+          - accepted_values: 
+              values: ['BUY', 'CANCELLED', 'SELL', 'DIV', 'DIVTAX']
+
+      - name: symbol
+        description: "Symbol of the stock that was traded"
+      
+      - name: currency     
+        description: "Currency in which the stock trade was conducted"
+      
+      - name: status_message 
+        description: "Status message of the stock trade"
+
+
+  - name: dms_issued_card_transactions
+    config:
+      tags: ['hourly']
+    description: "A transformation enriches Virtual Card Transactions data for DMS alerting"
+    columns: 
+      
+      - name: status 
+        description: "Status of the Crypto Withdrawal"
+
+      - name: created_at 
+        description: "Timestamp indicating when the Crypto Withdrawal was initiated"
+
+      - name: type
+        description: "Type of virtual card transaction"
+        tests:
+          - accepted_values:
+              values: ['FUNDING', 'TRANSACTION', 'WITHDRAWAL']
+      
+      - name: currency     
+        description: "Currency in which the virtual card transaction was done"
+
+      - name: error_message
+        description: "Error message for the given issued card transaction"
+
+
+  - name: dms_nuban_requests
+    config:
+      tags: ['hourly']
+    description: "A transformation enriches Nuban Requests data for DMS alerting"
+    columns: 
+      
+      - name: status 
+        description: "Status of the Nuban Request"
+
+      - name: created_at 
+        description: "Timestamp indicating when the Nuban Request was initiated"
+
+      - name: kyc_info_source
+        description: "KYC Info provided for the NUBAN request"

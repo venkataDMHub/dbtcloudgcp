@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: payments_transaction_details
+    config:
+      tags: ['4_hourly','delay']
+    description: "Transformation for all kinds of payment methods (i.e. linked accounts) such as mobile money, debit cards, bank or Nuban accounts, etc"
+
+    columns:
+      - name: transfer_id
+        description: "Unique Identifier of the transfer"
+
+      - name: hlo_table
+        description: "Info on the Journal Type"
+
+      - name: external_provider
+        description: "external provider of the transaction"
+      
+      - name: external_provider_transaction_id
+        description: "Unique idenitifer for the transaction provided by the external provider"
+
+      - name: transaction_details
+        description: "JSON format of Additional info on the transaction" 
+
+      - name: shortened_transaction_details
+        description: "Non - json format of transaction details"
+
+      - name: hlo_created_at
+        description: "timestamp - transaction created on "
+
+      - name: hlo_updated_at
+        description: "timestamp - transaction updated on "
+
+      - name: hlo_status
+        description: "Status of the transaction"
+
+      - name: outgoing_user_id
+        description: "Outgoing User ID"
+
+      - name: incoming_user_id
+        description: "Incoming User ID"
+

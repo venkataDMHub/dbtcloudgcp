@@ -1,0 +1,56 @@
+version: 2
+
+models:
+  - name: transaction_details
+    config:
+      tags: ['4_hourly','delay']
+    description: "Transformation for combining internal and external details of a transfer or transaction, and the transfer metadata of the transacting users"
+
+    columns:
+      - name: transfer_id
+        description: "Primary key (ID) from the transfers table"
+        tests:
+          - unique
+          - not_null
+
+      - name: hlo_table
+        description: "HLO (high-level object or activity) table where the transfer can be found"
+        tests:
+          - not_null
+
+      - name: external_provider
+        description: "Chipper's third-party external provider for processing and settling a transaction (if necessary - null value if not applicable)"
+
+      - name: external_provider_transaction_id
+        description: "The transaction ID from the third-party external provider"
+
+      - name: transaction_details
+        description: "JSON that contains both the internal and external details of a transfer or transaction. Internal details are from Chipper's own records, while external details are from the responses that we received or fetched from the external providers"
+
+      - name: hlo_created_at
+        description: "time the transaction was created at"
+
+      - name: hlo_updated_at
+        description: "time the transaction was updated at"         
+
+      - name: hlo_status
+        description: "status of the transaction"
+        tests:
+          - not_null
+      
+      - name: outgoing_user_id
+        description: "Outbound user who initiated the transaction" 
+
+      - name: incoming_user_id
+        description: "Inbound user who initiated the transaction" 
+
+      - name: outgoing_user_transfer_metadata_details
+        description: "JSON that contains the outgoing (outbound or debit-side) user's transfer metadata, such as IP address, internal Chipper Device ID, and other location data, when the transfer or transaction happened"
+
+      - name: incoming_user_transfer_metadata_details
+        description: "JSON that contains the incoming (inbound or credit-side) user's transfer metadata, such as IP address, internal Chipper Device ID, and other location data, when the transfer or transaction happened"
+
+      - name: is_on_ledger
+        description: "indicates if its dead end ledger"
+
+

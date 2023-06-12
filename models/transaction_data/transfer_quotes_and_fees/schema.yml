@@ -1,0 +1,398 @@
+version: 2
+
+models:
+  - name: fee_collections
+    config:
+      tags: ['4_hourly']
+    description: "Transformation for combining all fee collections from all product lines into one single table"
+
+    columns:
+      - name: row_number
+        description: "Row number to uniquely identify each row"
+        tests:
+          - unique
+          - not_null
+
+      - name: transfer_id
+        description: "Primary key (ID) from the transfers table"
+
+      - name: journal_id
+        description: "The journal ID of the transaction from the HLO table"
+
+      - name: transfer_quote_id
+        description: "Primary key (ID) from the transfer_quotes table"
+
+      - name: fee_calculation_id
+        description: "Primary key (ID) from the fee_calculations table"
+
+      - name: fee_config_id
+        description: "Primary key (ID) from the fee_configs table"
+
+      - name: forex_fee_calculation_id
+        description: "Primary key (ID) from the forex_fee_calculations table"
+
+      - name: fee_type
+        description: "Type of fee (whether flat fee, percentage fee or forex fee)"
+
+      - name: fee_name
+        description: "Name of the fee"
+
+      - name: fee_description
+        description: "Description about the fee"
+
+      - name: fee_currency
+        description: "Currency where the fee amount was collected from"
+
+      - name: fee_amount_collected
+        description: "Amount of fees collected in the fee_currency"
+
+      - name: fee_rate_to_usd
+        description: "Exchange rate used to convert the amounts to USD (official)"
+
+      - name: fee_amount_collected_in_usd
+        description: "fee_amount_collected converted to USD using the fee_rate_to_usd"
+
+      - name: fee_parallel_rate
+        description: "Exchange rate used to convert the amounts to USD (parallel)"
+
+      - name: fee_amount_collected_in_usd_parallel
+        description: "fee_amount_collected converted to USD parallel using the fee_parallel_rate"
+
+      - name: amount_percentage_fee_calculated_from
+        description: "The backend multiplied the non-forex fee percentage with this amount"
+
+      - name: amount_in_usd_percentage_fee_calculated_from
+        description: "amount_percentage_fee_calculated_from converted to USD using the fee_rate_to_usd"
+
+      - name: amount_in_usd_parallel_percentage_fee_calculated_from
+        description: "amount_percentage_fee_calculated_from converted to USD parallel using the fee_parallel_rate"
+
+      - name: amount_forex_fee_calculated_from
+        description: "The backend multiplied the forex fee percentage with this origin amount"
+
+      - name: amount_in_usd_forex_fee_calculated_from
+        description: "amount_forex_fee_calculated_from converted to USD using the origin_rate_to_usd"
+
+      - name: amount_in_usd_parallel_forex_fee_calculated_from
+        description: "amount_forex_fee_calculated_from converted to USD parallel using the origin_parallel_rate"
+
+      - name: forex_fee_percentage
+        description: "Forex fee percentage from the forex_fee_calculations table"
+
+      - name: base_modification_percentage
+        description: "Base modification percentage from the forex_fee_calculations table"
+
+      - name: forex_fee_percentage_using_usd_parallel
+        description: "Implied forex fee percentage when both forex_fee_calculations.origin_amount and forex_fee_calculations.destination_amount are converted to USD at the parallel rate"
+
+      - name: origin_currency
+        description: "Origin currency of the transaction from the transfers table"
+
+      - name: destination_currency
+        description: "Destination currency of the transaction from the transfers table"
+
+      - name: transaction_currency_pair
+        description: "Concatenation of origin_currency and destination_currency"
+
+      - name: adjusted_exchange_rate_with_forex_fee
+        description: "Exchange rate of the transaction with the forex fee factored in"
+
+      - name: unadjusted_exchange_rate_without_forex_fee
+        description: "Exchange rate without the forex fee factored in yet"
+
+      - name: fee_payer_id
+        description: "User ID (from whom did Chipper collected the fees)"
+
+      - name: transactor_side
+        description: "Which side of the transaction were the fees collected from (either origin or destination)"
+
+      - name: transfer_type
+        description: "Transfer type of the transaction from the expanded_transfers transformation"
+
+      - name: journal_type
+        description: "Journal type of the transaction from the journals table"
+
+      - name: activity_type
+        description: "Activity type of the transaction from the transfer_quotes table"
+
+      - name: transfer_quote_created_at
+        description: "created_at timestamp from the transfer_quotes table"
+
+      - name: transfer_quote_updated_at
+        description: "updated_at timestamp from the transfer_quotes table"
+
+      - name: transfer_quote_valid_until
+        description: "valid_until timestamp from the transfer_quotes table"
+
+      - name: hlo_created_at
+        description: "created_at timestamp from the relevant HLO table"
+
+      - name: hlo_updated_at
+        description: "updated_at timestamp from the relevant HLO table"
+
+      - name: is_gaap_revenue
+        description: "Is the fee collected recognized also as revenues as per GAAP accounting or not?"
+
+  - name: expanded_transfer_quotes
+    config:
+      tags: ['4_hourly']
+    description: "Transformation for detailing and aggregating all origin and destination fees and calculations from the transfer-quotes system into one single table"
+
+    columns:
+      - name: transfer_quote_id
+        description: "Primary key (ID) from the transfer_quotes table"
+        tests:
+          - unique
+          - not_null
+
+      - name: transfer_id
+        description: "Primary key (ID) from the transfers table"
+
+      - name: journal_id
+        description: "The journal ID of the transaction from the HLO table"
+      
+      - name: transfer_type
+        description: "Transfer type of the transaction from the expanded_transfers transformation"
+
+      - name: journal_type
+        description: "Journal type of the transaction from the journals table"
+
+      - name: activity_type
+        description: "Activity type of the transaction from the transfer_quotes table"
+
+      - name: payment_grouping
+        description: "Payment grouping from the transfer_quotes table (if available)"
+
+      - name: transaction_currency_pair
+        description: "Concatenation of origin_currency and destination_currency"
+
+      - name: origin_currency
+        description: "Origin currency of the transaction from the transfers table"
+
+      - name: origin_rate_to_usd
+        description: "Exchange rate to USD for the origin side (expressed in USD per local currency)"
+
+      - name: origin_parallel_rate
+        description: "USD parallel rate for the origin side (expressed in local currency per USD)"
+
+      - name: origin_inverse_parallel_rate
+        description: "(1 / origin_parallel_rate) to express the origin parallel rate in USD per local currency"
+
+      - name: origin_amount_debited
+        description: "Origin amount in local currency debited from the outgoing user's wallet (amount that already includes all fees)"
+
+      - name: origin_amount_debited_in_usd
+        description: "origin_amount_debited converted to USD using the origin_rate_to_usd"
+
+      - name: origin_amount_debited_in_usd_parallel
+        description: "origin_amount_debited coverted to USD parallel using the origin_inverse_parallel_rate"
+
+      - name: total_origin_flat_fees_collected
+        description: "Total flat fees collected in local currency from the origin side or outgoing user's wallet"
+
+      - name: total_origin_flat_fees_collected_in_usd
+        description: "total_origin_flat_fees_collected converted to USD using the origin_rate_to_usd"
+
+      - name: total_origin_flat_fees_collected_in_usd_parallel
+        description: "total_origin_flat_fees_collected converted to USD parallel using the origin_inverse_parallel_rate"
+
+      - name: origin_amount_percentage_fee_calculated_from
+        description: "The backend multiplied the non-forex fee percentage for the origin side with this amount"
+
+      - name: origin_amount_in_usd_percentage_fee_calculated_from
+        description: "origin_amount_percentage_fee_calculated_from converted to USD using the origin_rate_to_usd"
+
+      - name: origin_amount_in_usd_parallel_percentage_fee_calculated_from
+        description: "origin_amount_percentage_fee_calculated_from converted to USD parallel using the origin_inverse_parallel_rate"
+
+      - name: total_origin_percentage_fees_collected
+        description: "Total percentage fees in local currency collected from the origin side or outgoing user's wallet"
+
+      - name: total_origin_percentage_fees_collected_in_usd
+        description: "total_origin_percentage_fees_collected converted to USD using the origin_rate_to_usd"
+
+      - name: total_origin_percentage_fees_collected_in_usd_parallel
+        description: "total_origin_percentage_fees_collected converted to USD parallel using the origin_inverse_parallel_rate"
+
+      - name: total_origin_non_forex_fees_collected
+        description: "Non-forex fees subtotals. total_origin_flat_fees_collected + total_origin_percentage_fees_collected"
+
+      - name: total_origin_non_forex_fees_collected_in_usd
+        description: "total_origin_non_forex_fees_collected converted to USD using the origin_rate_to_usd"
+
+      - name: total_origin_non_forex_fees_collected_in_usd_parallel
+        description: "total_origin_non_forex_fees_collected converted to USD parallel using the origin_inverse_parallel_rate"
+
+      - name: origin_amount_less_non_forex_fees
+        description: "origin_amount_debited - total_origin_non_forex_fees_collected. Also the same as the transfer_quotes.origin_amount_before_fees"
+
+      - name: origin_amount_less_non_forex_fees_in_usd
+        description: "origin_amount_less_non_forex_fees converted to USD using the origin_rate_to_usd"
+
+      - name: origin_amount_less_non_forex_fees_in_usd_parallel
+        description: "origin_amount_less_non_forex_fees converted to USD parallel using the origin_inverse_parallel_rate"
+
+      - name: exchange_rate_fee_percentage
+        description: "Forex fee percentage from the transfers table"
+
+      - name: base_modification_percentage
+        description: "Base modification percentage from the transfers table"
+
+      - name: forex_fee_percentage_using_usd_parallel
+        description: "Implied forex fee percentage when both forex_fee_calculations.origin_amount and forex_fee_calculations.destination_amount are converted to USD at the parallel rate"
+
+      - name: adjusted_exchange_rate_with_forex_fee
+        description: "Exchange rate of the transaction with the forex fee factored in"
+
+      - name: unadjusted_exchange_rate_without_forex_fee
+        description: "Exchange rate without the forex fee factored in yet"
+
+      - name: origin_amount_forex_fee_calculated_from
+        description: "The backend multiplied the forex fee percentage with this origin amount"
+
+      - name: origin_amount_in_usd_forex_fee_calculated_from
+        description: "origin_amount_forex_fee_calculated_from converted to USD using the origin_rate_to_usd"
+
+      - name: origin_amount_in_usd_parallel_forex_fee_calculated_from
+        description: "origin_amount_forex_fee_calculated_from converted to USD parallel using the origin_inverse_parallel_rate"
+
+      - name: total_origin_forex_fees_collected
+        description: "Total forex fees in local currency collected from the origin side or outgoing user's wallet"
+
+      - name: total_origin_forex_fees_collected_in_usd
+        description: "forex_fee_calculations.origin_amount_in_usd - forex_fee_calculations.destination_amount_in_usd"
+
+      - name: total_origin_forex_fees_collected_in_usd_parallel
+        description: "forex_fee_calculations.origin_amount_in_usd_parallel - forex_fee_calculations.destination_amount_in_usd_parallel"
+
+      - name: total_origin_fee_collected
+        description: "total_origin_non_forex_fees_collected + total_origin_forex_fees_collected"
+
+      - name: total_origin_fee_collected_in_usd
+        description: "total_origin_non_forex_fees_collected_in_usd + total_origin_forex_fees_collected_in_usd"
+
+      - name: total_origin_fee_collected_in_usd
+        description: "total_origin_non_forex_fees_collected_in_usd_parallel + total_origin_forex_fees_collected_in_usd_parallel"
+
+      - name: origin_amount_less_all_fees
+        description: "origin_amount_less_non_forex_fees - total_origin_forex_fees_collected"
+
+      - name: origin_amount_less_all_fees_in_usd
+        description: "origin_amount_less_non_forex_fees_in_usd - total_origin_forex_fees_collected_in_usd"
+
+      - name: origin_amount_less_all_fees_in_usd_parallel
+        description: "origin_amount_less_non_forex_fees_in_usd_parallel - total_origin_forex_fees_collected_in_usd_parallel"
+
+      - name: outgoing_user_id
+        description: "Outgoing user ID from the expanded_transfers table"
+
+      - name: sender_id
+        description: "Sender ID from the transfer_quotes table"
+
+      - name: destination_currency
+        description: "Destination currency of the transaction from the transfers table"
+
+      - name: destination_rate_to_usd
+        description: "Exchange rate to USD for the destination side (expressed in USD per local currency)"
+
+      - name: destination_parallel_rate
+        description: "USD parallel rate for the destination side (expressed in local currency per USD)"
+
+      - name: destination_inverse_parallel_rate
+        description: "(1 / destination_parallel_rate) to express the destination parallel rate in USD per local currency"
+
+      - name: destination_amount_plus_non_forex_fees
+        description: "Destination amount after forex conversion from the origin currency to the destination currency, but before any destination-side fees are deducted. Also the same as the transfer_quotes.destination_amount_before_fees"
+
+      - name: destination_amount_plus_non_forex_fees_in_usd
+        description: "destination_amount_plus_non_forex_fees converted to USD using the destination_rate_to_usd"
+
+      - name: destination_amount_plus_non_forex_fees_in_usd_parallel
+        description: "destination_amount_plus_non_forex_fees converted to USD parallel using the destination_inverse_parallel_rate"
+
+      - name: total_destination_flat_fees_collected
+        description: "Total flat fees in local currency collected from the destination side or the incoming user's wallet"
+
+      - name: total_destination_flat_fees_collected_in_usd
+        description: "total_destination_flat_fees_collected converted to USD using the destination_rate_to_usd"
+
+      - name: total_destination_flat_fees_collected_in_usd_parallel
+        description: "total_destination_flat_fees_collected converted to USD parallel using the destination_inverse_parallel_rate"
+
+      - name: destination_amount_percentage_fee_calculated_from
+        description: "The backend multiplied the non-forex fee percentage for the destination side with this amount"
+
+      - name: destination_amount_in_usd_percentage_fee_calculated_from
+        description: "destination_amount_percentage_fee_calculated_from converted to USD using the destination_rate_to_usd"
+
+      - name: destination_amount_in_usd_parallel_percentage_fee_calculated_from
+        description: "destination_amount_percentage_fee_calculated_from converted to USD parallel using the destination_inverse_parallel_rate"
+
+      - name: total_destination_percentage_fees_collected
+        description: "Total percentage fees in local currency collected from the destination side or incoming user's wallet"
+
+      - name: total_destination_percentage_fees_collected_in_usd
+        description: "total_destination_percentage_fees_collected converted to USD using the destination_rate_to_usd"
+
+      - name: total_destination_percentage_fees_collected_in_usd_parallel
+        description: "total_destination_percentage_fees_collected converted to USD parallel using the destination_inverse_parallel_rate"
+
+      - name: total_destination_non_forex_fees_collected
+        description: "Non-forex fees subtotals. total_destination_flat_fees_collected + total_destination_percentage_fees_collected"
+
+      - name: total_destination_non_forex_fees_collected_in_usd
+        description: "total_destination_non_forex_fees_collected converted to USD using the destination_rate_to_usd"
+
+      - name: total_destination_non_forex_fees_collected_in_usd_parallel
+        description: "total_destination_non_forex_fees_collected converted to USD parallel using the destination_inverse_parallel_rate"
+      
+      - name: destination_amount_credited
+        description: "Destination amount in local currency credited to the incoming user's wallet (amount that already deducted all fees)"
+
+      - name: destination_amount_credited_in_usd
+        description: "destination_amount_credited converted to USD using the destination_rate_to_usd"
+
+      - name: destination_amount_credited_in_usd_parallel
+        description: "destination_amount_credited coverted to USD parallel using the destination_inverse_parallel_rate"
+
+      - name: incoming_user_id
+        description: "Incoming user ID from the expanded_transfers table"
+
+      - name: recipient_id
+        description: "Recipient ID from the transfer_quotes table"
+
+      - name: gains_and_losses_in_usd
+        description: "Transaction gains and losses in USD. origin_amount_debited_in_usd - destination_amount_credited_in_usd"
+
+      - name: gains_and_losses_in_usd_parallel
+        description: "Transaction gains and losses in USD parallel. origin_amount_debited_in_usd_parallel - destination_amount_credited_in_usd_parallel"
+
+      - name: transfer_quote_created_at
+        description: "created_at timestamp from the transfer_quotes table"
+
+      - name: transfer_quote_updated_at
+        description: "updated_at timestamp from the transfer_quotes table"
+
+      - name: transfer_quote_valid_until
+        description: "valid_until timestamp from the transfer_quotes table"
+
+      - name: hlo_created_at
+        description: "created_at timestamp from the relevant HLO table"
+
+      - name: hlo_updated_at
+        description: "updated_at timestamp from the relevant HLO table"
+
+      - name: linked_account_id
+        description: "Primary key (ID) of the linked_accounts table"
+
+      - name: linked_account_type
+        description: "Type of the linked account (aka payment method) from the linked_accounts table"
+
+      - name: is_destination_transfer
+        description: "Boolean column from the transfer_quotes table indicating whether the transfer is a destination transfer or not. A destination transfer is when the sender (payer or outgoing user) inputs the exact amount that would be credited to the recipient (or incoming user)"
+
+      - name: user_segment
+        description: "User segment from the transfer_quotes table"
+
+      - name: quote_type
+        description: "Quote type from the transfer_quotes table"
